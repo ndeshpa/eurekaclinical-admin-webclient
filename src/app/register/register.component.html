@@ -1,0 +1,137 @@
+<app-navigation-bar></app-navigation-bar>
+<form #adminForm="ngForm" (ngSubmit)="onSubmit(adminForm.value, adminForm.valid)" novalidate>
+	<div class="container" align="center">
+		<div class="row">
+			<div class="col-xs-4" align="right">
+				<label for="firstname">First Name:</label>
+			</div>
+			<div class="col-xs-4" align="left">
+				<input type="text" class="form-control" id="firstname" required
+					[(ngModel)]="model.firstname" #firstname="ngModel" name="firstname">
+				<small [hidden]="firstname.valid || (firstname.pristine && !adminForm.submitted)">
+            		Firstname is required.
+        		</small>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" align="right">
+				<label for="lastname">Last Name:</label>
+			</div>
+			<div class="col-xs-4" align="left">
+				<input type="text" class="form-control" id="lastname" required
+					[(ngModel)]="model.lastname" #lastname="ngModel" name="lastname">
+				<small [hidden]="lastname.valid || (lastname.pristine && !adminForm.submitted)">
+            		Lastname is required.
+        		</small>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" align="right">
+				<label for="fullname">Full Name:</label>
+			</div>
+			<div class="col-xs-4" align="left">
+				<input type="text" class="form-control" id="fullname" 
+					[(ngModel)]="model.fullname" name="fullname">
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" align="right">
+				<label for="title">Title:</label>
+			</div>
+			<div class="col-xs-4" align="left">
+				<input type="text" class="form-control" id="title" 
+					[(ngModel)]="model.title" name="title">
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" align="right">
+				<label for="department">Department:</label>
+			</div>
+			<div class="col-xs-4" align="left">
+				<input type="text" class="form-control" id="department" required
+					[(ngModel)]="model.department" #department="ngModel" name="department">
+				<small [hidden]="department.valid || (department.pristine && !adminForm.submitted)">
+            		Department is required.
+        		</small>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" align="right">
+				<label for="organization">Organization:</label>
+			</div>
+			<div class="col-xs-4" align="left">
+				<input type="text" class="form-control" id="organization" required
+					[(ngModel)]="model.organization" #organization="ngModel" name="organization">
+				<small [hidden]="organization.valid || (organization.pristine && !adminForm.submitted)">
+            		Organization is required.
+        		</small>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" align="right">
+				<label for="email">Email:</label>
+			</div>
+			<div class="col-xs-4" align="left">
+				<input type="email" class="form-control" id="email" required
+					[(ngModel)]="model.email" #email="ngModel" name="email">
+				<small [hidden]="email.valid || (email.pristine && !adminForm.submitted)">
+            		Email is required and format should be <i>youremailaddress@somecompany.com</i>
+        		</small>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" align="right">
+				<label for="username">Create Username:</label>
+			</div>
+			<div class="col-xs-4" align="left">
+				<input type="text" class="form-control" id="username" required
+					[(ngModel)]="model.username" #username="ngModel" name="username">
+				<small [hidden]="username.valid || (username.pristine && !adminForm.submitted)">
+            		Enter a Username.
+        		</small>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" align="right">
+				<label for="password1">Create Password:</label>
+			</div>
+			<div class="col-xs-4" align="left">
+				<input type="password" class="form-control" id="password1" required minlength="8" validateEqual="password2"
+					[(ngModel)]="model.password1" #password1="ngModel" name="password1">
+				<small *ngIf="password1.touched && !password1.valid">
+					Minimum length should be 8 characters.
+				</small>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" align="right">
+				<label for="password2">Confirm Password:</label>
+			</div>
+			<div class="col-xs-4" align="left">
+				<input type="password" class="form-control" id="password2" required
+					[(ngModel)]="model.password2" #password2="ngModel" name="password2" validateEqual="password1">
+				<small *ngIf="password2.touched && !password2.valid">
+					Passwords do not match. Please re-enter.
+				</small>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-xs-4" align="right">
+				<p></p>
+			</div>
+			<div class="col-xs-4" align="left">
+				<button class="btn btn-primary">Clear Form</button>
+				<button class="btn btn-info">Submit</button>
+			</div>
+		</div>
+	</div>

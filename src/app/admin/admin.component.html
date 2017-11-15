@@ -1,0 +1,24 @@
+<app-navigation-bar></app-navigation-bar>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Login Type</th>
+        <th>Type</th>
+        <th>Verified</th>
+        <th>Active</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of data">
+        <td>{{ user.username | titlecase }}</td>
+		<td>{{ user.email }}</td>
+		<td>{{ user.loginType | titlecase }}</td>
+		<td>{{ user.type | titlecase }}</td>
+		<td>{{ user.verified?'Yes':'No' }}</td>
+		<td>{{ user.active?'Yes':'No'  }}</td>
+      </tr>
+    </tbody>
+  </table>
+	
