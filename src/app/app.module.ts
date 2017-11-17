@@ -5,14 +5,14 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { AdminComponent } from './admin/admin.component';
-import { RegisterComponent } from './register/register.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
-import { WelcomeComponent } from './welcome/welcome.component';
+import { LoginComponent } from './components/login/login.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { RegisterComponent } from './components/register/register.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 import { EqualValidatorDirective } from './directives/equal-validator.directive';
 
 const appRoutes: Routes = [

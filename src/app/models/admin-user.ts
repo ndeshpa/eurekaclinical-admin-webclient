@@ -1,18 +1,13 @@
 export class AdminUser {
+    created:Date;
     active: boolean;
-    firstname: string;
-    lastname: string;
-    fullname: string;
-    username: string;
-    password1: string;
-    password2: string;
+    firstName: string;
+    lastName: string;
+    fullName: string;
+    email: string;
+    organization: string;
+    lastLogin: Date;
     title: string;
     department: string;
-    organization: string;
-    email: string;
-    created: Date;
-    lastLogin: Date;
-    loginType: string;
-    authenticationMethod: string;
-    role: string;
+    verifyEmail: string;
 }

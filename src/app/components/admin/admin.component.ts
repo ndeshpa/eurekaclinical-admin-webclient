@@ -9,6 +9,40 @@ import 'rxjs/add/operator/map';
   encapsulation: ViewEncapsulation.None
 })
 export class AdminComponent implements OnInit {
+    
+    columns = [
+      { 
+        name: "id",
+        title: "id"
+      }, 
+      { 
+        name: "title",
+        title: "title"
+      }];
+    
+    rows = [
+      {
+        id: '1',
+        title: 'title test1'
+      }, 
+      {
+        id: '2',
+        title: 'title test2'
+      }, 
+      {
+        id: '3',
+        title: 'title test3'
+      }];
+
+
+    public config:any = {
+            paging: true,
+            sorting: {columns: this.columns},
+            filtering: {filterString: ''},
+            className: ['table-bordered']
+          };
+           
+
 
     data: any = null;
     myName: string = 'Nita';

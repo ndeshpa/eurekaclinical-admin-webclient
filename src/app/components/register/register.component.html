@@ -3,12 +3,12 @@
 	<div class="container" align="center">
 		<div class="row">
 			<div class="col-xs-4" align="right">
-				<label for="firstname">First Name:</label>
+				<label for="firstName">First Name:</label>
 			</div>
 			<div class="col-xs-4" align="left">
 				<input type="text" class="form-control" id="firstname" required
-					[(ngModel)]="model.firstname" #firstname="ngModel" name="firstname">
-				<small [hidden]="firstname.valid || (firstname.pristine && !adminForm.submitted)">
+					[(ngModel)]="model.firstName" #firstName="ngModel" name="firstName">
+				<small [hidden]="firstName.valid || (firstName.pristine && !adminForm.submitted)">
             		Firstname is required.
         		</small>
 			</div>
@@ -16,12 +16,12 @@
 		<br>
 		<div class="row">
 			<div class="col-xs-4" align="right">
-				<label for="lastname">Last Name:</label>
+				<label for="lastName">Last Name:</label>
 			</div>
 			<div class="col-xs-4" align="left">
-				<input type="text" class="form-control" id="lastname" required
-					[(ngModel)]="model.lastname" #lastname="ngModel" name="lastname">
-				<small [hidden]="lastname.valid || (lastname.pristine && !adminForm.submitted)">
+				<input type="text" class="form-control" id="lastName" required
+					[(ngModel)]="model.lastName" #lastName="ngModel" name="lastName">
+				<small [hidden]="lastName.valid || (lastName.pristine && !adminForm.submitted)">
             		Lastname is required.
         		</small>
 			</div>
@@ -29,11 +29,11 @@
 		<br>
 		<div class="row">
 			<div class="col-xs-4" align="right">
-				<label for="fullname">Full Name:</label>
+				<label for="fullName">Full Name:</label>
 			</div>
 			<div class="col-xs-4" align="left">
-				<input type="text" class="form-control" id="fullname" 
-					[(ngModel)]="model.fullname" name="fullname">
+				<input type="text" class="form-control" id="fullName" 
+					[(ngModel)]="model.fullName" name="fullName">
 			</div>
 		</div>
 		<br>
@@ -88,40 +88,14 @@
 		<br>
 		<div class="row">
 			<div class="col-xs-4" align="right">
-				<label for="username">Create Username:</label>
+				<label for="email">Verify Email:</label>
 			</div>
 			<div class="col-xs-4" align="left">
-				<input type="text" class="form-control" id="username" required
-					[(ngModel)]="model.username" #username="ngModel" name="username">
-				<small [hidden]="username.valid || (username.pristine && !adminForm.submitted)">
-            		Enter a Username.
+				<input type="verifyEmail" class="form-control" id="verifyEmail" required
+					[(ngModel)]="model.verifyEmail" #verifyEmail="ngModel" name="verifyEmail">
+				<small [hidden]="verifyEmail.valid || (verifyEmail.pristine && !adminForm.submitted)">
+            		Email is required and format should be <i>youremailaddress@somecompany.com</i>
         		</small>
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-xs-4" align="right">
-				<label for="password1">Create Password:</label>
-			</div>
-			<div class="col-xs-4" align="left">
-				<input type="password" class="form-control" id="password1" required minlength="8" validateEqual="password2"
-					[(ngModel)]="model.password1" #password1="ngModel" name="password1">
-				<small *ngIf="password1.touched && !password1.valid">
-					Minimum length should be 8 characters.
-				</small>
-			</div>
-		</div>
-		<br>
-		<div class="row">
-			<div class="col-xs-4" align="right">
-				<label for="password2">Confirm Password:</label>
-			</div>
-			<div class="col-xs-4" align="left">
-				<input type="password" class="form-control" id="password2" required
-					[(ngModel)]="model.password2" #password2="ngModel" name="password2" validateEqual="password1">
-				<small *ngIf="password2.touched && !password2.valid">
-					Passwords do not match. Please re-enter.
-				</small>
 			</div>
 		</div>
 		<br>

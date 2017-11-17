@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AdminUser } from '../models/admin-user';
+import { AdminUser } from '../../models/admin-user';
 
 @Component({
   selector: 'app-register',
