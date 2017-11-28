@@ -1,0 +1,30 @@
+<app-navigation-bar></app-navigation-bar>
+<div class="container-fluid" style="border: 1px solid #cecece;">
+	<div class="row">
+		<div class="col">
+			<input *ngIf="config.filtering" placeholder="Filter all columns"
+				[ngTableFiltering]="config.filtering" class="form-control"
+				(tableChanged)="onChangeTable(config)" />
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col">
+			<ng-table class="table-bordered" [config]="config"
+				(tableChanged)="onChangeTable(config)"
+				(cellClicked)="onCellClick($event)" [rows]="rows"
+				[columns]="columns"> </ng-table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<pagination *ngIf="config.paging" class="pagination-sm"
+				[(ngModel)]="page" [totalItems]="length"
+				[itemsPerPage]="itemsPerPage" [maxSize]="maxSize"
+				[boundaryLinks]="true" [rotate]="false"
+				(pageChanged)="onChangeTable(config, $event)"
+				(numPages)="numPages = $event"> </pagination>
+			<pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
+		</div>
+	</div>
+</div>
