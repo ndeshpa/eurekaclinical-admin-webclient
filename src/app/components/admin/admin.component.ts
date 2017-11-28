@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Http, Response, Headers } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { Http, HttpModule, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { ConfigFileService } from '../../services/config-file.service';
+import { AdminService } from '../../services/admin.service';
+import { AdminUser } from '../../models/admin-user';
 
 @Component({
   selector: 'app-admin',
@@ -9,60 +13,27 @@ import 'rxjs/add/operator/map';
   encapsulation: ViewEncapsulation.None
 })
 export class AdminComponent implements OnInit {
+    currUser: AdminUser;
+    userArray: Array<AdminUser>;
+    usersAsJson: any;
     
-    columns = [
-      { 
-        name: "id",
-        title: "id"
-      }, 
-      { 
-        name: "title",
-        title: "title"
-      }];
-    
-    rows = [
-      {
-        id: '1',
-        title: 'title test1'
-      }, 
-      {
-        id: '2',
-        title: 'title test2'
-      }, 
-      {
-        id: '3',
-        title: 'title test3'
-      }];
-
-
-    public config:any = {
-            paging: true,
-            sorting: {columns: this.columns},
-            filtering: {filterString: ''},
-            className: ['table-bordered']
-          };
-           
-
-
     data: any = null;
-    myName: string = 'Nita';
 
-    constructor( private http: Http ) {
-        this.getMyUsers();
-        console.log("after return from getting data");
+    constructor( private http: Http, 
+                 private configService: ConfigFileService, 
+                 private adminService:AdminService ) {
+        console.log("inside constructor");
+        //this.userArray = this.adminService.getUserArray();
+        console.log("got userArray");
+        this.usersAsJson = this.adminService.getUsersAsJson();
+        console.log("got usersAsJson");
+        console.log(this.usersAsJson);
+        let env:string = configService.getEnv('env');
+        console.log("env is:" + env);
+        console.log(configService.getConfig('casLoginUrl'));
     }
 
     ngOnInit() {
     }
-
-    private getMyUsers() {
-        console.log("inside getMyUsers");
-        return this.http.get( '/eurekaclinical-user-webapp/proxy-resource/users' )
-            .map(( response: Response ) => response.json() )
-            .subscribe( data => {
-                this.data = data;
-                console.log("finished getusers, data is...");
-                console.log( this.data );               
-            });
-    }
 }
+

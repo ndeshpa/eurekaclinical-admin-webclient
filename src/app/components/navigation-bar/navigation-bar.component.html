@@ -1,11 +1,37 @@
-<div class="navbar navbar-inverse navbar-static-top" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" routerLink="/welcome">Eureka! Admin</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li><a routerLink="/login">Login</a></li>
-      <li><a routerLink="/register">Register</a></li>
-    </ul>
-  </div>
-</div>
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle-collapsed"
+				(click)="isCollapsed=!isCollapsed">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Eureka! Admin</a>
+		</div>
+		<!-- div *ngIf="userId>0"-->
+		<div class="col text-right">
+			<div ngbDropdown class="d-inline-block">
+				<button class="btn navbar-btn" id="adminLinks"
+					ngbDropdownToggle>{{ username }}<span class="caret"></span></button>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<div ngbDropdownMenu aria-labelledby="adminLinks">
+					<button class="dropdown-item btn-link btn-md">
+						<a routerLink="/editUser/edit/{{ userId }}">
+						<i class="fa fa-user"></i>
+						User Account</a>
+						</button>
+						<br><br>
+					<button class="dropdown-item btn-link btn-md">
+						<a routerLink="/adminview">
+						<i class="fa fa-wrench"></i>
+						Administration</a>
+						</button>
+						<br><br>
+					<button class="dropdown-item btn-link btn-md">
+						<a routerLink="/logout">
+						<i class="fa fa-sign-out"></i>
+						Logout</a>
+						</button>
+				</div>
+			</div>
+		</div>

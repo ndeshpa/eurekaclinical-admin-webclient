@@ -1,5 +1,5 @@
-<app-navigation-bar></app-navigation-bar>
-<form #adminForm="ngForm" (ngSubmit)="onSubmit(adminForm.value, adminForm.valid)" novalidate>
+<!-- app-navigation-bar></app-navigation-bar-->
+<form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm.value, registerForm.valid)" novalidate>
 	<div class="container" align="center">
 		<div class="row">
 			<div class="col-xs-4" align="right">
@@ -8,7 +8,7 @@
 			<div class="col-xs-4" align="left">
 				<input type="text" class="form-control" id="firstname" required
 					[(ngModel)]="model.firstName" #firstName="ngModel" name="firstName">
-				<small [hidden]="firstName.valid || (firstName.pristine && !adminForm.submitted)">
+				<small [hidden]="firstName.valid || (firstName.pristine && !registerForm.submitted)">
             		Firstname is required.
         		</small>
 			</div>
@@ -21,7 +21,7 @@
 			<div class="col-xs-4" align="left">
 				<input type="text" class="form-control" id="lastName" required
 					[(ngModel)]="model.lastName" #lastName="ngModel" name="lastName">
-				<small [hidden]="lastName.valid || (lastName.pristine && !adminForm.submitted)">
+				<small [hidden]="lastName.valid || (lastName.pristine && !registerForm.submitted)">
             		Lastname is required.
         		</small>
 			</div>
@@ -54,7 +54,7 @@
 			<div class="col-xs-4" align="left">
 				<input type="text" class="form-control" id="department" required
 					[(ngModel)]="model.department" #department="ngModel" name="department">
-				<small [hidden]="department.valid || (department.pristine && !adminForm.submitted)">
+				<small [hidden]="department.valid || (department.pristine && !registerForm.submitted)">
             		Department is required.
         		</small>
 			</div>
@@ -67,7 +67,7 @@
 			<div class="col-xs-4" align="left">
 				<input type="text" class="form-control" id="organization" required
 					[(ngModel)]="model.organization" #organization="ngModel" name="organization">
-				<small [hidden]="organization.valid || (organization.pristine && !adminForm.submitted)">
+				<small [hidden]="organization.valid || (organization.pristine && !registerForm.submitted)">
             		Organization is required.
         		</small>
 			</div>
@@ -80,7 +80,7 @@
 			<div class="col-xs-4" align="left">
 				<input type="email" class="form-control" id="email" required
 					[(ngModel)]="model.email" #email="ngModel" name="email">
-				<small [hidden]="email.valid || (email.pristine && !adminForm.submitted)">
+				<small [hidden]="email.valid || (email.pristine && !registerForm.submitted)">
             		Email is required and format should be <i>youremailaddress@somecompany.com</i>
         		</small>
 			</div>
@@ -93,7 +93,7 @@
 			<div class="col-xs-4" align="left">
 				<input type="verifyEmail" class="form-control" id="verifyEmail" required
 					[(ngModel)]="model.verifyEmail" #verifyEmail="ngModel" name="verifyEmail">
-				<small [hidden]="verifyEmail.valid || (verifyEmail.pristine && !adminForm.submitted)">
+				<small [hidden]="verifyEmail.valid || (verifyEmail.pristine && !registerForm.submitted)">
             		Email is required and format should be <i>youremailaddress@somecompany.com</i>
         		</small>
 			</div>

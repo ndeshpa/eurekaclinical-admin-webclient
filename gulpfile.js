@@ -11,6 +11,7 @@ var paths = {
 		distProd: ['./dist'],
 		base: 'src',
 	    scripts: 'src/app/**/*.js',
+	    configs: ['src/env.json, src/config.dev.json, src/config.prod.json'],
 	    styles: ['src/app/**/*.css', 'src/app/**/*.scss'],
 	    images: 'src/assets/images/**/*',
 	    index: './src/index.html',
@@ -18,7 +19,14 @@ var paths = {
 	    distProd: './dist'
 }
 
-
+gulp.task('copy-config-files', function() {
+    gulp.src('src/env.json')
+    .pipe(gulp.dest('dist'));
+    gulp.src('src/config.dev.json')
+    .pipe(gulp.dest('dist'));
+    gulp.src('src/config.prod.json')
+    .pipe(gulp.dest('dist'));
+});
 
 gulp.task('webserver', function () {
     gulp.src('dist')
@@ -59,4 +67,4 @@ gulp.task('webserver', function () {
 });
 
 // default task builds for prod
-gulp.task('default', ['webserver']);
+gulp.task('default',['copy-config-files', 'webserver']);
