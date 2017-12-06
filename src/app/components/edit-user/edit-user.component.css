@@ -1,4 +1,12 @@
+.modal-backdrop.fade {
+	opacity: 0.5;
+}
+
+.modal-open .modal {
+	opacity: 1;
+}
+
 .margin {
-  margin-left:10px;
-  margin-right:10px;
- }
+	margin-left: 10px;
+	margin-right: 10px;
+}

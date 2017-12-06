@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ConfigFileService {
@@ -23,11 +24,7 @@ export class ConfigFileService {
 
     public load() {
         return new Promise(( resolve, reject ) => {
-            this.http.get( 'env.json' ).map( res => res.json() ).catch(( error: any ): any => {
-                console.log( "configuration file env.json could not be read" );
-                resolve( true );
-                return Observable.throw( error.json().error || 'Server Error' );
-            } ).subscribe(( envResponse ) => {
+            this.http.get( 'env.json' ).map( res => res.json() ).subscribe(( envResponse ) => {
                 this.env = envResponse;
                 let request: any = null;
 

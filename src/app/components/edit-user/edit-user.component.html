@@ -1,12 +1,8 @@
 <app-navigation-bar></app-navigation-bar>
 <h2>Edit User: {{ model.username }}</h2>
-<!-- div *ngIf="deleteUser; else elseBlock"-->
-<!-- /div-->
-<!-- ng-template #elseBlock-->
-<form #editForm="ngForm"
-	(ngSubmit)="onSubmit(editForm.value, editForm.valid)" novalidate>
+<form #editForm="ngForm" novalidate (ngSubmit)="onSubmit(editForm.value, editForm.valid)">
 	<div class="container" align="center">
-		<div class="row">
+		<div class="row form-group">
 			<div class="col-xs-4" align="right">
 				<label for="firstName">First Name:</label>
 			</div>
@@ -16,7 +12,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="row">
+		<div class="row form-group">
 			<div class="col-xs-4" align="right">
 				<label for="lastName">Last Name:</label>
 			</div>
@@ -26,7 +22,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="row">
+		<div class="row form-group">
 			<div class="col-xs-4" align="right">
 				<label for="username">Username:</label>
 			</div>
@@ -36,7 +32,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="row">
+		<div class="row form-group">
 			<div class="col-xs-4" align="right">
 				<label for="organization">Organization:</label>
 			</div>
@@ -47,7 +43,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="row">
+		<div class="row form-group">
 			<div class="col-xs-4" align="right">
 				<label for="title">Title:</label>
 			</div>
@@ -57,7 +53,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="row">
+		<div class="row form-group">
 			<div class="col-xs-4" align="right">
 				<label for="department">Department:</label>
 			</div>
@@ -68,7 +64,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="row">
+		<div class="row form-group">
 			<div class="col-xs-4" align="right">
 				<label for="email">Email:</label>
 			</div>
@@ -78,7 +74,7 @@
 			</div>
 		</div>
 		<br>
-		<div class="row">
+		<div class="row form-group">
 			<div class="col-xs-4" align="right">
 				<label for="roles">Roles:</label>
 			</div>
@@ -94,17 +90,50 @@
 			</div>
 		</div>
 		<br>
-		<div class="row">
+		<div class="row form-group">
 			<div class="col-xs-4" align="right">
-				<label for="active">Activated:</label>
+				<label for="active">Activation Status:</label>
 			</div>
 			<div class="col-xs-4" align="left">
-				<input type="text" class="form-control" id="activated"
-					[(ngModel)]="userActivated" name="activated" disabled>
+				<input *ngIf="model.active && !deleteUser; else first" type="text"
+					class="form-control" id="activated" [(ngModel)]="userActivated"
+					name="activated" disabled>
+				<ng-template #first>  
+					<ng-container *ngIf="deleteUser && !submitted; else second">
+						<label class="form-check-label" for="model.active"> 
+						<input class="form-check-input" type="checkbox" id="active" name="active"
+							(change)="changeActive(content)"> Inactivate User							
+						</label>
+					</ng-container>			
+				</ng-template>
+				<ng-template #second>  
+					<ng-container *ngIf="!model.active">
+						<label class="form-check-label" for="model.active"> 
+						<input class="form-check-input" type="checkbox" id="active" name="active"
+							(change)="changeActive(content)"> Activate User							
+						</label>
+					</ng-container>			
+				</ng-template>
+				<ng-template #content let-c="close" let-d="dismiss">
+				<div class="modal-header">
+					<h4 class="modal-title">Attention</h4>
+					<button type="button" class="close" aria-label="Close"
+						(click)="d('Cross click')">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Please Click on the Submit Button to Save Your Changes</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-dark"
+						(click)="c('Close click')">Close</button>
+				</div>
+				</ng-template>
 			</div>
 		</div>
 		<br>
-		<div class="row">
+		<div class="row form-group">
 			<div class="col-xs-4" align="right">
 				<label for="verified">Verification Status:</label>
 			</div>
@@ -119,11 +148,10 @@
 				<p></p>
 			</div>
 			<div class="col-xs-4" align="left">
-				<button class="btn btn-primary" (click)="editForm.reset()">Clear
-					Form</button>
-				<button class="btn btn-info">Submit</button>
+					<button class="btn btn-primary" (click)="restoreForm()">Admin Page</button>
+					<button class="btn btn-info">Submit</button>
 			</div>
 		</div>
 	</div>
 </form>
-<!--/ng-template-->
+<app-footer></app-footer>

@@ -1,18 +1,18 @@
 import { Inject, Injectable } from '@angular/core';
-import { Jsonp, URLSearchParams } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { Http, HttpModule, Response, Headers } from '@angular/http';
 import { HttpHeaders } from '@angular/common/http';
 import { AdminUser } from '../models/admin-user';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { ProxyService } from './proxy.service';
 
 
 
 @Injectable()
 export class AdminService {
     private data: Observable<any> = null;
-    private currUser: AdminUser;
+    private currUser: AdminUser = new AdminUser();
     private userArray: Observable<any>;
     private usersAsJson: string;
     private loading: boolean;
@@ -22,16 +22,23 @@ export class AdminService {
     private adminUserUpdateUrl = '/eurekaclinical-user-webapp/proxy-resource/users/';
     private adminUserCreateUrl = '/eurekaclinical-user-webapp/proxy-resource/users';
     private adminUserDeleteUrl = '/eurekaclinical-user-webapp/proxy-resource/users';
+    private casLogoutUrl = '/cas-server/logout';
+    private casLoginUrl = '/cas-server/login';
 
-    constructor( private jsonp: Jsonp, private http: Http ) {
+    constructor(private http: Http, private proxyService:ProxyService ) {
         this.loading = false;
         if ( this.data === null )
             this.data = this.getUser();
+        
     }
 
     //returns an observable
     public getUser() {
         return this.http.get( this.adminUserMeUrl ).map( response => response.json() );
+    }
+    
+    public getUserById(id:string) {
+        return this.http.get( this.adminUserListUrl + '/' + id ).map( response => response.json() );
     }
     
     public getAllUsers() {
@@ -45,8 +52,7 @@ export class AdminService {
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
         
-        this.http.put(url, body, {headers}).subscribe(response => 
-                            console.log(response.json()));
+        return this.http.put(url, body, {headers}).map(response => response.json());
     }
     
     public postUser(body:string){
@@ -58,6 +64,10 @@ export class AdminService {
         
         this.http.post(url, body, {headers}).subscribe(response => 
                             console.log(response.json()));
+    }
+    
+    public doLogout() {
+        return this.http.get( this.casLogoutUrl ).map( response => response.json() );
     }
 
     public getCurrUser() {

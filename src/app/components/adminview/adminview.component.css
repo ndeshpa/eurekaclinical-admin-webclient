@@ -1,3 +1,21 @@
 .ng-table {
-    border: 10px solid #808080;
+	border: 10px solid #808080;
+}
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+.mat-header-cell {
+	background-color: #24497a;
+	color: white;
+	font-weight: bold;
+}
+
+.md-icon{
+  font-family: 'Material Icons' !important;
 }
