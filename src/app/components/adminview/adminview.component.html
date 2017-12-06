@@ -1,0 +1,78 @@
+<app-navigation-bar></app-navigation-bar>
+<div class="container-fluid" style="border:5px solid #24497a;">
+	<div class="example-container mat-elevation-z8">
+  	<mat-table #table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+      <mat-cell *matCellDef="let element">
+      					<a routerLink="/editUser/edit/{{element.id}}">
+      					<span class="glyphicon glyphicon-pencil"></span></a>&nbsp;
+      					<ng-container *ngIf="element.status === 'Active'">
+      						<a routerLink="/editUser/delete/{{element.id}}">
+							<span class="glyphicon glyphicon-remove"></span></a>
+						</ng-container>
+		</mat-cell>						
+    </ng-container>
+
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef> Username </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="fullName">
+      <mat-header-cell *matHeaderCellDef> Full Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.fullName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="lastLogin">
+      <mat-header-cell *matHeaderCellDef> Last Login </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.lastLogin}} </mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="roles">
+      <mat-header-cell *matHeaderCellDef> Roles </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.roles}} </mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="organization">
+      <mat-header-cell *matHeaderCellDef> Organization </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.organization}} </mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="department">
+      <mat-header-cell *matHeaderCellDef> Department </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.department}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+    <pagination *ngIf="paging" 
+					class="pagination-sm"
+					[(ngModel)]="page" 
+					[totalItems]="length"  
+					[maxSize]="maxSize" 
+                	[boundaryLinks]="true"
+                	(pageChanged)="onChangeTable($event)"
+                	(numPages)="numPages = $event"></pagination>
+	
+	<pre *ngIf="paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
+	</div>
+</div>
+<app-footer></app-footer>
