@@ -4,8 +4,8 @@
   	<mat-table #table [dataSource]="dataSource">
 
     <ng-container matColumnDef="action">
-      <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-      <mat-cell *matCellDef="let element">
+      <mat-header-cell *matHeaderCellDef [ngClass]="'customSmallClass'">Action</mat-header-cell>
+      <mat-cell *matCellDef="let element" [ngClass]="'customSmallClass'">
       					<a routerLink="/editUser/edit/{{element.id}}">
       					<span class="glyphicon glyphicon-pencil"></span></a>&nbsp;
       					<ng-container *ngIf="element.status === 'Active'">
@@ -31,13 +31,13 @@
     </ng-container>
     
     <ng-container matColumnDef="roles">
-      <mat-header-cell *matHeaderCellDef> Roles </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.roles}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef [ngClass]="'customLongClass'"> Roles </mat-header-cell>
+      <mat-cell *matCellDef="let element" [ngClass]="'customLongClass'"> {{element.roles}} </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef [ngClass]="'customXLongClass'"> Email </mat-header-cell>
+      <mat-cell *matCellDef="let element" [ngClass]="'customXLongClass'"> {{element.email}} </mat-cell>
     </ng-container>
     
     <ng-container matColumnDef="organization">

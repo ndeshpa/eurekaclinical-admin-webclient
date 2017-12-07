@@ -15,7 +15,15 @@
 	color: white;
 	font-weight: bold;
 }
-
+.customSmallClass{
+   flex: 0 0 75px;
+}
+.customLongClass{
+   flex: 0 0 130px;
+}
+.customXLongClass{
+   flex: 0 0 200px;
+}
 .md-icon{
   font-family: 'Material Icons' !important;
 }

@@ -17,6 +17,8 @@ import { AdminUser } from '../../models/admin-user';
 } )
 export class AdminviewComponent implements OnInit, OnDestroy {
 
+
+
     displayedColumns = ['action', 'username', 'fullName', 'lastLogin', 'roles', 'email', 'organization', 'status', 'title', 'department'];
     data: Array<any>;
     public unsortedData: MyUser[] = [];
@@ -53,12 +55,13 @@ export class AdminviewComponent implements OnInit, OnDestroy {
         this.getAllUsers();
     }
 
+
     public onChangeTable( page: any = { page: this.page, itemsPerPage: this.itemsPerPage } ): any {
-        this.dataSource = page && this.paging ? this.changePage( page, this.unsortedData )
-            : new MatTableDataSource<MyUser>( this.unsortedData );
+        this.dataSource = page && this.paging ? this.changePage( page, this.sortData() )
+            : new MatTableDataSource<MyUser>( this.sortData() );
     }
 
-    public changePage( page: any, data: MyUser[] = this.unsortedData ) {
+    public changePage( page: any, data: MyUser[] = this.sortData()) {
         let start = ( page.page - 1 ) * page.itemsPerPage;
         let end = page.itemsPerPage > -1 ? ( start + page.itemsPerPage ) : data.length;
         return new MatTableDataSource<MyUser>( data.slice( start, end ) );
@@ -100,6 +103,14 @@ export class AdminviewComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+    }
+
+    sortData() {
+        return this.unsortedData.sort(( a, b ) => {
+            if ( a.username < b.username ) return -1;
+            else if ( a.username > b.username ) return 1;
+            else return 0;
+        } );
     }
 }
 

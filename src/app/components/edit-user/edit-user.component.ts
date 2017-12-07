@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AdminService } from '../../services/admin.service';
 import { AdminUser } from '../../models/admin-user';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Rx';
 
 @Component( {
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs/Rx';
     styleUrls: ['./edit-user.component.css'],
     encapsulation: ViewEncapsulation.None
 } )
-export class EditUserComponent implements OnInit, OnDestroy{
+export class EditUserComponent implements OnInit, OnDestroy {
 
     id: any;
     action: any;
@@ -21,7 +21,7 @@ export class EditUserComponent implements OnInit, OnDestroy{
     deleteUser: boolean = false;
     submitted: boolean = false;
     userData: any;
-    model: AdminUser= new AdminUser();
+    model: AdminUser = new AdminUser();
     closeResult: string;
     buttonVal: string = 'Submit';
     usrSubscription: Subscription;
@@ -29,17 +29,19 @@ export class EditUserComponent implements OnInit, OnDestroy{
     constructor( private activatedRoute: ActivatedRoute,
         private router: Router,
         private adminService: AdminService,
-        private modalService: NgbModal) { }
+        private modalService: NgbModal ) { }
 
     ngOnInit() {
+
         this.activatedRoute.params.subscribe( params => {
             this.id = params['id'];
             this.action = params['action'];
-            if ( this.action === 'delete' ){
+            if ( this.action === 'delete' ) {
                 this.deleteUser = true;
-            }                
+            }
         } );
-        this.usrSubscription = this.adminService.getUserById(this.id).subscribe( data => {
+
+        this.usrSubscription = this.adminService.getUserById( this.id ).subscribe( data => {
             this.model = new AdminUser();
             this.model.type = data.type;
             this.model.id = data.id;
@@ -83,10 +85,10 @@ export class EditUserComponent implements OnInit, OnDestroy{
                         break;
                 }
             }
-        });
+        } );
     }
-    
-    inactivateUser(myModel: AdminUser){
+
+    inactivateUser( myModel: AdminUser ) {
         myModel.active = false;
         //convert model to json              
         var input = JSON.stringify( myModel );
@@ -107,13 +109,13 @@ export class EditUserComponent implements OnInit, OnDestroy{
         //convert model to json              
         var input = JSON.stringify( this.model );
         //call put to edit info    
-        this.adminService.putUserUpdates( this.model.id, input)
-            .subscribe(data => console.log(data));
-        this.router.navigateByUrl('adminview');
+        this.adminService.putUserUpdates( this.model.id, input )
+            .subscribe( data => console.log( data ) );
+        this.router.navigateByUrl( 'adminview' );
     }
 
     restoreForm() {
-        this.router.navigateByUrl('/adminview');
+        this.router.navigateByUrl( '/adminview' );
     }
 
     changeCheckbox( i ) {
@@ -122,23 +124,23 @@ export class EditUserComponent implements OnInit, OnDestroy{
         }
     }
 
-    changeActive(content) {
+    changeActive( content ) {
         this.model.active = !this.model.active;
-        if(this.model.active)
+        if ( this.model.active )
             this.userActivated = 'Activated';
         else
             this.userActivated = 'Not Activated';
-        this.modalService.open(content).result
-        .then((result) => {
+        this.modalService.open( content ).result
+            .then(( result ) => {
                 //this.onSubmit(this.model, true);
-                console.log('OK');
-            }, 
-            (reason) => {
-                console.log('Dismissed');
+                console.log( 'OK' );
+            },
+            ( reason ) => {
+                console.log( 'Dismissed' );
             }
-         );
+            );
     }
-    
+
     ngOnDestroy(): void {
         this.usrSubscription.unsubscribe();
     }

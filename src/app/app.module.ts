@@ -28,7 +28,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { EqualValidatorDirective } from './directives/equal-validator.directive';
 import { AdminviewComponent } from './components/adminview/adminview.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 
@@ -39,6 +38,7 @@ const appRoutes: Routes = [
        {path:'adminview/result', component:AdminviewComponent},
        {path:'adminview', component:AdminviewComponent},
        {path:'logout', component:AdminviewComponent},
+       {path:'editUser/me/:action/:id', component:EditUserComponent},
        {path:'editUser/:action/:id', component:EditUserComponent},
        {path: '', redirectTo: '/welcome', pathMatch: 'full'},
        {path: '**', component: PageNotFoundComponent }
@@ -53,7 +53,6 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     NavigationBarComponent,
     WelcomeComponent,
-    EqualValidatorDirective,
     AdminviewComponent,
     EditUserComponent
   ],

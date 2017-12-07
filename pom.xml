@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eurekaclinical</groupId>
-	<artifactId>eurekaclinical-admin-webapp</artifactId>
+	<artifactId>eurekaclinical-admin-webclient</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<dependencies>
@@ -14,7 +14,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>eurekaclinical-admin-webapp</finalName>
+		<finalName>eurekaclinical-admin-webclient</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -26,7 +26,7 @@
 				<version>2.6</version>
 			</plugin-->
 			<!-- Plugin to execute command "npm install" and "npm run build" inside 
-				adminapp directory -->
+				admin app directory -->
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
@@ -48,7 +48,7 @@
 						</configuration>
 					</execution>
 
-					<!-- It will execute command "npm install" inside "/adminapp" directory -->
+					<!-- It will execute command "npm install" inside "/app" directory -->
 					<execution>
 						<id>npm install</id>
 						<goals>
@@ -58,10 +58,10 @@
 							<arguments>install</arguments>
 						</configuration>
 					</execution>
-					<!-- execute command "npm build" inside "/adminapp" directory to clean 
-						and create "/dist" directory -->
-					<!-- (add two minuses for prod and base-href) arguments>run build prod 
-						base-href /eurekaclinical-admin-webapp/</arguments -->
+					<!-- execute command "npm build" inside "/app" directory to clean 
+						and create "/dist" directory -->					
+					<!-- create angular app.js consolidated, ordered, minified file from 
+						.ts files -->
 					<execution>
 						<id>npm build</id>
 						<goals>
@@ -71,10 +71,6 @@
 							<arguments>run build</arguments>
 						</configuration>
 					</execution>
-					<!-- create angular app.js consolidated, ordered, minified file from 
-						.ts files -->
-					<!-- execution> <id>gulp build</id> <goals> <goal>gulp</goal> </goals> 
-						<configuration> <arguments>build-app-prod</arguments> </configuration> </execution -->
 					<execution>
 						<id>gulp webserver</id>
 						<goals>
