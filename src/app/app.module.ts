@@ -16,7 +16,8 @@ import {MatTableModule} from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
 import { MatIconModule } from '@angular/material';
 import { MatSortModule } from '@angular/material';
-
+import { ResponsiveModule } from 'ngx-responsive';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { ConfigFileService } from './services/config-file.service';
 import { AdminService } from './services/admin.service';
@@ -30,6 +31,7 @@ import { NavigationBarComponent } from './components/navigation-bar/navigation-b
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AdminviewComponent } from './components/adminview/adminview.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { AllHttpInterceptor } from './interceptors/all-http-interceptor/all-http-interceptor.interceptor';
 
 
 const appRoutes: Routes = [
@@ -69,11 +71,16 @@ const appRoutes: Routes = [
     MatPaginatorModule,
     MatIconModule,
     MatSortModule,
+    ResponsiveModule,
     PaginationModule.forRoot(),
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [
+  providers: [{
+                  provide: HTTP_INTERCEPTORS,
+                  useClass: AllHttpInterceptor,
+                  multi: true
+               },
               ProxyService,
               AdminService, 
               ConfigFileService,

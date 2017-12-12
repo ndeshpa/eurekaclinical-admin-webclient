@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatPaginator, MatTableDataSource, MatIcon } from '@angular/material';
-import { Http, Response, Headers } from '@angular/http';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Rx';
 import { AdminService } from '../../services/admin.service';
 import { AdminUser } from '../../models/admin-user';
+import { HttpErrorResponse } from '@angular/common/http';
 
 /**
  * @title Table with pagination
@@ -19,9 +19,25 @@ export class AdminviewComponent implements OnInit, OnDestroy {
 
 
 
-    displayedColumns = ['action', 'username', 'fullName', 'lastLogin', 'roles', 'email', 'organization', 'status', 'title', 'department'];
-    data: Array<any>;
+    displayedColumns = ['action', 'username', 'fullName'];
+    displayedMdColumns = ['action', 'username', 'fullName', 'lastLogin', 'roles'];
+    errorMsg: string = '';
+    
+    finalDisplayedCols = [];
+    selectCols = [
+            {'name':'Username', 'value':'username', 'checked':true},
+            {'name':'Full Name', 'value':'fullName', 'checked':true},
+            {'name':'Last Login', 'value':'lastLogin', 'checked':true},
+            {'name':'Roles', 'value':'roles', 'checked':true},
+            {'name':'Email', 'value':'email', 'checked':true},
+            {'name':'Organization', 'value':'organization', 'checked':true},
+            {'name':'Status', 'value':'status', 'checked':true},
+            {'name':'Title', 'value':'title', 'checked':true},
+            {'name':'Department', 'value':'department', 'checked':true}
+    ];
+    data: any;
     public unsortedData: MyUser[] = [];
+    public finalUnsortedData = [];
     dataSource = new MatTableDataSource<MyUser>( this.unsortedData );
     subscription: Subscription;
     //pagination
@@ -32,8 +48,7 @@ export class AdminviewComponent implements OnInit, OnDestroy {
     public length: number = 0;
     public paging = true;
 
-    public constructor( private http: Http,
-        private router: Router,
+    public constructor( private router: Router,
         private adminService: AdminService ) {
     }
 
@@ -42,8 +57,8 @@ export class AdminviewComponent implements OnInit, OnDestroy {
             this.doLogout();
         }
         this.dataSource = new MatTableDataSource<MyUser>( this.unsortedData );
-        this.data = new Array<any>();
-        this.unsortedData = [];
+        //this.data = new Array<any>();
+        //this.unsortedData = [];
         //pagination
         this.page = 1;
         this.itemsPerPage = 10;
@@ -57,6 +72,7 @@ export class AdminviewComponent implements OnInit, OnDestroy {
 
 
     public onChangeTable( page: any = { page: this.page, itemsPerPage: this.itemsPerPage } ): any {
+        this.getselectedCols();
         this.dataSource = page && this.paging ? this.changePage( page, this.sortData() )
             : new MatTableDataSource<MyUser>( this.sortData() );
     }
@@ -71,7 +87,7 @@ export class AdminviewComponent implements OnInit, OnDestroy {
         this.subscription = this.adminService.getAllUsers().subscribe( data => {
             this.data = data;
             this.length = this.data.length;
-            for ( var i = 0; i < data.length; i++ ) {
+            for ( var i = 0; i < this.data.length; i++ ) {
                 var role = '';
                 for ( var j = 0; j < this.data[i].roles.length; j++ ) {
                     role += ( this.data[i].roles[j] === 1 ? 'Admin' : 'Researcher' );
@@ -93,7 +109,20 @@ export class AdminviewComponent implements OnInit, OnDestroy {
                 };
             }
             this.onChangeTable();
-        } );
+        }, 
+        error => {
+            if (error instanceof HttpErrorResponse) {
+                this.errorMsg = 'Server Error: ' + error.message;
+            }
+            else{
+                this.errorMsg = 'Error Running Query. Please Retry';
+            }
+            console.log('ERROR IN ADMINVIEW');
+            console.log(error);
+        },
+        () => {
+            console.log('SUCCESS in ADMINVIEW');
+        });
     }
 
     doLogout() {
@@ -111,6 +140,19 @@ export class AdminviewComponent implements OnInit, OnDestroy {
             else if ( a.username > b.username ) return 1;
             else return 0;
         } );
+    }
+    
+    getselectedCols(){
+        //pop unchecked cols from displayedColumns array
+        this.finalDisplayedCols = [];
+        this.finalDisplayedCols.push('action');
+        for(var i=0; i<this.selectCols.length; i++){
+            if(this.selectCols[i].checked){
+                this.finalDisplayedCols.push(this.selectCols[i].value);
+                console.log(this.selectCols[i].value + ':' + this.finalDisplayedCols.indexOf(this.selectCols[i].value));
+            }
+        }
+        //this.router.navigate( ['/adminview'] );
     }
 }
 

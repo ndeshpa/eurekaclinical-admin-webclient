@@ -4,6 +4,7 @@ import { AdminService } from '../../services/admin.service';
 import { AdminUser } from '../../models/admin-user';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Rx';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component( {
     selector: 'app-edit-user',
@@ -17,14 +18,16 @@ export class EditUserComponent implements OnInit, OnDestroy {
     action: any;
     userRoles: any;
     userVerified: string = 'Not Verified';
-    userActivated: string = 'Not Activated';
+    userActivated: string = 'Inactive';
     deleteUser: boolean = false;
     submitted: boolean = false;
+    changedStatus = false;
     userData: any;
     model: AdminUser = new AdminUser();
     closeResult: string;
     buttonVal: string = 'Submit';
     usrSubscription: Subscription;
+    errorMsg: string = '';
 
     constructor( private activatedRoute: ActivatedRoute,
         private router: Router,
@@ -85,7 +88,21 @@ export class EditUserComponent implements OnInit, OnDestroy {
                         break;
                 }
             }
-        } );
+            console.log(data);
+        },
+        error => {
+            if (error instanceof HttpErrorResponse) {
+                this.errorMsg = 'Server Error: ' + error.message;
+            }
+            else{
+                this.errorMsg = 'Error Running Query. Please Retry';
+            }
+            console.log('ERROR IN EDITUSER');
+            console.log(error);
+        },
+        () => {
+            console.log('SUCCESS in EDITUSER');
+        });
     }
 
     inactivateUser( myModel: AdminUser ) {
@@ -127,12 +144,13 @@ export class EditUserComponent implements OnInit, OnDestroy {
     changeActive( content ) {
         this.model.active = !this.model.active;
         if ( this.model.active )
-            this.userActivated = 'Activated';
+            this.userActivated = 'Active';
         else
-            this.userActivated = 'Not Activated';
+            this.userActivated = 'Inactive';
         this.modalService.open( content ).result
             .then(( result ) => {
                 //this.onSubmit(this.model, true);
+                this.changedStatus = true;
                 console.log( 'OK' );
             },
             ( reason ) => {
