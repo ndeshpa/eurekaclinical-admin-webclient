@@ -1,14 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
 import { Subscription } from 'rxjs/Rx';
-import { AdminService } from '../../services/admin.service';
+import { AdminService, Role, MyUser } from '../../services/admin.service';
 import { AdminUser } from '../../models/admin-user';
 import { HttpErrorResponse } from '@angular/common/http';
 
 /**
- * @title Table with pagination
+ * @title User Table with pagination
  */
 @Component( {
     selector: 'app-adminview',
@@ -22,6 +21,7 @@ export class AdminviewComponent implements OnInit, OnDestroy {
     displayedColumns = ['action', 'username', 'fullName'];
     displayedMdColumns = ['action', 'username', 'fullName', 'lastLogin', 'roles'];
     errorMsg: string = '';
+    userRoles: Role[] = [];
     
     finalDisplayedCols = [];
     selectCols = [
@@ -37,9 +37,9 @@ export class AdminviewComponent implements OnInit, OnDestroy {
     ];
     data: any;
     public unsortedData: MyUser[] = [];
-    public finalUnsortedData = [];
-    dataSource = new MatTableDataSource<MyUser>( this.unsortedData );
+    dataSource:MatTableDataSource<MyUser>;
     subscription: Subscription;
+    roleSubscription: Subscription;
     //pagination
     public page: number = 1;
     public itemsPerPage: number = 10;
@@ -57,15 +57,8 @@ export class AdminviewComponent implements OnInit, OnDestroy {
             this.doLogout();
         }
         this.dataSource = new MatTableDataSource<MyUser>( this.unsortedData );
-        //this.data = new Array<any>();
-        //this.unsortedData = [];
-        //pagination
-        this.page = 1;
-        this.itemsPerPage = 10;
-        this.maxSize = 5;
-        this.numPages = 1;
-        this.length = 0;
-        this.paging = true;
+        //get roles
+        this.getRoles();
         //get users
         this.getAllUsers();
     }
@@ -90,9 +83,13 @@ export class AdminviewComponent implements OnInit, OnDestroy {
             for ( var i = 0; i < this.data.length; i++ ) {
                 var role = '';
                 for ( var j = 0; j < this.data[i].roles.length; j++ ) {
-                    role += ( this.data[i].roles[j] === 1 ? 'Admin' : 'Researcher' );
+                    for(var k=0; k<this.userRoles.length; k++){
+                        if(this.userRoles[k].id === this.data[i].roles[j]) {
+                            role += this.userRoles[k].name;
+                        }
+                    }  
                     if ( j < this.data[i].roles.length - 1 )
-                        role += ',';
+                        role += ', ';
                 }
                 this.unsortedData[i] = {
                     'action': '',
@@ -117,8 +114,6 @@ export class AdminviewComponent implements OnInit, OnDestroy {
             else{
                 this.errorMsg = 'Error Running Query. Please Retry';
             }
-            console.log('ERROR IN ADMINVIEW');
-            console.log(error);
         },
         () => {
             console.log('SUCCESS in ADMINVIEW');
@@ -132,6 +127,7 @@ export class AdminviewComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
+        this.roleSubscription.unsubscribe();
     }
 
     sortData() {
@@ -149,24 +145,32 @@ export class AdminviewComponent implements OnInit, OnDestroy {
         for(var i=0; i<this.selectCols.length; i++){
             if(this.selectCols[i].checked){
                 this.finalDisplayedCols.push(this.selectCols[i].value);
-                console.log(this.selectCols[i].value + ':' + this.finalDisplayedCols.indexOf(this.selectCols[i].value));
             }
         }
-        //this.router.navigate( ['/adminview'] );
+    }
+    
+    getRoles(){
+      //get roles
+        this.roleSubscription = this.adminService.getRoles().subscribe( data => {
+            this.data = data;
+            for ( var i = 0; i < this.data.length; i++ ) {
+                this.userRoles[i] = {
+                        'id': this.data[i].id, 
+                        'name': this.data[i].name, 
+                        'isChecked':false
+                }
+            }
+        },
+            err => {
+                if ( err instanceof HttpErrorResponse ) {
+                    this.errorMsg = 'Server Error: ' + err.message;
+                }
+                else {
+                    this.errorMsg = 'Error Running Query. Please Retry';
+                }
+            },
+            () => {
+                console.log( 'SUCCESS in ADMINVIEW' );
+            } );
     }
 }
-
-export interface MyUser {
-    action: string;
-    id: number;
-    username: string;
-    fullName: string;
-    lastLogin: Date;
-    roles: any;
-    email: string;
-    organization: string;
-    status: string;
-    title: string;
-    department: string;
-}
-

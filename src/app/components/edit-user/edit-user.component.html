@@ -1,4 +1,4 @@
-<div class="container-fluid" style="border:5px solid #ffffff;">
+<div class="container-fluid" style="border:10px solid #ffffff;">
 <app-navigation-bar></app-navigation-bar>
 <ng-container *ngIf="errorMsg!== ''; else elseBlock">
 		<pre>{{ errorMsg }}</pre>
@@ -15,7 +15,7 @@
 			</div>
 			 <div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)" class="alert alert-danger">
         		<div [hidden]="!firstName.errors.required">
-          			Book author is required!
+          			Firstname is required!
         		</div>
       		 </div>
 		</div>
@@ -25,6 +25,11 @@
 				<input type="text" class="form-control" id="lastName" required
 					[(ngModel)]="model.lastName" #lastName="ngModel" name="lastName">
 			</div>
+			<div *ngIf="lastName.errors && (lastName.dirty || lastName.touched)" class="alert alert-danger">
+        		<div [hidden]="!lastName.errors.required">
+          			Lastname is required!
+        		</div>
+      		 </div>
 		</div>
 		<div class="row form-group">
 			<div class="col" align="left">
@@ -32,6 +37,11 @@
 				<input type="text" class="form-control" id="username" required
 					[(ngModel)]="model.username" #username="ngModel" name="username">
 			</div>
+			<div *ngIf="username.errors && (username.dirty || username.touched)" class="alert alert-danger">
+        		<div [hidden]="!username.errors.required">
+          			Username is required! Please create a Username.
+        		</div>
+      		 </div>
 		</div>
 		<div class="row form-group">
 			<div class="col" align="left">
@@ -60,22 +70,40 @@
 			<div class="col" align="left">
 				<label for="email">Email:</label>
 				<input type="email" class="form-control" id="email" required
-					[(ngModel)]="model.email" #email="ngModel" name="email">
+					[(ngModel)]="model.email" #email="ngModel" name="email" email>
 			</div>
+			<div *ngIf="email.errors?.email" class="alert alert-danger"> 
+				<div [hidden]="!email.errors?.email">
+     				Email not valid.
+     			</div>
+			</div> 
 		</div>
 		<div class="row form-group">
+		<div class="col" align="left">
+			<label for="roles">Roles:</label>	
+				<ul class="checkbox-grid">
+				<ng-container  *ngFor="let user of userRoles">
+				<li><input type="checkbox" name="userRoles" value="{{user.id}}" 
+					 [checked]="user.isChecked" (change)="changeCheckbox(user.id)"/>
+					<label for="{{user.name}}"> {{user.name | titlecase }}</label></li>
+				</ng-container>
+				</ul> 
+				</div>  
+	</div>
+	<!-- [(ngModel)]="user.isChecked" -->
+		<!-- div class="row form-group">
 			<div class="col" align="left">
 				<label for="roles">Roles:</label>
 				<div class="form-check"
-					*ngFor="let user of userRoles; let i = index;">
-					<label class="form-check-label" for="user{{user.value}}"> <input
-						class="form-check-input" type="checkbox" id="user{{user.value}}"
-						name="userOptions" (change)="changeCheckbox(i)"
+					*ngFor="let user of userRoles">
+					<label class="form-check-label" for="user.id"> <input
+						class="form-check-input" type="checkbox" id="user.id"
+						name="userOptions" (change)="changeCheckbox(user.id)"
 						[checked]="user.isChecked"> {{user.name}}
 					</label>
 				</div>
 			</div>
-		</div>
+		</div-->
 		<div class="row form-group">
 			<div class="col" align="left">
 				<label for="active">Activation Status:</label>
@@ -121,7 +149,7 @@
 			<div class="col" align="left">
 				<p></p>
 				<button class="btn btn-primary" (click)="restoreForm()">Cancel</button>
-				<button class="btn btn-info">Save</button>
+				<button class="btn btn-info" [disabled]="!editForm.valid">Save</button>
 			</div>
 		</div>
 	</div>

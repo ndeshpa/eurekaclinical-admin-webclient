@@ -18,6 +18,7 @@ export class AdminService {
     private loading: boolean;
 
     private adminUserMeUrl = '/eurekaclinical-user-webapp/proxy-resource/users/me';
+    private adminRolesUrl = '/eurekaclinical-user-webapp/proxy-resource/roles';
     private adminUserListUrl = '/eurekaclinical-user-webapp/proxy-resource/users';
     private adminUserUpdateUrl = '/eurekaclinical-user-webapp/proxy-resource/users/';
     private adminUserCreateUrl = '/eurekaclinical-user-webapp/proxy-resource/users';
@@ -35,6 +36,10 @@ export class AdminService {
     //returns an observable
     public getUser() {
         return this.http.get<AdminUser>( this.adminUserMeUrl );
+    }
+    
+    public getRoles() {
+        return this.http.get<AdminUser>( this.adminRolesUrl );
     }
     
     public getUserById(id:string) {
@@ -78,4 +83,24 @@ export class AdminService {
     public getUsersAsJson() {
         return this.usersAsJson;
     }
+}
+
+export interface MyUser {
+    action: string;
+    id: number;
+    username: string;
+    fullName: string;
+    lastLogin: Date;
+    roles: any;
+    email: string;
+    organization: string;
+    status: string;
+    title: string;
+    department: string;
+}
+
+export interface Role {
+    id: number;
+    name: string;
+    isChecked: boolean;
 }

@@ -1,4 +1,4 @@
-<div class="container-fluid" style="border:5px solid #ffffff;">
+<div class="container-fluid" style="border:10px solid #ffffff;">
 <app-navigation-bar></app-navigation-bar>
 <h2>User Accounts</h2>
 	<ng-container *ngIf="errorMsg!== ''; else elseBlock">
@@ -57,7 +57,7 @@
     
     <ng-container matColumnDef="roles">
       <mat-header-cell *matHeaderCellDef [ngClass]="'customLongClass'"> Roles </mat-header-cell>
-      <mat-cell *matCellDef="let element" [ngClass]="'customLongClass'"> {{element.roles}} </mat-cell>
+      <mat-cell *matCellDef="let element" [ngClass]="'customLongClass'"> {{element.roles | titlecase}} </mat-cell>
     </ng-container>
     
     <mat-header-row *matHeaderRowDef="displayedMdColumns"></mat-header-row>
@@ -67,9 +67,11 @@
 	<div *lg>
 	<div class="form-group">
 	<label for="selectCols">Select Columns to Display:</label>		
-				<ul class="checkbox-grid" *ngFor="let col of selectCols">
+				<ul class="checkbox-grid">
+				<ng-container *ngFor="let col of selectCols">
 				<li><input type="checkbox" name="selectCols" value="{{col.value}}" [(ngModel)]="col.checked" />
 					<label for="{{col.name}}">{{col.name}}</label></li>
+				</ng-container>
 				</ul>   
 	</div>
 	<br/> <br/>   
@@ -107,7 +109,7 @@
     <ng-container *ngIf="finalDisplayedCols.indexOf('roles')>=0">
     <ng-container matColumnDef="roles">
       <mat-header-cell *matHeaderCellDef [ngClass]="'customLongClass'"> Roles </mat-header-cell>
-      <mat-cell *matCellDef="let element" [ngClass]="'customLongClass'"> {{element.roles}} </mat-cell>
+      <mat-cell *matCellDef="let element" [ngClass]="'customLongClass'"> {{element.roles | titlecase }} </mat-cell>
     </ng-container>
     </ng-container>
     
