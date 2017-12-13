@@ -2,23 +2,6 @@ var gulp = require("gulp");
 var webserver = require('gulp-webserver');
 var proxy = require('http-proxy-middleware');
 
-var paths = {
-		pages:['src/*.html',
-				'src/**/*.html',
-				'src/*.css',
-				'src/**/*.css'		
-		],
-		distProd: ['./dist'],
-		base: 'src',
-	    scripts: 'src/app/**/*.js',
-	    configs: ['src/env.json, src/config.dev.json, src/config.prod.json'],
-	    styles: ['src/app/**/*.css', 'src/app/**/*.scss'],
-	    images: 'src/assets/images/**/*',
-	    index: './src/index.html',
-	    partials: ['src/app/**/*.html', '!./src/index.html'],
-	    distProd: './dist'
-}
-
 gulp.task('copy-config-files', function() {
     gulp.src('src/env.json')
     .pipe(gulp.dest('dist'));

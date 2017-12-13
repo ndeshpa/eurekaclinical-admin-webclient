@@ -4,7 +4,7 @@
 	<groupId>org.eurekaclinical</groupId>
 	<artifactId>eurekaclinical-admin-webclient</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<!-- packaging>war</packaging -->
 	<dependencies>
 		<dependency>
 			<groupId>com.github.eirslett</groupId>
@@ -17,17 +17,6 @@
 		<finalName>eurekaclinical-admin-webclient</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<!-- plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.6</version>
-			</plugin-->
-			<!-- Plugin to execute command "npm install" and "npm run build" inside 
-				admin app directory -->
-			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
 				<version>1.0</version>
@@ -36,7 +25,7 @@
 					<installDirectory>${project.basedir}/src/temp</installDirectory>
 				</configuration>
 				<executions>
-					<!-- It will install nodejs and npm -->
+					<!-- Install nodejs and npm -->
 					<execution>
 						<id>install node and npm</id>
 						<goals>
@@ -47,8 +36,7 @@
 							<npmVersion>3.9.5</npmVersion>
 						</configuration>
 					</execution>
-
-					<!-- It will execute command "npm install" inside "/app" directory -->
+					<!-- Execute command "npm install" inside "/app" directory -->
 					<execution>
 						<id>npm install</id>
 						<goals>
@@ -58,8 +46,8 @@
 							<arguments>install</arguments>
 						</configuration>
 					</execution>
-					<!-- execute command "npm build" inside "/app" directory to clean 
-						and create "/dist" directory -->					
+					<!-- Execute command "npm build" inside "/app" directory to clean and 
+						create "/dist" directory -->
 					<!-- create angular app.js consolidated, ordered, minified file from 
 						.ts files -->
 					<execution>
@@ -71,26 +59,35 @@
 							<arguments>run build</arguments>
 						</configuration>
 					</execution>
-					<execution>
-						<id>gulp webserver</id>
-						<goals>
-							<goal>gulp</goal>
-						</goals>
-						<configuration>
-							<workingDirectory>${project.basedir}</workingDirectory>
-							<!-- arguments>webserver</arguments-->
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
-			<!-- Plugin to copy the content of /dist/ directory to output directory -->
-			<!-- plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-resources-plugin</artifactId> 
-				<version>2.4.2</version> <executions> <execution> <id>default-copy-resources</id> 
-				<phase>process-resources</phase> <goals> <goal>copy-resources</goal> </goals> 
-				<configuration> <overwrite>true</overwrite> <outputDirectory>${project.build.directory}/${project.artifactId}/</outputDirectory> 
-				<resources> <resource> <directory>${project.basedir}/src/main/adminapp/dist</directory> 
-				</resource> </resources> </configuration> </execution> </executions> </plugin -->
 		</plugins>
 	</build>
-
+	<profiles>
+		<profile>
+			<id>webserver</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<configuration>
+							<workingDirectory>${project.basedir}</workingDirectory>
+						</configuration>
+						<executions>
+							<execution>
+								<id>run webserver</id>
+								<goals>
+									<goal>gulp</goal>
+								</goals>
+								<configuration>
+									<arguments>default</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
