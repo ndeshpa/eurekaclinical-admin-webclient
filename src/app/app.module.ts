@@ -16,7 +16,8 @@ import {MatTableModule} from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
 import { MatIconModule } from '@angular/material';
 import { MatSortModule } from '@angular/material';
-
+import { ResponsiveModule } from 'ngx-responsive';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { ConfigFileService } from './services/config-file.service';
 import { AdminService } from './services/admin.service';
@@ -28,9 +29,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-import { EqualValidatorDirective } from './directives/equal-validator.directive';
 import { AdminviewComponent } from './components/adminview/adminview.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { AllHttpInterceptor } from './interceptors/all-http-interceptor/all-http-interceptor.interceptor';
 
 
 const appRoutes: Routes = [
@@ -39,6 +40,7 @@ const appRoutes: Routes = [
        {path:'adminview/result', component:AdminviewComponent},
        {path:'adminview', component:AdminviewComponent},
        {path:'logout', component:AdminviewComponent},
+       {path:'editUser/me/:action/:id', component:EditUserComponent},
        {path:'editUser/:action/:id', component:EditUserComponent},
        {path: '', redirectTo: '/welcome', pathMatch: 'full'},
        {path: '**', component: PageNotFoundComponent }
@@ -53,7 +55,6 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     NavigationBarComponent,
     WelcomeComponent,
-    EqualValidatorDirective,
     AdminviewComponent,
     EditUserComponent
   ],
@@ -70,11 +71,16 @@ const appRoutes: Routes = [
     MatPaginatorModule,
     MatIconModule,
     MatSortModule,
+    ResponsiveModule,
     PaginationModule.forRoot(),
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [
+  providers: [{
+                  provide: HTTP_INTERCEPTORS,
+                  useClass: AllHttpInterceptor,
+                  multi: true
+               },
               ProxyService,
               AdminService, 
               ConfigFileService,

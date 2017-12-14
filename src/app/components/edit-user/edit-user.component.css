@@ -5,8 +5,12 @@
 .modal-open .modal {
 	opacity: 1;
 }
-
 .margin {
 	margin-left: 10px;
 	margin-right: 10px;
+}
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 20%;
 }

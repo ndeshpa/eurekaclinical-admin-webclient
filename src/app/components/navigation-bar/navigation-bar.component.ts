@@ -5,6 +5,7 @@ import { CollapseModule } from 'ngx-bootstrap';
 import { AdminService } from '../../services/admin.service';
 import { AdminUser } from '../../models/admin-user';
 import { Subscription } from 'rxjs/Rx';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -20,6 +21,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
   userArray: AdminUser[] = [];
   isLoggedOut: boolean = false;
   usrSubscription: Subscription;
+  errorMsg: string ='';
 
   constructor(private adminService: AdminService, private router:Router) { 
   }
@@ -29,6 +31,19 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
       {
           this.userId = data.id;
           this.username = data.fullName;
+      },
+      error => {
+          if (error instanceof HttpErrorResponse) {
+              this.errorMsg = 'Server Error: ' + error.message;
+          }
+          else{
+              this.errorMsg = 'Error Running Query. Please Retry';
+          }
+          console.log('ERROR IN ADMINVIEW');
+          console.log(error);
+      },
+      () => {
+          console.log('SUCCESS in NAVBAR');
       });  
       if(this.router.url.endsWith('loggedOut'))
           this.isLoggedOut = true;

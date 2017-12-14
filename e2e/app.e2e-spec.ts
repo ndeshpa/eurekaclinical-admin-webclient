@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('eurekaclinical-admin-webapp App', () => {
+describe('eurekaclinical-admin-webclient App', () => {
   let page: AppPage;
 
   beforeEach(() => {

@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { Http, HttpModule, Response, Headers } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+import { Http, HttpModule, Response } from '@angular/http';
 import { HttpHeaders } from '@angular/common/http';
 import { AdminUser } from '../models/admin-user';
 import { Observable } from 'rxjs/Observable';
@@ -18,6 +18,7 @@ export class AdminService {
     private loading: boolean;
 
     private adminUserMeUrl = '/eurekaclinical-user-webapp/proxy-resource/users/me';
+    private adminRolesUrl = '/eurekaclinical-user-webapp/proxy-resource/roles';
     private adminUserListUrl = '/eurekaclinical-user-webapp/proxy-resource/users';
     private adminUserUpdateUrl = '/eurekaclinical-user-webapp/proxy-resource/users/';
     private adminUserCreateUrl = '/eurekaclinical-user-webapp/proxy-resource/users';
@@ -25,7 +26,7 @@ export class AdminService {
     private casLogoutUrl = '/cas-server/logout';
     private casLoginUrl = '/cas-server/login';
 
-    constructor(private http: Http, private proxyService:ProxyService ) {
+    constructor(private http: HttpClient, private proxyService:ProxyService ) {
         this.loading = false;
         if ( this.data === null )
             this.data = this.getUser();
@@ -34,40 +35,41 @@ export class AdminService {
 
     //returns an observable
     public getUser() {
-        return this.http.get( this.adminUserMeUrl ).map( response => response.json() );
+        return this.http.get<AdminUser>( this.adminUserMeUrl );
+    }
+    
+    public getRoles() {
+        return this.http.get<AdminUser>( this.adminRolesUrl );
     }
     
     public getUserById(id:string) {
-        return this.http.get( this.adminUserListUrl + '/' + id ).map( response => response.json() );
+        return this.http.get<AdminUser>( this.adminUserListUrl + '/' + id );
     }
     
     public getAllUsers() {
-        return this.http.get( this.adminUserListUrl ).map( response => response.json() );
+        return this.http.get( this.adminUserListUrl );
     }
     
     public putUserUpdates(id:number, body: string) {
         var url = this.adminUserUpdateUrl + id;
         //set headers
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
         headers.append('Accept', 'application/json');
         
-        return this.http.put(url, body, {headers}).map(response => response.json());
+        return this.http.put(url, body, {headers});
     }
     
     public postUser(body:string){
         var url = this.adminUserCreateUrl;
         //set headers
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
         headers.append('Accept', 'application/json');
         
-        this.http.post(url, body, {headers}).subscribe(response => 
-                            console.log(response.json()));
+        this.http.post(url, body, {headers});
     }
     
     public doLogout() {
-        return this.http.get( this.casLogoutUrl ).map( response => response.json() );
+        return this.http.get( this.casLogoutUrl );
     }
 
     public getCurrUser() {
@@ -81,4 +83,24 @@ export class AdminService {
     public getUsersAsJson() {
         return this.usersAsJson;
     }
+}
+
+export interface MyUser {
+    action: string;
+    id: number;
+    username: string;
+    fullName: string;
+    lastLogin: Date;
+    roles: any;
+    email: string;
+    organization: string;
+    status: string;
+    title: string;
+    department: string;
+}
+
+export interface Role {
+    id: number;
+    name: string;
+    isChecked: boolean;
 }

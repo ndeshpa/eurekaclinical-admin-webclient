@@ -1,15 +1,29 @@
+<ng-container *ngIf="errorMsg!== ''; else elseBlock">
+		<pre>{{ errorMsg }}</pre>
+</ng-container>
+<ng-template #elseBlock>
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#">Eureka! Admin</a>
+			<a class="navbar-brand" href="#">Admin</a>
 		</div>
 		<div class="col text-right">
-			<button *ngIf="isLoggedOut; else elseBlock"
-				class="btn btn-link btn-md" (click)="doLogin()">
-				<i class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
-			</button>
+			<ng-container *ngIf="isLoggedOut; else elseBlock">
+				<a class="btn btn-link btn-md" (click)="doLogin()">
+					<i class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
+				</a>
+				<a class="btn btn-link btn-md" routerLink="/help"> <i
+					class="fa fa-question-circle-o"></i>Help &nbsp;&nbsp;
+				</a>
+			</ng-container>
 			<ng-template #elseBlock>
 			<div ngbDropdown class="d-inline-block">
+				<a class="btn btn-link btn-md" routerLink="/adminview"> <i
+					class="fa fa-wrench"></i> User Accounts&nbsp;&nbsp;
+				</a>				
+				<a class="btn btn-link btn-md" routerLink="/help"> <i
+					class="fa fa-question-circle-o"></i>Help&nbsp;&nbsp;
+				</a>
 				<button class="btn navbar-btn" id="adminLinks" ngbDropdownToggle>
 					<i class="fa fa-user"></i>&nbsp;&nbsp; {{ username }}&nbsp;&nbsp;<span
 						class="caret"></span>
@@ -17,14 +31,8 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<div ngbDropdownMenu aria-labelledby="adminLinks">
 					<button class="dropdown-item btn-link btn-md">
-						<a routerLink="/editUser/edit/{{ userId }}"> <i
+						<a routerLink="/editUser/me/edit/{{ userId }}"> <i
 							class="fa fa-user"></i> &nbsp;&nbsp;User Account
-						</a>
-					</button>
-					<br> <br>
-					<button class="dropdown-item btn-link btn-md">
-						<a routerLink="/adminview"> <i class="fa fa-wrench"></i>
-							&nbsp;&nbsp;Administration
 						</a>
 					</button>
 					<br> <br>
@@ -37,3 +45,6 @@
 			</div>
 			</ng-template>
 		</div>
+	</div>
+	</nav>
+	</ng-template>

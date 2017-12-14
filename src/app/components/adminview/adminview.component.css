@@ -1,3 +1,11 @@
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 20%;
+}
+.customShow{
+	display: none !important;
+}
 .ng-table {
 	border: 10px solid #808080;
 }
@@ -15,7 +23,16 @@
 	color: white;
 	font-weight: bold;
 }
-
-.md-icon{
-  font-family: 'Material Icons' !important;
+.customSmallClass{
+   flex: 0 0 75px;
+}
+.customLongClass{
+   flex: 0 0 130px;
+}
+.customXLongClass{
+   flex: 0 0 200px;
+}
+.customContainer{
+	margin:auto;
+	border:5px;
 }
