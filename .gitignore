@@ -5,6 +5,11 @@
 /tmp
 /out-tsc
 /src/tmp
+/src/temp
+
+#log files
+*.log
+*.log.*
 
 # dependencies
 /node_modules
@@ -30,3 +35,4 @@ testem.log
 ehthumbs.db
 Thumbs.db
 /target/
+/bin/

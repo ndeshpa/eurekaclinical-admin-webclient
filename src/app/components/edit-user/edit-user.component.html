@@ -1,97 +1,136 @@
-<div class="container-fluid" style="border:10px solid #ffffff;">
-<app-navigation-bar></app-navigation-bar>
-<ng-container *ngIf="errorMsg!== ''; else elseBlock">
-		<pre>{{ errorMsg }}</pre>
-</ng-container>
-<ng-template #elseBlock>
-<h2>User Account: {{ model.username }}</h2>
-<form #editForm="ngForm" novalidate (ngSubmit)="onSubmit(editForm.value, editForm.valid)">
-	<div class="container" align="center">
-		<div class="row form-group">
-			<div class="col" align="left">
-				<label for="firstName">First Name:</label>
-				<input type="text" class="form-control" id="firstName" required
-					[(ngModel)]="model.firstName" #firstName="ngModel" name="firstName">
+<div class="container-fluid" style="border: 10px solid #ffffff;">
+	<app-navigation-bar></app-navigation-bar>
+	<ng-container *ngIf="errorMsg!== ''; else elseBlock">
+	<div class="alert alert-danger">{{ errorMsg }}</div>
+	</ng-container>
+	<ng-template #elseBlock>
+	<h2>User Account: {{ model.username }}</h2>
+	<form #editForm="ngForm" novalidate
+		(ngSubmit)="onSubmit(editForm.value, editForm.valid)">
+		<div class="container" align="center">
+			<ng-container *ngIf="(firstNameInvalid); else firstNameNew">
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="firstName" class="red-text-class">First Name:</label> <input
+						type="text" class="form-control" id="firstName" required
+						[(ngModel)]="model.firstName" #firstName="ngModel"
+						name="firstName">
+					<p class="red-text-class">Firstname is required!</p>
+				</div>
 			</div>
-			 <div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)" class="alert alert-danger">
-        		<div [hidden]="!firstName.errors.required">
-          			Firstname is required!
-        		</div>
-      		 </div>
-		</div>
-		<div class="row form-group">
-			<div class="col" align="left">
-				<label for="lastName">Last Name:</label>
-				<input type="text" class="form-control" id="lastName" required
-					[(ngModel)]="model.lastName" #lastName="ngModel" name="lastName">
+			</ng-container>
+			<ng-template #firstNameNew>
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="firstName">First Name:</label> <input type="text"
+						class="form-control" id="firstName" required
+						[(ngModel)]="model.firstName" #firstName="ngModel"
+						name="firstName">
+				</div>
 			</div>
-			<div *ngIf="lastName.errors && (lastName.dirty || lastName.touched)" class="alert alert-danger">
-        		<div [hidden]="!lastName.errors.required">
-          			Lastname is required!
-        		</div>
-      		 </div>
-		</div>
-		<div class="row form-group">
-			<div class="col" align="left">
-				<label for="username">Username:</label>
-				<input type="text" class="form-control" id="username" required
-					[(ngModel)]="model.username" #username="ngModel" name="username">
+			</ng-template>
+			<ng-container *ngIf="(lastNameInvalid); else lastNameNew">
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="lastName" class="red-text-class">Last Name:</label> <input
+						type="text" class="form-control" id="lastName" required
+						[(ngModel)]="model.lastName" #firstName="ngModel" name="lastName">
+					<p class="red-text-class">Lastname is required!</p>
+				</div>
 			</div>
-			<div *ngIf="username.errors && (username.dirty || username.touched)" class="alert alert-danger">
-        		<div [hidden]="!username.errors.required">
-          			Username is required! Please create a Username.
-        		</div>
-      		 </div>
-		</div>
-		<div class="row form-group">
-			<div class="col" align="left">
-				<label for="organization">Organization:</label>
-				<input type="text" class="form-control" id="organization" 
-					[(ngModel)]="model.organization" #organization="ngModel"
-					name="organization">
+			</ng-container>
+			<ng-template #lastNameNew>
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="lastName">Last Name:</label> <input type="text"
+						class="form-control" id="lastName" required
+						[(ngModel)]="model.lastName" #lastName="ngModel" name="lastName">
+				</div>
 			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col" align="left">
-				<label for="title">Title:</label>
-				<input type="text" class="form-control" id="title"
-					[(ngModel)]="model.title" name="title">
+			</ng-template>
+			<ng-container *ngIf="(usernameInvalid); else usernameNew">
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="username" class="red-text-class">Username:</label> <input
+						type="text" class="form-control" id="username" required
+						[(ngModel)]="model.username" #username="ngModel" name="username">
+					<p class="red-text-class">Username is required! Please create a
+						Username.</p>
+				</div>
 			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col" align="left">
-				<label for="department">Department:</label>
-				<input type="text" class="form-control" id="department" 
-					[(ngModel)]="model.department" #department="ngModel"
-					name="department">
+			</ng-container>
+			<ng-template #usernameNew>
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="username">Username:</label> <input type="text"
+						class="form-control" id="username" required
+						[(ngModel)]="model.username" #username="ngModel" name="username">
+				</div>
 			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col" align="left">
-				<label for="email">Email:</label>
-				<input type="email" class="form-control" id="email" required
-					[(ngModel)]="model.email" #email="ngModel" name="email" email>
+			</ng-template>
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="organization">Organization:</label> <input type="text"
+						class="form-control" id="organization"
+						[(ngModel)]="model.organization" #organization="ngModel"
+						name="organization">
+				</div>
 			</div>
-			<div *ngIf="email.errors?.email" class="alert alert-danger"> 
-				<div [hidden]="!email.errors?.email">
-     				Email not valid.
-     			</div>
-			</div> 
-		</div>
-		<div class="row form-group">
-		<div class="col" align="left">
-			<label for="roles">Roles:</label>	
-				<ul class="checkbox-grid">
-				<ng-container  *ngFor="let user of userRoles">
-				<li><input type="checkbox" name="userRoles" value="{{user.id}}" 
-					 [checked]="user.isChecked" (change)="changeCheckbox(user.id)"/>
-					<label for="{{user.name}}"> {{user.name | titlecase }}</label></li>
-				</ng-container>
-				</ul> 
-				</div>  
-	</div>
-	<!-- [(ngModel)]="user.isChecked" -->
-		<!-- div class="row form-group">
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="title">Title:</label> <input type="text"
+						class="form-control" id="title" [(ngModel)]="model.title"
+						name="title">
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="department">Department:</label> <input type="text"
+						class="form-control" id="department"
+						[(ngModel)]="model.department" #department="ngModel"
+						name="department">
+				</div>
+			</div>
+			<ng-container *ngIf="(emailInvalid); else emailNew">
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="email" class="red-text-class">Email:</label> <input
+						type="email" class="form-control" id="email" required
+						[(ngModel)]="model.email" #email="ngModel" name="email" email>
+					<p class="red-text-class">Email is required!</p>
+				</div>
+				<div *ngIf="email.errors?.email" class="alert alert-danger">
+					<div [hidden]="!email.errors?.email">Email not valid.</div>
+				</div>
+			</div>
+			</ng-container>
+			<ng-template #emailNew>
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="email">Email:</label> <input type="email"
+						class="form-control" id="email" required
+						[(ngModel)]="model.email" #email="ngModel" name="email" email>
+				</div>
+				<div *ngIf="email.errors?.email" class="alert alert-danger">
+					<div [hidden]="!email.errors?.email">Email not valid.</div>
+				</div>
+			</div>
+			</ng-template>
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="roles">Roles:</label>
+					<ul class="checkbox-grid">
+						<ng-container *ngFor="let user of userRoles">
+						<li><input type="checkbox" name="userRoles"
+							value="{{user.id}}" [checked]="user.isChecked"
+							(change)="changeCheckbox(user.id)" /> <label for="{{user.name}}">
+								{{user.name | titlecase }}</label></li>
+						</ng-container>
+					</ul>
+				</div>
+			</div>
+			<!-- [(ngModel)]="user.isChecked" -->
+			<!-- div class="row form-group">
 			<div class="col" align="left">
 				<label for="roles">Roles:</label>
 				<div class="form-check"
@@ -104,28 +143,26 @@
 				</div>
 			</div>
 		</div-->
-		<div class="row form-group">
-			<div class="col" align="left">
-				<label for="active">Activation Status:</label>
-				<input type="text" class="form-control" id="activated" 
-				[(ngModel)]="userActivated" name="activated" disabled>
-				<br/>
-				<ng-container *ngIf="model.active && !changedStatus; else first" >
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="active">Activation Status:</label> <input type="text"
+						class="form-control" id="activated" [(ngModel)]="userActivated"
+						name="activated" disabled> <br />
+					<ng-container *ngIf="model.active && !changedStatus; else first">
 					<button class="btn btn-secondary" id="active" name="active"
-						(click)="changeActive(content)"> Inactivate User</button>
-				</ng-container>
-				<ng-template #first>
-					<ng-container *ngIf="!changedStatus" >   
-						<button class="btn btn-secondary" id="active" name="active"
-						(click)="changeActive(content)"> Activate User</button>	
-					</ng-container>												
-				</ng-template>
-				<ng-template #content let-c="close" let-d="dismiss">
+						(click)="changeActive(content)">Inactivate User</button>
+					</ng-container>
+					<ng-template #first> <ng-container
+						*ngIf="!changedStatus">
+					<button class="btn btn-secondary" id="active" name="active"
+						(click)="changeActive(content)">Activate User</button>
+					</ng-container> </ng-template>
+					<ng-template #content let-c="close" let-d="dismiss">
 					<div class="modal-header">
 						<h4 class="modal-title">Attention</h4>
 						<button type="button" class="close" aria-label="Close"
-						(click)="d('Cross click')">
-						<span aria-hidden="true">&times;</span>
+							(click)="d('Cross click')">
+							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
@@ -133,27 +170,27 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-outline-dark"
-						(click)="c('Close click')">Close</button>
+							(click)="c('Close click')">Close</button>
 					</div>
-				</ng-template>
+					</ng-template>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="verified">Verification Status:</label> <input
+						type="text" class="form-control" id="verified"
+						[(ngModel)]="userVerified" name="verified" disabled>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col" align="left">
+					<p></p>
+					<button class="btn btn-primary" (click)="restoreForm()">Cancel</button>
+					<button class="btn btn-info">Save</button>
+				</div>
 			</div>
 		</div>
-		<div class="row form-group">
-			<div class="col" align="left">
-				<label for="verified">Verification Status:</label>
-				<input type="text" class="form-control" id="verified"
-					[(ngModel)]="userVerified" name="verified" disabled>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col" align="left">
-				<p></p>
-				<button class="btn btn-primary" (click)="restoreForm()">Cancel</button>
-				<button class="btn btn-info" [disabled]="!editForm.valid">Save</button>
-			</div>
-		</div>
-	</div>
-</form>
-</ng-template>
-<app-footer></app-footer>
+	</form>
+	</ng-template>
+	<app-footer></app-footer>
 </div>

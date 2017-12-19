@@ -1,5 +1,5 @@
-<ng-container *ngIf="errorMsg!== ''; else elseBlock">
-		<pre>{{ errorMsg }}</pre>
+<ng-container *ngIf="errorMsg!== ''; else elseBlock">	
+		<div class="alert alert-danger">{{ errorMsg }}</div>
 </ng-container>
 <ng-template #elseBlock>
 <nav class="navbar navbar-inverse">

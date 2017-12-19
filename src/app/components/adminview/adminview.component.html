@@ -2,7 +2,7 @@
 <app-navigation-bar></app-navigation-bar>
 <h2>User Accounts</h2>
 	<ng-container *ngIf="errorMsg!== ''; else elseBlock">
-		<pre>{{ errorMsg }}</pre>
+		<div class="alert alert-danger">{{ errorMsg }}</div>
 	</ng-container>
 	<ng-template #elseBlock>
 	<div class="example-container mat-elevation-z8">
