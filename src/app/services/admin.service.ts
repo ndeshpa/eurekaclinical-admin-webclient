@@ -23,6 +23,8 @@ export class AdminService {
     private adminUserUpdateUrl = '/eurekaclinical-admin-webapp/proxy-resource/users/';
     private adminUserCreateUrl = '/eurekaclinical-admin-webapp/proxy-resource/users';
     private adminUserDeleteUrl = '/eurekaclinical-admin-webapp/proxy-resource/users';
+    private destroySessionUrl = '/eurekaclinical-admin-webapp/destroy-session';
+    private sessionPropertiesUrl = '/eurekaclinical-admin-webapp/get-session-properties';
     private casLogoutUrl = '/cas-server/logout';
     private casLoginUrl = '/cas-server/login';
 
@@ -67,8 +69,15 @@ export class AdminService {
         this.http.post(url, body, {headers});
     }
     
+    
+    public getSessionProperties() {
+        return this.http.get(this.sessionPropertiesUrl);
+    }
+    
     public doLogout() {
-        return this.http.get( this.casLogoutUrl );
+        let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+        headers.append('Accept', 'application/json');
+        return this.http.get( this.destroySessionUrl, {headers});
     }
 
     public getCurrUser() {
