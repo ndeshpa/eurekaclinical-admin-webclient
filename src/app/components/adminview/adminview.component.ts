@@ -126,8 +126,10 @@ export class AdminviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.subscription.unsubscribe();
-        this.roleSubscription.unsubscribe();
+        if(this.subscription !== null)
+            this.subscription.unsubscribe();
+        if(this.roleSubscription !== null)
+            this.roleSubscription.unsubscribe();
     }
 
     sortData() {

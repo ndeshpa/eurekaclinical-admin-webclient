@@ -16,13 +16,15 @@ export class AppComponent implements OnInit, OnDestroy {
     sessionTimeout: any;
     currentUrl: any;
     timer: any;
+    sessionStartTime: any;
     
     constructor(private adminService: AdminService, private router: Router) {
-        this.getSessionProperties();
+        
      }
     
 
     getSessionProperties(){
+        //get current time and save in localStorage
         this.sessSubscription = this.adminService.getSessionProperties().subscribe( data => {
             var sessTimeout = JSON.stringify( data );
             JSON.parse( sessTimeout, ( key, value ) => {
@@ -33,7 +35,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {  
-        this.sessionTimeout = +localStorage.getItem('maxInactiveInterval');
+        this.getSessionProperties();
+        this.sessionTimeout = +localStorage.getItem('maxInactiveInterval') - 180;
+        //this.sessionTimeout = 10; //for testing timeout
         this.timerReset(this.sessionTimeout);      
       }
     
@@ -65,9 +69,8 @@ export class AppComponent implements OnInit, OnDestroy {
         localStorage.setItem('timeOut', 'false');
         this.timerReset(this.sessionTimeout);
       }
-    
+    //give 2 minutes advance warning
     timerReset(timeoutSecs: any){
-        this.getSessionProperties();
         if(this.timer !== null)
             clearTimeout(this.timer);
         localStorage.setItem('timeOut', 'false');
@@ -85,7 +88,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     
     ngOnDestroy(): void {
-        this.sessSubscription.unsubscribe();
+        if(this.sessSubscription !== null)
+            this.sessSubscription.unsubscribe();
     }
  
 }

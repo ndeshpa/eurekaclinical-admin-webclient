@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ConfigFileService } from './config-file.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Http, HttpModule, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
