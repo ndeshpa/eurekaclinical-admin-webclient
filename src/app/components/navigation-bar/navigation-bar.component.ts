@@ -34,7 +34,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
       },
       error => {
           if (error instanceof HttpErrorResponse) {
-              this.errorMsg = 'Server Error: ' + error.message;
+              this.errorMsg = 'SERVER ERROR: ' + error.message;
           }
           else{
               this.errorMsg = 'Error Running Query. Please Retry';
@@ -54,6 +54,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
   }
   
   ngOnDestroy(): void {
-      this.usrSubscription.unsubscribe();
+      if(this.usrSubscription !== null)
+          this.usrSubscription.unsubscribe();
   }
 }

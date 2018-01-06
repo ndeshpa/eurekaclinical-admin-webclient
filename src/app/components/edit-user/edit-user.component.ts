@@ -25,6 +25,11 @@ export class EditUserComponent implements OnInit, OnDestroy {
     usrSubscription: Subscription;
     roleSubscription: Subscription;
     errorMsg: string = '';
+    firstNameInvalid = false;
+    lastNameInvalid = false;
+    usernameInvalid = false;
+    emailInvalid = false;
+    
 
     constructor( private activatedRoute: ActivatedRoute,
         private router: Router,
@@ -42,9 +47,9 @@ export class EditUserComponent implements OnInit, OnDestroy {
             this.data = data;
             for ( var i = 0; i < this.data.length; i++ ) {
                 this.userRoles[i] = {
-                        'id': this.data[i].id, 
-                        'name': this.data[i].name, 
-                        'isChecked':false
+                    'id': this.data[i].id,
+                    'name': this.data[i].name,
+                    'isChecked': false
                 }
             }
         },
@@ -88,23 +93,12 @@ export class EditUserComponent implements OnInit, OnDestroy {
                 this.userActivated = 'Activated';
             //iterate through userRoles array and set isChecked = true
             //if the data has that role
-            for(var i=0; i<this.userRoles.length; i++){
+            for ( var i = 0; i < this.userRoles.length; i++ ) {
                 var roleId = this.userRoles[i].id;
-                if(this.model.roles.indexOf(roleId)>=0){
+                if ( this.model.roles.indexOf( roleId ) >= 0 ) {
                     this.userRoles[i].isChecked = true;
                 }
             }
-
-            /*for ( var i = 0; i < this.model.roles.length; i++ ) {
-                switch ( this.model.roles[i] ) {
-                    case 1:
-                        this.userRoles[0].isChecked = true;
-                        break;
-                    case 2:
-                        this.userRoles[1].isChecked = true;
-                        break;
-                }
-            }*/
         },
             error => {
                 if ( error instanceof HttpErrorResponse ) {
@@ -126,21 +120,38 @@ export class EditUserComponent implements OnInit, OnDestroy {
         //call put to edit info    
         this.adminService.putUserUpdates( myModel.id, input );
     }
+    
+    checkRequiredFields(firstName:string, lastName:string, username:string, email:string){
+        this.firstNameInvalid = (firstName===null || firstName.length <= 1? true: false);
+        this.lastNameInvalid = (lastName===null || lastName.length <= 1? true: false);
+        this.usernameInvalid = (username===null || username.length<=1? true: false);
+        this.emailInvalid = (email===null || email.length <=1? true: false);
+    }
 
     onSubmit( model: AdminUser, isValid: boolean ) {
-        //transmit changes to roles
-        this.model.roles = new Array<any>();
-        for ( var i = 0; i < this.userRoles.length; i++ ) {
-            if ( this.userRoles[i].isChecked ){
-                this.model.roles.push( this.userRoles[i].id );
+        this.checkRequiredFields(model.firstName, model.lastName, model.username, model.email);
+        if ( this.firstNameInvalid || this.lastNameInvalid || this.usernameInvalid || this.emailInvalid ) {
+            if(this.router.url.indexOf('me') >=0)
+                this.router.navigateByUrl(this.router.url);
+            else
+                this.router.navigateByUrl( '/editUser/edit/' + model.id );
+        } 
+        else {
+            //transmit changes to roles
+            this.model.roles = new Array<any>();
+            for ( var i = 0; i < this.userRoles.length; i++ ) {
+                if ( this.userRoles[i].isChecked ) {
+                    this.model.roles.push( this.userRoles[i].id );
+                }
             }
+            //convert model to json              
+            var input = JSON.stringify( this.model );
+            //call put to edit info    
+            this.adminService.putUserUpdates( this.model.id, input )
+                .subscribe( data => console.log( data ) );
+            this.router.navigateByUrl( '/adminview' );
         }
-        //convert model to json              
-        var input = JSON.stringify( this.model );
-        //call put to edit info    
-        this.adminService.putUserUpdates( this.model.id, input )
-            .subscribe( data => console.log( data ) );
-        this.router.navigateByUrl( '/adminview' );
+
     }
 
     restoreForm() {
@@ -148,8 +159,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
     }
 
     changeCheckbox( i ) {
-        for(var j=0; j<this.userRoles.length; j++){
-            if(this.userRoles[j].id === i){
+        for ( var j = 0; j < this.userRoles.length; j++ ) {
+            if ( this.userRoles[j].id === i ) {
                 this.userRoles[j].isChecked = !this.userRoles[j].isChecked;
             }
         }
@@ -173,8 +184,10 @@ export class EditUserComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.usrSubscription.unsubscribe();
-        this.roleSubscription.unsubscribe();
+        if(this.usrSubscription !== null)
+            this.usrSubscription.unsubscribe();
+        if(this.roleSubscription !== null)
+            this.roleSubscription.unsubscribe();
     }
 }
 

@@ -19,7 +19,8 @@ import { MatSortModule } from '@angular/material';
 import { ResponsiveModule } from 'ngx-responsive';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { ConfigFileService } from './services/config-file.service';
+
+//import { ConfigFileService } from './services/config-file.service';
 import { AdminService } from './services/admin.service';
 import { ProxyService } from './services/proxy.service';
 
@@ -32,6 +33,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AdminviewComponent } from './components/adminview/adminview.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { AllHttpInterceptor } from './interceptors/all-http-interceptor/all-http-interceptor.interceptor';
+import { TimeoutWarningComponent } from './components/timeout-warning/timeout-warning.component';
 
 
 const appRoutes: Routes = [
@@ -42,6 +44,7 @@ const appRoutes: Routes = [
        {path:'logout', component:AdminviewComponent},
        {path:'editUser/me/:action/:id', component:EditUserComponent},
        {path:'editUser/:action/:id', component:EditUserComponent},
+       {path:'timeout', component:TimeoutWarningComponent},
        {path: '', redirectTo: '/welcome', pathMatch: 'full'},
        {path: '**', component: PageNotFoundComponent }
       ];
@@ -56,7 +59,8 @@ const appRoutes: Routes = [
     NavigationBarComponent,
     WelcomeComponent,
     AdminviewComponent,
-    EditUserComponent
+    EditUserComponent,
+    TimeoutWarningComponent
   ],
   imports: [
     BrowserModule,
@@ -82,9 +86,9 @@ const appRoutes: Routes = [
                   multi: true
                },
               ProxyService,
-              AdminService, 
-              ConfigFileService,
-              { provide: APP_INITIALIZER, useFactory: (config: ConfigFileService) => () => config.load(), deps: [ConfigFileService], multi: true }
+              AdminService 
+              //,ConfigFileService,
+              //{ provide: APP_INITIALIZER, useFactory: (config: ConfigFileService) => () => config.load(), deps: [ConfigFileService], multi: true }
   ],
   bootstrap: [AppComponent]
 })

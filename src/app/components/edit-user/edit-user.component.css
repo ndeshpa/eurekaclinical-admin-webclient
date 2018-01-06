@@ -14,3 +14,9 @@
     float: left;
     width: 20%;
 }
+p.red-text-class {
+	color: red;	
+}
+label.red-text-class {
+	color: red;	
+}
