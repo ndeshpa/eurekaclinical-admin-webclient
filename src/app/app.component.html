@@ -1,1 +1,9 @@
+<ng-container *ngIf="timeOut">
+  <div class="alert alert-danger alert-dismissable">
+    <!-- a href="#" (click)="extendSession()" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></a-->
+    <strong>Your session will timeout!</strong>
+    <button class="btn btn-primary" (click)="doTimedout()">Logout</button>
+	<button class="btn btn-info" (click)="resetSession()">Extend Session</button>
+  </div>
+</ng-container>
 <router-outlet></router-outlet>

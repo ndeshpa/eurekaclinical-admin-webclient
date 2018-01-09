@@ -2,15 +2,6 @@ var gulp = require("gulp");
 var webserver = require('gulp-webserver');
 var proxy = require('http-proxy-middleware');
 
-gulp.task('copy-config-files', function() {
-    gulp.src('src/env.json')
-    .pipe(gulp.dest('dist'));
-    gulp.src('src/config.dev.json')
-    .pipe(gulp.dest('dist'));
-    gulp.src('src/config.prod.json')
-    .pipe(gulp.dest('dist'));
-});
-
 gulp.task('webserver', function () {
     gulp.src('dist')
 	.pipe(webserver({
@@ -37,6 +28,10 @@ gulp.task('webserver', function () {
 		    target: 'https://localhost:8443',
 		    secure: false
 		}),
+		proxy('/cas-mock', {
+		    target: 'https://localhost:8443/cas-mock',
+		    secure: false
+		}),
 		proxy('/eurekaclinical-user-webapp', {
 		    target: 'https://localhost:8443',
 		    secure: false
@@ -54,4 +49,4 @@ gulp.task('webserver', function () {
 });
 
 // default task builds for prod
-gulp.task('default',['copy-config-files', 'webserver']);
+gulp.task('default',['webserver']);

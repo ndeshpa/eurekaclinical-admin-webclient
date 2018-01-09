@@ -22,7 +22,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 //import { ConfigFileService } from './services/config-file.service';
 import { AdminService } from './services/admin.service';
-import { ProxyService } from './services/proxy.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -33,7 +32,6 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AdminviewComponent } from './components/adminview/adminview.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { AllHttpInterceptor } from './interceptors/all-http-interceptor/all-http-interceptor.interceptor';
-import { TimeoutWarningComponent } from './components/timeout-warning/timeout-warning.component';
 
 
 const appRoutes: Routes = [
@@ -44,7 +42,6 @@ const appRoutes: Routes = [
        {path:'logout', component:AdminviewComponent},
        {path:'editUser/me/:action/:id', component:EditUserComponent},
        {path:'editUser/:action/:id', component:EditUserComponent},
-       {path:'timeout', component:TimeoutWarningComponent},
        {path: '', redirectTo: '/welcome', pathMatch: 'full'},
        {path: '**', component: PageNotFoundComponent }
       ];
@@ -59,8 +56,7 @@ const appRoutes: Routes = [
     NavigationBarComponent,
     WelcomeComponent,
     AdminviewComponent,
-    EditUserComponent,
-    TimeoutWarningComponent
+    EditUserComponent
   ],
   imports: [
     BrowserModule,
@@ -85,7 +81,6 @@ const appRoutes: Routes = [
                   useClass: AllHttpInterceptor,
                   multi: true
                },
-              ProxyService,
               AdminService 
               //,ConfigFileService,
               //{ provide: APP_INITIALIZER, useFactory: (config: ConfigFileService) => () => config.load(), deps: [ConfigFileService], multi: true }

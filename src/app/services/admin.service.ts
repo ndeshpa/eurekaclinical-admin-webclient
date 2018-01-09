@@ -5,7 +5,6 @@ import { HttpHeaders } from '@angular/common/http';
 import { AdminUser } from '../models/admin-user';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { ProxyService } from './proxy.service';
 
 
 
@@ -24,11 +23,12 @@ export class AdminService {
     private adminUserCreateUrl = '/eurekaclinical-admin-webapp/proxy-resource/users';
     private adminUserDeleteUrl = '/eurekaclinical-admin-webapp/proxy-resource/users';
     private destroySessionUrl = '/eurekaclinical-admin-webapp/destroy-session';
+    private logoutSessionUrl = '/eurekaclinical-admin-webapp/logout';
     private sessionPropertiesUrl = '/eurekaclinical-admin-webapp/get-session-properties';
     private casLogoutUrl = '/cas-server/logout';
-    private casLoginUrl = '/cas-server/login';
+    //private casLoginUrl = '/cas-server/login';
 
-    constructor(private http: HttpClient, private proxyService:ProxyService ) {
+    constructor(private http: HttpClient) {
         this.loading = false;
         if ( this.data === null )
             this.data = this.getUser();
@@ -77,7 +77,8 @@ export class AdminService {
     public doLogout() {
         let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
         headers.append('Accept', 'application/json');
-        return this.http.get( this.destroySessionUrl, {headers});
+        //return this.http.get( this.casLogoutUrl, {headers});
+        return this.http.get( this.logoutSessionUrl, {headers});
     }
 
     public getCurrUser() {
