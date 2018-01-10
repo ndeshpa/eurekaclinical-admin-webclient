@@ -38,9 +38,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.getSessionProperties();
-        this.sessionTimeout = +localStorage.getItem( 'maxInactiveInterval' ) - 180;
+        //this.sessionTimeout = +localStorage.getItem( 'maxInactiveInterval' ) - 180;
         //this.sessionTimeout = 10; //for testing timeout
-        //this.graceSecs = 5; //for testing timeout
+        this.graceSecs = 5; //for testing timeout
         this.timerReset( this.sessionTimeout );
     }
 
@@ -83,15 +83,14 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     //give 2 minutes advance warning
     timerReset( timeoutSecs: any ) {
+        this.timeOut = false;
+        localStorage.setItem( 'timeOut', 'false' );
         if ( this.timer !== null )
             clearTimeout( this.timer );
         if (this.finalTimer !== null)
             clearTimeout(this.finalTimer);
-        localStorage.setItem( 'timeOut', 'false' );
-        if ( !this.router.url.endsWith( 'timeout' ) ) {
-            this.currentUrl = this.router.url;
-            localStorage.setItem( 'currUrl', this.currentUrl );
-        }
+        this.currentUrl = this.router.url;
+        localStorage.setItem( 'currUrl', this.currentUrl );
         if ( !this.router.url.endsWith( 'loggedOut' ) ) {
             this.timer = setTimeout(() => {
                 //console.log('starting timeout period');
