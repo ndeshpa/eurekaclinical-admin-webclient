@@ -38,16 +38,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.getSessionProperties();
-        //this.sessionTimeout = +localStorage.getItem( 'maxInactiveInterval' ) - 180;
+        this.sessionTimeout = +localStorage.getItem( 'maxInactiveInterval' ) - 180;
         //this.sessionTimeout = 10; //for testing timeout
-        this.graceSecs = 5; //for testing timeout
+        //this.graceSecs = 5; //for testing timeout
         this.timerReset( this.sessionTimeout );
     }
 
 
     doTimedout() {
         this.timeOut = false;
-        //console.log( 'logging out' );
         this.logoutSubscription = this.adminService.doLogout();
         this.logoutSubscription.subscribe( myData => {
             console.log( 'logged out' );
@@ -57,7 +56,6 @@ export class AppComponent implements OnInit, OnDestroy {
     
     graceTimeout(){
         this.finalTimer = setTimeout(() => {
-            //console.log('grace period ends');
             this.doTimedout();
         }, this.graceSecs * 1000 );
     }
@@ -93,17 +91,14 @@ export class AppComponent implements OnInit, OnDestroy {
         localStorage.setItem( 'currUrl', this.currentUrl );
         if ( !this.router.url.endsWith( 'loggedOut' ) ) {
             this.timer = setTimeout(() => {
-                //console.log('starting timeout period');
                 this.timeOut = true;
                 localStorage.setItem( 'timeOut', 'true' );
-                //console.log('starting grace period');
                 this.graceTimeout();
             }, timeoutSecs * 1000 );
         }
     }
 
     resetSession() {
-        //console.log( 'extending session' );
         if ( this.timer !== null )
             clearTimeout( this.timer );
         if (this.finalTimer !== null)
@@ -111,7 +106,6 @@ export class AppComponent implements OnInit, OnDestroy {
         localStorage.setItem( 'timeOut', 'false' );
         this.timeOut = false;
         this.getSessionProperties();
-        //console.log( 'currUrl: ' + localStorage.getItem( 'currUrl' ) );
         this.router.navigateByUrl( localStorage.getItem( 'currUrl' ) );
     }
 

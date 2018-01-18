@@ -20,13 +20,23 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
   username: string = "New User";
   userArray: AdminUser[] = [];
   isLoggedOut: boolean = false;
+  isNewUser: boolean = true;
   usrSubscription: Subscription;
   errorMsg: string ='';
+  adminWebappUrl: string;
+  service: string;
 
   constructor(private adminService: AdminService, private router:Router) { 
   }
 
   ngOnInit() {
+      if(!this.router.url.endsWith('welcome')){
+          this.isNewUser = false;
+      }
+      if(this.router.url.endsWith('logout')){
+          this.isNewUser = true;
+          this.doLogout();
+      }
       this.usrSubscription = this.adminService.getCurrUser().subscribe( data => 
       {
           this.userId = data.id;
@@ -50,7 +60,16 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
   }
   
   doLogin(){
-      this.router.navigate(['/welcome']);
+      this.adminService.doLogin().subscribe(data => { 
+          console.log(data);
+      });
+  }
+  
+  doLogout() {
+      this.adminService.doLogout().subscribe(data => { 
+          console.log(data);
+      });
+      this.router.navigate( ['/welcome', 'loggedOut'] );
   }
   
   ngOnDestroy(): void {

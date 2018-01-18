@@ -26,7 +26,6 @@ import { AdminService } from './services/admin.service';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AdminviewComponent } from './components/adminview/adminview.component';
@@ -42,8 +41,7 @@ const appRoutes: Routes = [
        {path:'logout', component:AdminviewComponent},
        {path:'editUser/me/:action/:id', component:EditUserComponent},
        {path:'editUser/:action/:id', component:EditUserComponent},
-       {path: '', redirectTo: '/welcome', pathMatch: 'full'},
-       {path: '**', component: PageNotFoundComponent }
+       {path: '', redirectTo: '/welcome', pathMatch: 'full'}
       ];
         
 
@@ -52,7 +50,6 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    PageNotFoundComponent,
     NavigationBarComponent,
     WelcomeComponent,
     AdminviewComponent,

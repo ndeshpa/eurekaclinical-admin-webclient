@@ -53,9 +53,6 @@ export class AdminviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        if ( this.router.url.endsWith( 'logout' ) ) {
-            this.doLogout();
-        }
         this.dataSource = new MatTableDataSource<MyUser>( this.unsortedData );
         //get roles
         this.getRoles();
@@ -118,11 +115,6 @@ export class AdminviewComponent implements OnInit, OnDestroy {
         () => {
             console.log('SUCCESS in ADMINVIEW');
         });
-    }
-
-    doLogout() {
-        this.adminService.doLogout();
-        this.router.navigate( ['/welcome', 'loggedOut'] );
     }
 
     ngOnDestroy(): void {

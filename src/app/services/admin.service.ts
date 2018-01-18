@@ -25,8 +25,10 @@ export class AdminService {
     private destroySessionUrl = '/eurekaclinical-admin-webapp/destroy-session';
     private logoutSessionUrl = '/eurekaclinical-admin-webapp/logout';
     private sessionPropertiesUrl = '/eurekaclinical-admin-webapp/get-session-properties';
-    private casLogoutUrl = '/cas-server/logout';
-    //private casLoginUrl = '/cas-server/login';
+    
+    private casLoginUrl  = '/eurekaclinical-admin-webapp/login';
+    private webClientUrl = 'https://localhost:8000';
+    private adminWebappUrl = 'https://localhost:8000/eurekaclinical-admin-webapp';
 
     constructor(private http: HttpClient) {
         this.loading = false;
@@ -75,12 +77,14 @@ export class AdminService {
     }
     
     public doLogout() {
-        let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-        headers.append('Accept', 'application/json');
-        //return this.http.get( this.casLogoutUrl, {headers});
-        return this.http.get( this.logoutSessionUrl, {headers});
+        return this.http.get( this.logoutSessionUrl, {responseType: 'text'});
     }
-
+    
+    public doLogin() {
+        return this.http.get( this.casLoginUrl + '?webclient=' + this.webClientUrl + '/adminview', 
+                {responseType: 'text'});
+    }
+    
     public getCurrUser() {
         return this.data;
     }
@@ -92,6 +96,19 @@ export class AdminService {
     public getUsersAsJson() {
         return this.usersAsJson;
     }
+     
+    public getAdminWebappUrl(){
+        return this.adminWebappUrl;
+    }
+    
+    public getWebClientUrl(){
+        return this.webClientUrl;
+    }
+    
+    public getCasLoginUrl(){
+        return this.casLoginUrl;
+    }
+    
 }
 
 export interface MyUser {
