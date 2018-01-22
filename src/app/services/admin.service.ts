@@ -19,7 +19,7 @@ export class AdminService {
     private adminUserMePath = '/proxy-resource/users/me';
     private adminRolesPath = '/proxy-resource/roles';
     private adminUserListPath = '/proxy-resource/users';
-    private adminUserUpdatePath = '/proxy-resource/users';
+    private adminUserUpdatePath = '/proxy-resource/users/';
     private destroySessionPath = '/destroy-session';
     private logoutSessionPath = '/logout';
     private sessionPropertiesPath = '/get-session-properties';

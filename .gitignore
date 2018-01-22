@@ -13,6 +13,7 @@
 *.log.*
 
 # dependencies
+/EMBEDDED/bin
 /node_modules
 config.dev.json
 config.prod.json
