@@ -20,8 +20,8 @@ export class AppComponent implements OnInit, OnDestroy {
     sessionStartTime: any;
     graceSecs = 150;
 
-    constructor( private adminService: AdminService, private router: Router ) {
-
+    constructor( private adminService: AdminService, 
+            private router: Router) {
     }
 
 

@@ -16,21 +16,23 @@ export class AdminService {
     private usersAsJson: string;
     private loading: boolean;
 
-    private adminUserMeUrl = '/eurekaclinical-admin-webapp/proxy-resource/users/me';
-    private adminRolesUrl = '/eurekaclinical-admin-webapp/proxy-resource/roles';
-    private adminUserListUrl = '/eurekaclinical-admin-webapp/proxy-resource/users';
-    private adminUserUpdateUrl = '/eurekaclinical-admin-webapp/proxy-resource/users/';
-    private adminUserCreateUrl = '/eurekaclinical-admin-webapp/proxy-resource/users';
-    private adminUserDeleteUrl = '/eurekaclinical-admin-webapp/proxy-resource/users';
-    private destroySessionUrl = '/eurekaclinical-admin-webapp/destroy-session';
-    private logoutSessionUrl = '/eurekaclinical-admin-webapp/logout';
-    private sessionPropertiesUrl = '/eurekaclinical-admin-webapp/get-session-properties';
+    private adminUserMePath = '/proxy-resource/users/me';
+    private adminRolesPath = '/proxy-resource/roles';
+    private adminUserListPath = '/proxy-resource/users';
+    private adminUserUpdatePath = '/proxy-resource/users';
+    private destroySessionPath = '/destroy-session';
+    private logoutSessionPath = '/logout';
+    private sessionPropertiesPath = '/get-session-properties';
     
-    private casLoginUrl  = '/eurekaclinical-admin-webapp/login';
-    private webClientUrl = 'https://localhost:8000';
-    private adminWebappUrl = 'https://localhost:8000/eurekaclinical-admin-webapp';
+    private casLoginPath  = '/login';
+    private webClientUrl: String;
+    private contextPath: String;
+    private adminWebappUrl: String;
 
     constructor(private http: HttpClient) {
+        this.webClientUrl = localStorage.getItem('webClientUrl');
+        this.contextPath = localStorage.getItem('adminWebappContextPath');
+        this.adminWebappUrl = localStorage.getItem('adminWebappUrl');
         this.loading = false;
         if ( this.data === null )
             this.data = this.getUser();
@@ -38,23 +40,23 @@ export class AdminService {
 
     //returns an observable
     public getUser() { 
-        return this.http.get<AdminUser>( this.adminUserMeUrl );
+        return this.http.get<AdminUser>( this.contextPath + this.adminUserMePath );
     }
     
     public getRoles() {
-        return this.http.get<AdminUser>( this.adminRolesUrl );
+        return this.http.get<AdminUser>( this.contextPath + this.adminRolesPath );
     }
     
-    public getUserById(id:string) {
-        return this.http.get<AdminUser>( this.adminUserListUrl + '/' + id );
+    public getUserById(id:string) { 
+        return this.http.get<AdminUser>( this.contextPath + this.adminUserListPath + '/' + id );
     }
     
     public getAllUsers() {
-        return this.http.get( this.adminUserListUrl );
+        return this.http.get( this.contextPath + this.adminUserListPath );
     }
     
     public putUserUpdates(id:number, body: string) {
-        var url = this.adminUserUpdateUrl + id;
+        var url = this.contextPath + this.adminUserUpdatePath + id;
         //set headers
         let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
         headers.append('Accept', 'application/json');
@@ -62,27 +64,22 @@ export class AdminService {
         return this.http.put(url, body, {headers});
     }
     
-    public postUser(body:string){
-        var url = this.adminUserCreateUrl;
-        //set headers
-        let headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
-        headers.append('Accept', 'application/json');
-        
-        this.http.post(url, body, {headers});
-    }
-    
+     
     
     public getSessionProperties() {
-        return this.http.get(this.sessionPropertiesUrl);
+        return this.http.get(this.contextPath + this.sessionPropertiesPath);
     }
     
     public doLogout() {
-        return this.http.get( this.logoutSessionUrl, {responseType: 'text'});
+        //return this.http.get( this.contextPath + this.logoutSessionPath, {responseType: 'text'});
+        return this.http.get( localStorage.getItem('casLogoutUrl'), {responseType: 'text'});
     }
     
     public doLogin() {
-        return this.http.get( this.casLoginUrl + '?webclient=' + this.webClientUrl + '/adminview', 
-                {responseType: 'text'});
+        return this.http.get( this.getCasLoginUrl()
+                            + '?webclient=' + localStorage.getItem('webClientUrl') 
+                            + '/adminview', 
+                            {responseType: 'text'});
     }
     
     public getCurrUser() {
@@ -106,7 +103,7 @@ export class AdminService {
     }
     
     public getCasLoginUrl(){
-        return this.casLoginUrl;
+        return (this.contextPath + this.casLoginPath);
     }
     
 }

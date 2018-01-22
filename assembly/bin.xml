@@ -1,0 +1,39 @@
+<!-- #%L eurekaclinical-admin-webclient %% Copyright (C) 2015 - 2018 Emory 
+	University %% Licensed under the Apache License, Version 2.0 (the "License"); 
+	you may not use this file except in compliance with the License. You may 
+	obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. 
+	#L% -->
+<assembly>
+	<id>bin</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<fileSets>
+		<fileSet>
+			<directory></directory>
+			<outputDirectory></outputDirectory>
+			<includes>
+				<include>LICENSE*</include>
+				<include>NOTICE*</include>
+				<include>README*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>target</directory>
+			<outputDirectory>dist</outputDirectory>
+			<includes>
+				<include>assets/**</include>
+				<include>*.*</include>
+				<!-- include>app-*.js.map</include -->
+				<!-- include>index.html</include -->
+			</includes>
+			<excludes>
+				<exclude>*.zip</exclude>
+			</excludes>
+		</fileSet>
+	</fileSets>
+</assembly>

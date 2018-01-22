@@ -20,7 +20,7 @@ import { ResponsiveModule } from 'ngx-responsive';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
-//import { ConfigFileService } from './services/config-file.service';
+import { ConfigFileService } from './services/config-file.service';
 import { AdminService } from './services/admin.service';
 
 import { AppComponent } from './app.component';
@@ -78,9 +78,9 @@ const appRoutes: Routes = [
                   useClass: AllHttpInterceptor,
                   multi: true
                },
-              AdminService 
-              //,ConfigFileService,
-              //{ provide: APP_INITIALIZER, useFactory: (config: ConfigFileService) => () => config.load(), deps: [ConfigFileService], multi: true }
+              AdminService,
+              ConfigFileService,
+              { provide: APP_INITIALIZER, useFactory: (config: ConfigFileService) => () => config.load(), deps: [ConfigFileService], multi: true }
   ],
   bootstrap: [AppComponent]
 })
