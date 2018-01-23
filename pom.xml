@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eurekaclinical</groupId>
 	<artifactId>eurekaclinical-admin-webclient</artifactId>
 	<version>1.0-Alpha-3-SNAPSHOT</version>
-	<!-- packaging>war</packaging -->
+	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.eurekaclinical</groupId>
 		<artifactId>eurekaclinical-parent</artifactId>
@@ -112,54 +113,28 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-install-plugin</artifactId>
-				<version>2.5.2</version>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>assembly/bin.xml</descriptor>
+					</descriptors>
+					<finalName>${pom.artifactId}-${pom.version}</finalName>
+					<outputDirectory>${project.basedir}/dist</outputDirectory>
+				</configuration>
 				<executions>
 					<execution>
-						<id>install1</id>
 						<phase>package</phase>
 						<goals>
-							<goal>install-file</goal>
+							<goal>single</goal>
 						</goals>
-						<configuration>
-							<file>${project.basedir}/target/*-bin.zip</file>
-							<groupId>org.eurekaclinical</groupId>
-							<artifactId>eurekaclinical-admin-webclient</artifactId>
-							<version>1.0-Alpha-1</version>
-							<localRepositoryPath>dist</localRepositoryPath>
-							<file>pom.xml</file>
-							<groupId>org.eurekaclinical</groupId>
-							<artifactId>eurekaclinical-admin-webclient</artifactId>
-							<packaging>pom</packaging>
-							<version>1.0-Alpha-1</version>
-							<localRepositoryPath>${project.basedir}/dist</localRepositoryPath>
-						</configuration>
 					</execution>
 				</executions>
-			</plugin-->
+			</plugin>
 		</plugins>
 	</build>
 	<profiles>
-		<profile>
-			<id>dist</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-assembly-plugin</artifactId>
-						<configuration>
-							<descriptors>
-								<descriptor>assembly/bin.xml</descriptor>
-							</descriptors>
-							<finalName>${pom.artifactId}-${pom.version}</finalName>
-							<outputDirectory>${project.basedir}/dist</outputDirectory>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
 		<profile>
 			<id>webserver</id>
 			<build>
@@ -186,5 +161,4 @@
 			</build>
 		</profile>
 	</profiles>
-	<packaging>pom</packaging>
 </project>
