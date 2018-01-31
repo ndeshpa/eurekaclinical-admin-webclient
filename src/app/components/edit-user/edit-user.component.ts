@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { AdminService, Role } from '../../services/admin.service';
+import { AdminService } from '../../services/admin.service';
+import { Role } from '../../models/role';
 import { AdminUser } from '../../models/admin-user';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Rx';

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class AllHttpInterceptor implements HttpInterceptor {
   intercept (request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+      console.log('Inside Interceptor:' + request.url);
       return next.handle(request)
       .do(event => {
         if (event instanceof HttpResponse) {

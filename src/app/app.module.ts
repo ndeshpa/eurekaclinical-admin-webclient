@@ -16,6 +16,8 @@ import {MatTableModule} from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
 import { MatIconModule } from '@angular/material';
 import { MatSortModule } from '@angular/material';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material';
 import { ResponsiveModule } from 'ngx-responsive';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -68,6 +70,8 @@ const appRoutes: Routes = [
     MatPaginatorModule,
     MatIconModule,
     MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
     ResponsiveModule,
     PaginationModule.forRoot(),
     NgbModule.forRoot(),

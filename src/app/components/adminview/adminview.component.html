@@ -1,168 +1,123 @@
-<div class="container-fluid" style="border:10px solid #ffffff;">
-<app-navigation-bar></app-navigation-bar>
-<h2>User Accounts</h2>
+<div class="container-fluid" style="border: 10px solid #ffffff;">
+	<app-navigation-bar></app-navigation-bar>
+	<h2>User Accounts</h2>
 	<ng-container *ngIf="errorMsg!== ''; else elseBlock">
-		<div class="alert alert-danger">{{ errorMsg }}</div>
+	<div class="alert alert-danger">{{ errorMsg }}</div>
 	</ng-container>
 	<ng-template #elseBlock>
+	<div class="example-header">
+		<mat-form-field> <input matInput
+			(keyup)="applyFilter($event.target.value)" placeholder="Enter Filter Term Here">
+		</mat-form-field>
+	</div>
 	<div class="example-container mat-elevation-z8">
-	<div *sm>
-	<mat-table #table [dataSource]="dataSource">
-
-    <ng-container matColumnDef="action">
-      <mat-header-cell *matHeaderCellDef [ngClass]="'customSmallClass'">Action</mat-header-cell>
-      <mat-cell *matCellDef="let element" [ngClass]="'customSmallClass'">
-      					<a routerLink="/editUser/edit/{{element.id}}">
-      					<span class="glyphicon glyphicon-pencil"></span></a>
-		</mat-cell>						
-    </ng-container>
-    	<ng-container matColumnDef="username">
-      		<mat-header-cell *matHeaderCellDef> Username </mat-header-cell>
-      		<mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
-    	</ng-container>
-    
-    <ng-container matColumnDef="fullName">
-      <mat-header-cell *matHeaderCellDef> Full Name </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.fullName}} </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-  </mat-table>
-	</div>
-	<div *md>
-	<mat-table #table [dataSource]="dataSource">
-
-    <ng-container matColumnDef="action">
-      <mat-header-cell *matHeaderCellDef [ngClass]="'customSmallClass'">Action</mat-header-cell>
-      <mat-cell *matCellDef="let element" [ngClass]="'customSmallClass'">
-      					<a routerLink="/editUser/edit/{{element.id}}">
-      					<span class="glyphicon glyphicon-pencil"></span></a>
-		</mat-cell>						
-    </ng-container>
-    	<ng-container matColumnDef="username">
-      		<mat-header-cell *matHeaderCellDef> Username </mat-header-cell>
-      		<mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
-    	</ng-container>
-    
-    <ng-container matColumnDef="fullName">
-      <mat-header-cell *matHeaderCellDef> Full Name </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.fullName}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="lastLogin">
-      <mat-header-cell *matHeaderCellDef> Last Login </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.lastLogin}} </mat-cell>
-    </ng-container>
-    
-    <ng-container matColumnDef="roles">
-      <mat-header-cell *matHeaderCellDef [ngClass]="'customLongClass'"> Roles </mat-header-cell>
-      <mat-cell *matCellDef="let element" [ngClass]="'customLongClass'"> {{element.roles | titlecase}} </mat-cell>
-    </ng-container>
-    
-    <mat-header-row *matHeaderRowDef="displayedMdColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedMdColumns"></mat-row>
-  </mat-table>
-	</div>
-	<div *lg>
-	<div class="form-group">
-	<label for="selectCols">Select Columns to Display:</label>		
+		<div *sm>
+			<mat-table #table [dataSource]="dataSource"> <ng-container
+				matColumnDef="action"> <mat-header-cell
+				*matHeaderCellDef [ngClass]="'customSmallClass'">Action</mat-header-cell>
+			<mat-cell *matCellDef="let element" [ngClass]="'customSmallClass'">
+			<a routerLink="/editUser/edit/{{element.id}}"> <span
+				class="glyphicon glyphicon-pencil"></span></a> </mat-cell> </ng-container> <ng-container
+				matColumnDef="username"> <mat-header-cell
+				*matHeaderCellDef> Username </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.username}} </mat-cell> </ng-container> <ng-container
+				matColumnDef="fullName"> <mat-header-cell
+				*matHeaderCellDef> Full Name </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.fullName}} </mat-cell> </ng-container> <mat-header-row
+				*matHeaderRowDef="displayedColumns"></mat-header-row> <mat-row
+				*matRowDef="let row; columns: displayedColumns"></mat-row> </mat-table>
+		</div>
+		<div *md>
+			<mat-table #table [dataSource]="dataSource"> <ng-container
+				matColumnDef="action"> <mat-header-cell
+				*matHeaderCellDef [ngClass]="'customSmallClass'">Action</mat-header-cell>
+			<mat-cell *matCellDef="let element" [ngClass]="'customSmallClass'">
+			<a routerLink="/editUser/edit/{{element.id}}"> <span
+				class="glyphicon glyphicon-pencil"></span></a> </mat-cell> </ng-container> <ng-container
+				matColumnDef="username"> <mat-header-cell
+				*matHeaderCellDef> Username </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.username}} </mat-cell> </ng-container> <ng-container
+				matColumnDef="fullName"> <mat-header-cell
+				*matHeaderCellDef> Full Name </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.fullName}} </mat-cell> </ng-container> <ng-container
+				matColumnDef="lastLogin"> <mat-header-cell
+				*matHeaderCellDef> Last Login </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.lastLogin}} </mat-cell> </ng-container> <ng-container
+				matColumnDef="roles"> <mat-header-cell
+				*matHeaderCellDef [ngClass]="'customLongClass'">
+			Roles </mat-header-cell> <mat-cell *matCellDef="let element"
+				[ngClass]="'customLongClass'"> {{element.roles |
+			titlecase}} </mat-cell> </ng-container> <mat-header-row *matHeaderRowDef="displayedMdColumns"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: displayedMdColumns"></mat-row>
+			</mat-table>
+		</div>
+		<div *lg>
+			<div class="form-group">
+				<label for="selectCols">Select Columns to Display:</label>
 				<ul class="checkbox-grid">
-				<ng-container *ngFor="let col of selectCols">
-				<li><input type="checkbox" name="selectCols" value="{{col.value}}" [(ngModel)]="col.checked" />
-					<label for="{{col.name}}">{{col.name}}</label></li>
-				</ng-container>
-				</ul>   
-	</div>
-	<br/> <br/>   
-	<button (click)="getselectedCols()">Display Selected Columns</button>  
-  	<mat-table #table [dataSource]="dataSource">
+					<ng-container *ngFor="let col of selectCols">
+					<li><input type="checkbox" name="selectCols"
+						value="{{col.value}}" [(ngModel)]="col.checked" /> <label
+						for="{{col.name}}">{{col.name}}</label></li>
+					</ng-container>
+				</ul>
+			</div>
+			<br /> <br />
+			<button (click)="getselectedCols()">Display Selected Columns</button>
+			<mat-table #table [dataSource]="dataSource"> <ng-container
+				matColumnDef="action"> <mat-header-cell
+				*matHeaderCellDef [ngClass]="'customSmallClass'">Action</mat-header-cell>
+			<mat-cell *matCellDef="let element" [ngClass]="'customSmallClass'">
+			<a routerLink="/editUser/edit/{{element.id}}"> <span
+				class="glyphicon glyphicon-pencil"></span></a> </mat-cell> </ng-container> <ng-container
+				*ngIf="finalDisplayedCols.indexOf('username')>=0"> <ng-container
+				matColumnDef="username"> <mat-header-cell
+				*matHeaderCellDef> Username </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.username}} </mat-cell> </ng-container> </ng-container> <ng-container
+				*ngIf="finalDisplayedCols.indexOf('fullName')>=0"> <ng-container
+				matColumnDef="fullName"> <mat-header-cell
+				*matHeaderCellDef> Full Name </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.fullName}} </mat-cell> </ng-container> </ng-container> <ng-container
+				*ngIf="finalDisplayedCols.indexOf('lastLogin')>=0"> <ng-container
+				matColumnDef="lastLogin"> <mat-header-cell
+				*matHeaderCellDef> Last Login </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.lastLogin}} </mat-cell> </ng-container> </ng-container> <ng-container
+				*ngIf="finalDisplayedCols.indexOf('roles')>=0"> <ng-container
+				matColumnDef="roles"> <mat-header-cell
+				*matHeaderCellDef [ngClass]="'customLongClass'">
+			Roles </mat-header-cell> <mat-cell *matCellDef="let element"
+				[ngClass]="'customLongClass'"> {{element.roles |
+			titlecase }} </mat-cell> </ng-container> </ng-container> <ng-container
+				*ngIf="finalDisplayedCols.indexOf('email')>=0"> <ng-container
+				matColumnDef="email"> <mat-header-cell
+				*matHeaderCellDef [ngClass]="'customXLongClass'">
+			Email </mat-header-cell> <mat-cell *matCellDef="let element"
+				[ngClass]="'customXLongClass'"> {{element.email}} </mat-cell> </ng-container> </ng-container> <ng-container
+				*ngIf="finalDisplayedCols.indexOf('organization')>=0">
+			<ng-container matColumnDef="organization"> <mat-header-cell
+				*matHeaderCellDef> Organization </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.organization}} </mat-cell> </ng-container> </ng-container> <ng-container
+				*ngIf="finalDisplayedCols.indexOf('status')>=0"> <ng-container
+				matColumnDef="status"> <mat-header-cell
+				*matHeaderCellDef> Status </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.status}} </mat-cell> </ng-container> </ng-container> <ng-container
+				*ngIf="finalDisplayedCols.indexOf('title')>=0"> <ng-container
+				matColumnDef="title"> <mat-header-cell
+				*matHeaderCellDef> Title </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.title}} </mat-cell> </ng-container> </ng-container> <ng-container
+				*ngIf="finalDisplayedCols.indexOf('department')>=0">
+			<ng-container matColumnDef="department"> <mat-header-cell
+				*matHeaderCellDef> Department </mat-header-cell> <mat-cell
+				*matCellDef="let element"> {{element.department}} </mat-cell> </ng-container> </ng-container> <mat-header-row
+				*matHeaderRowDef="finalDisplayedCols"></mat-header-row> <mat-row
+				*matRowDef="let row; columns: finalDisplayedCols"></mat-row> </mat-table>
+		</div>
+		<pagination *ngIf="paging" class="pagination-sm" [(ngModel)]="page"
+			[totalItems]="length" [maxSize]="maxSize" [boundaryLinks]="true"
+			(pageChanged)="onChangeTable($event)" (numPages)="numPages = $event"></pagination>
 
-    <ng-container matColumnDef="action">
-      <mat-header-cell *matHeaderCellDef [ngClass]="'customSmallClass'">Action</mat-header-cell>
-      <mat-cell *matCellDef="let element" [ngClass]="'customSmallClass'">
-      					<a routerLink="/editUser/edit/{{element.id}}">
-      					<span class="glyphicon glyphicon-pencil"></span></a>
-		</mat-cell>						
-    </ng-container>
-	<ng-container *ngIf="finalDisplayedCols.indexOf('username')>=0">
-    	<ng-container matColumnDef="username">
-      		<mat-header-cell *matHeaderCellDef> Username </mat-header-cell>
-      		<mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
-    	</ng-container>
-    </ng-container>
-    
-	<ng-container *ngIf="finalDisplayedCols.indexOf('fullName')>=0">
-    <ng-container matColumnDef="fullName">
-      <mat-header-cell *matHeaderCellDef> Full Name </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.fullName}} </mat-cell>
-    </ng-container>
-    </ng-container>
-
-	<ng-container *ngIf="finalDisplayedCols.indexOf('lastLogin')>=0">
-    <ng-container matColumnDef="lastLogin">
-      <mat-header-cell *matHeaderCellDef> Last Login </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.lastLogin}} </mat-cell>
-    </ng-container>
-    </ng-container>
-    
-    <ng-container *ngIf="finalDisplayedCols.indexOf('roles')>=0">
-    <ng-container matColumnDef="roles">
-      <mat-header-cell *matHeaderCellDef [ngClass]="'customLongClass'"> Roles </mat-header-cell>
-      <mat-cell *matCellDef="let element" [ngClass]="'customLongClass'"> {{element.roles | titlecase }} </mat-cell>
-    </ng-container>
-    </ng-container>
-    
-    <ng-container *ngIf="finalDisplayedCols.indexOf('email')>=0">    
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef [ngClass]="'customXLongClass'"> Email </mat-header-cell>
-      <mat-cell *matCellDef="let element" [ngClass]="'customXLongClass'"> {{element.email}} </mat-cell>
-    </ng-container>
-    </ng-container>
-    
-    <ng-container *ngIf="finalDisplayedCols.indexOf('organization')>=0">
-    <ng-container matColumnDef="organization">
-      <mat-header-cell *matHeaderCellDef> Organization </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.organization}} </mat-cell>
-    </ng-container>
-    </ng-container>
-    
-    <ng-container *ngIf="finalDisplayedCols.indexOf('status')>=0">
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
-    </ng-container>
-    </ng-container>
-    
-    <ng-container *ngIf="finalDisplayedCols.indexOf('title')>=0">
-    <ng-container matColumnDef="title">
-      <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
-    </ng-container>
-    </ng-container>
-    
-    <ng-container *ngIf="finalDisplayedCols.indexOf('department')>=0">
-    <ng-container matColumnDef="department">
-      <mat-header-cell *matHeaderCellDef> Department </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.department}} </mat-cell>
-    </ng-container>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="finalDisplayedCols"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: finalDisplayedCols"></mat-row>
-  </mat-table>
-  </div>
-    <pagination *ngIf="paging" 
-					class="pagination-sm"
-					[(ngModel)]="page" 
-					[totalItems]="length"  
-					[maxSize]="maxSize" 
-                	[boundaryLinks]="true"
-                	(pageChanged)="onChangeTable($event)"
-                	(numPages)="numPages = $event"></pagination>
-	
-	<pre *ngIf="paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
+		<pre *ngIf="paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
 	</div>
 	</ng-template>
-<app-footer></app-footer>
+	<app-footer></app-footer>
 </div>

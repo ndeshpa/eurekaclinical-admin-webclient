@@ -20,7 +20,7 @@ export class ConfigFileService {
     public load() {
         return new Promise(( resolve, reject ) => {
             let request: any = null;
-            request = this.http.get( 'assets/config.json' );
+            request = this.http.get( './assets/config.json' );
             if ( request ) {
                 request
                     .map( res => res.json() )

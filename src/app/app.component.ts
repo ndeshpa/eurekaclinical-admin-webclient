@@ -37,11 +37,18 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        this.getSessionProperties();
-        this.sessionTimeout = +localStorage.getItem( 'maxInactiveInterval' ) - 180;
+        var sessTO = localStorage.getItem( 'maxInactiveInterval' );
+           
+        //this.getSessionProperties();
+        if(sessTO !== null){
+            this.sessionTimeout = +sessTO - 180;
+            this.timerReset();
+            console.log('From AppComponent: timeout = ' + this.sessionTimeout);
+        }
+        
         //this.sessionTimeout = 10; //for testing timeout
         //this.graceSecs = 5; //for testing timeout
-        this.timerReset( this.sessionTimeout );
+        
     }
 
 
@@ -62,25 +69,25 @@ export class AppComponent implements OnInit, OnDestroy {
 
     @HostListener( 'document:mousemove' ) onMouseMove() {
         localStorage.setItem( 'timeOut', 'false' );
-        this.timerReset( this.sessionTimeout );
+        this.timerReset();
     }
 
     @HostListener( 'document:click' ) onClick() {
         localStorage.setItem( 'timeOut', 'false' );
-        this.timerReset( this.sessionTimeout );
+        this.timerReset();
     }
 
     @HostListener( 'document:keyup' ) onKeyUp() {
         localStorage.setItem( 'timeOut', 'false' );
-        this.timerReset( this.sessionTimeout );
+        this.timerReset();
     }
 
     @HostListener( 'document:keydown' ) onKeyDown() {
         localStorage.setItem( 'timeOut', 'false' );
-        this.timerReset( this.sessionTimeout );
+        this.timerReset();
     }
     //give 2 minutes advance warning
-    timerReset( timeoutSecs: any ) {
+    timerReset() {
         this.timeOut = false;
         localStorage.setItem( 'timeOut', 'false' );
         if ( this.timer !== null )
@@ -94,7 +101,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.timeOut = true;
                 localStorage.setItem( 'timeOut', 'true' );
                 this.graceTimeout();
-            }, timeoutSecs * 1000 );
+            }, this.sessionTimeout * 1000 );
         }
     }
 
