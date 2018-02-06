@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Http, HttpModule, Response } from '@angular/http';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { AdminUser } from '../models/admin-user';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -29,7 +29,7 @@ export class AdminService {
     private contextPath: String;
     private adminWebappUrl: String;
 
-    constructor( private http: HttpClient ) {
+    constructor( private http: HttpClient) {
         this.webClientUrl = localStorage.getItem( 'webClientUrl' );
         this.contextPath = localStorage.getItem( 'adminWebappContextPath' );
         this.adminWebappUrl = localStorage.getItem( 'adminWebappUrl' );
@@ -79,7 +79,7 @@ export class AdminService {
         return this.http.get( localStorage.getItem( 'casLogoutUrl' ), { responseType: 'text' } );
     }
 
-    public doLogin() {
+    public doLogin(){
         console.log( 'LOGGING IN from AdminServie: ' + this.getCasLoginUrl()
             + '?webclient=' + localStorage.getItem( 'webClientUrl' )
             + '/adminview' );
@@ -87,10 +87,27 @@ export class AdminService {
         //                            + '?webclient=' + localStorage.getItem('webClientUrl') 
         //                            + '/welcome', 
         //                            {responseType: 'text'});
-        return this.http.get( this.getCasLoginUrl()
+        var success: boolean;
+        this.http.get( this.getCasLoginUrl()
             + '?webclient=' + localStorage.getItem( 'webClientUrl' )
             + '/adminview',
-            { responseType: 'text' } )
+            { responseType: 'text' } ).subscribe(
+                    data => {
+                        console.log('SUCCESS IN ADMINSERVICE LOGIN');
+                        console.log(data);
+                        localStorage.setItem( 'loggedIn', 'true' );
+                        //this.router.navigate(['/adminview/result']);
+                        window.location.href = localStorage.getItem( 'webClientUrl' );
+                    },
+                    error => {
+                        if(error instanceof HttpErrorResponse){
+                            console.log( 'ERROR IN ADMINSERVICE: ' + error.message);
+                        }
+                        else {
+                            console.log( 'ERROR IN ADMINSERVICE: Error Running Query. Please Retry');
+                        }
+                        console.log( error );
+                    });          
     }
 
     public getCurrUser() {

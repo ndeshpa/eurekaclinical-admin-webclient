@@ -63,15 +63,14 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     }
 
     doLogin() {
-        this.adminService.doLogin().subscribe( data => {
-            console.log( data );
-        } );
-        console.log( 'In Nav Bar: Logged in' );
-        localStorage.setItem( 'loggedIn', 'true' );
-        console.log( 'loggedIn Val: ' + status );
-        console.log( 'In Nav Bar: Getting userdata' );
+//        this.adminService.doLogin().subscribe( data => {
+//            console.log( data );
+//        } );
         this.isNewUser = false;
         this.isLoggedOut = false;
+        this.adminService.doLogin();
+        console.log( 'In Nav Bar: Logged in' );
+        
     }
 
     getSessionProperties() {
