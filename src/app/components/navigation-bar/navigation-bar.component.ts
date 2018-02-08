@@ -64,7 +64,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
 
     doLogin() {
         this.adminService.doLogin().subscribe( data => {
-            console.log( data );
+            //console.log( data );
         } );
         console.log( 'In Nav Bar: Logged in' );
         localStorage.setItem( 'loggedIn', 'true' );
@@ -72,6 +72,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
         console.log( 'In Nav Bar: Getting userdata' );
         this.isNewUser = false;
         this.isLoggedOut = false;
+        this.router.navigate(['/adminview']);
     }
 
     getSessionProperties() {

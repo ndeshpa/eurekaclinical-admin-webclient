@@ -11,8 +11,8 @@ export class AllHttpInterceptor implements HttpInterceptor {
         if (event instanceof HttpResponse) {
             console.log(event);
             if (event.url.indexOf('adminview') >= 0){
+                console.log('------------GOT ADMINVIEW--------------');
                 localStorage.setItem('isNewUser', 'false');
-                window.location.href = event.url;
             }
             if (event.url.indexOf('logout') >= 0){
                 localStorage.setItem('isNewUser', 'true');
