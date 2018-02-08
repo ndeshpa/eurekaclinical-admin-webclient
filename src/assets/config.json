@@ -1,7 +1,7 @@
 {
-    "webClientUrl": "https://localhost:8000",
-    "casLoginUrl": "https://localhost:8000/cas-mock/login",
-    "casLogoutUrl": "https://localhost:8000/cas-mock/logout",
+    "webClientUrl": "https://localhost:8000/eurekaclinical-admin-webclient",
+    "casLoginUrl": "/cas-mock/login",
+    "casLogoutUrl": "/cas-mock/logout",
     "adminWebappUrl": "https://localhost:8000/eurekaclinical-admin-webapp",
     "adminWebappContextPath": "/eurekaclinical-admin-webapp"
 }

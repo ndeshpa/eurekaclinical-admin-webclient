@@ -24,15 +24,19 @@ export class AdminService {
     private logoutSessionPath = '/logout';
     private sessionPropertiesPath = '/get-session-properties';
 
-    private casLoginPath = '/login';
+    private casLoginUrl: String;
+    private casLogoutUrl: String;
     private webClientUrl: String;
     private contextPath: String;
     private adminWebappUrl: String;
+    private adminWebappContextPath: String;
 
     constructor( private http: HttpClient ) {
         this.webClientUrl = localStorage.getItem( 'webClientUrl' );
         this.contextPath = localStorage.getItem( 'adminWebappContextPath' );
         this.adminWebappUrl = localStorage.getItem( 'adminWebappUrl' );
+        this.casLoginUrl = localStorage.getItem( 'casLoginUrl' );
+        this.casLogoutUrl = localStorage.getItem( 'casLogoutUrl' );
         console.log( 'Admin Service: Got from config.json' );
         console.log( 'webClientUrl: ' + this.webClientUrl );
         console.log( 'contextPath: ' + this.contextPath );
@@ -81,14 +85,20 @@ export class AdminService {
 
     public doLogin() {
         console.log( 'LOGGING IN from AdminServie: ' + this.getCasLoginUrl()
-            + '?webclient=' + localStorage.getItem( 'webClientUrl' )
-            + '/adminview' );
+                + '?service=' 
+                + localStorage.getItem( 'webClientUrl' ) 
+                + '/adminview&webclient=' 
+                + localStorage.getItem( 'webClientUrl' )
+                + '/adminview');
         //        return this.http.get( this.getCasLoginUrl()
         //                            + '?webclient=' + localStorage.getItem('webClientUrl') 
         //                            + '/welcome', 
         //                            {responseType: 'text'});
         return this.http.get( this.getCasLoginUrl()
-            + '?webclient=' + localStorage.getItem( 'webClientUrl' )
+            + '?service=' 
+            + localStorage.getItem( 'webClientUrl' ) 
+            + '/adminview&webclient=' 
+            + localStorage.getItem( 'webClientUrl' )
             + '/adminview',
             { responseType: 'text' } )
     }
@@ -114,7 +124,7 @@ export class AdminService {
     }
 
     public getCasLoginUrl() {
-        return ( this.contextPath + this.casLoginPath );
+        return ( this.casLoginUrl );
     }
 
 }
