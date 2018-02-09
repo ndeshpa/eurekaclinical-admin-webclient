@@ -99,8 +99,7 @@ export class AdminService {
             + localStorage.getItem( 'webClientUrl' ) 
             + '/adminview&webclient=' 
             + localStorage.getItem( 'webClientUrl' )
-            + '/adminview',
-            { responseType: 'text' } )
+            + '/adminview');
     }
 
     public getCurrUser() {
