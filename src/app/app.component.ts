@@ -13,6 +13,7 @@ export class AppComponent implements OnInit, OnDestroy {
     sessSubscription: Subscription;
     logoutSubscription: any;
     timeOut: boolean = false;
+    sessionStarted: boolean = false;
     sessionTimeout: any;
     currentUrl: any;
     timer: any;
@@ -37,10 +38,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
-        var sessTO = localStorage.getItem( 'maxInactiveInterval' );
-           
+        var sessTO = localStorage.getItem( 'maxInactiveInterval' );  
+        this.sessionStarted = (localStorage.getItem('loggedIn') === 'true'? true : false);
         //this.getSessionProperties();
         if(sessTO !== null){
+            this.timeOut = false;
             this.sessionTimeout = +sessTO - 180;
             this.timerReset();
             console.log('From AppComponent: timeout = ' + this.sessionTimeout);
