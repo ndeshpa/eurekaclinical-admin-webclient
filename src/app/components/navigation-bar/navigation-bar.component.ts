@@ -72,7 +72,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
         console.log( 'In Nav Bar: Getting userdata' );
         this.isNewUser = false;
         this.isLoggedOut = false;
-        this.router.navigate(['/adminview']);
+        //this.router.navigate(['/adminview']);
     }
 
     getSessionProperties() {
