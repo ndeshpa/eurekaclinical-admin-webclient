@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eurekaclinical</groupId>
 	<artifactId>eurekaclinical-admin-webclient</artifactId>
-	<version>1.0-Alpha-14</version>
+	<version>1.0-Alpha-15-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.eurekaclinical</groupId>
@@ -14,7 +14,7 @@
 		<developerConnection>scm:git:https://github.com/ndeshpa/eurekaclinical-admin-webclient.git</developerConnection>
 		<connection>scm:git:https://github.com/ndeshpa/eurekaclinical-admin-webclient.git</connection>
 		<url>https://github.com/ndeshpa/eurekaclinical-admin-webclient.git</url>
-		<tag>eurekaclinical-admin-webclient-1.0-Alpha-16</tag>
+		<tag>eurekaclinical-admin-webclient-1.0-Alpha-4</tag>
 	</scm>
 
 	<issueManagement>
