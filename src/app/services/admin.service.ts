@@ -85,21 +85,15 @@ export class AdminService {
 
     public doLogin() {
         console.log( 'LOGGING IN from AdminServie: ' + this.getCasLoginUrl()
-                + '?service=' 
-                + localStorage.getItem( 'webClientUrl' ) 
-                + '/adminview&webclient=' 
-                + localStorage.getItem( 'webClientUrl' )
-                + '/adminview');
+                + 'webclient=' 
+                + localStorage.getItem( 'webClientUrl' ));
         //        return this.http.get( this.getCasLoginUrl()
         //                            + '?webclient=' + localStorage.getItem('webClientUrl') 
         //                            + '/welcome', 
         //                            {responseType: 'text'});
-        return this.http.get( this.getCasLoginUrl()
-            + '?service=' 
-            + localStorage.getItem( 'webClientUrl' ) 
-            + '/adminview&webclient=' 
-            + localStorage.getItem( 'webClientUrl' )
-            + '/adminview');
+        return this.http.get( this.adminWebappUrl + '/protected/login'
+            + '?webclient=' 
+            + localStorage.getItem( 'webClientUrl' ), { responseType: 'text' });
     }
 
     public getCurrUser() {
