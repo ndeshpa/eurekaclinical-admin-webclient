@@ -93,7 +93,7 @@ export class AdminService {
         //                            {responseType: 'text'});
         return this.http.get( this.adminWebappUrl + '/protected/login'
             + '?webclient=' 
-            + localStorage.getItem( 'webClientUrl' ));
+            + localStorage.getItem( 'webClientUrl' ), { responseType: 'text' });
     }
 
     public getCurrUser() {
