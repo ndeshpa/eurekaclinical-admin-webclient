@@ -8,20 +8,17 @@
 			<a class="navbar-brand" href="#">Admin</a>
 		</div>
 		<div class="col text-right">
-			<ng-container *ngIf="isLoggedOut; else elseBlock">
-				<a class="btn btn-link btn-md" (click)="doLogin()">
-					<i class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
-				</a>
-				<a class="btn btn-link btn-md" routerLink="/help"> <i
-					class="fa fa-question-circle-o"></i>Help &nbsp;&nbsp;
-				</a>
-			</ng-container>
+			<ng-container *ngIf="isLoggedOut || isNewUser; else elseBlock">
+			<a class="btn btn-link btn-md" (click)="doLogin()"> <i
+				class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
+			</a> <a class="btn btn-link btn-md" routerLink="/help"> <i
+				class="fa fa-question-circle-o"></i>Help &nbsp;&nbsp;
+			</a> </ng-container>
 			<ng-template #elseBlock>
 			<div ngbDropdown class="d-inline-block">
 				<a class="btn btn-link btn-md" routerLink="/adminview"> <i
 					class="fa fa-wrench"></i> User Accounts&nbsp;&nbsp;
-				</a>				
-				<a class="btn btn-link btn-md" routerLink="/help"> <i
+				</a> <a class="btn btn-link btn-md" routerLink="/help"> <i
 					class="fa fa-question-circle-o"></i>Help&nbsp;&nbsp;
 				</a>
 				<button class="btn navbar-btn" id="adminLinks" ngbDropdownToggle>
@@ -46,5 +43,5 @@
 			</ng-template>
 		</div>
 	</div>
-	</nav>
-	</ng-template>
+</nav>
+</ng-template>

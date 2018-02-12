@@ -36,3 +36,15 @@
 	margin:auto;
 	border:5px;
 }
+.example-header {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%; 
+  border-size:1px;
+  border-style:solid;
+  border-color:grey;
+}

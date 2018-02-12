@@ -3,7 +3,7 @@ var webserver = require('gulp-webserver');
 var proxy = require('http-proxy-middleware');
 
 gulp.task('webserver', function () {
-    gulp.src('dist')
+    gulp.src('target')
 	.pipe(webserver({
 	    open: true,
 	    fallback: 'index.html',
@@ -29,7 +29,7 @@ gulp.task('webserver', function () {
 		    secure: false
 		}),
 		proxy('/cas-mock', {
-		    target: 'https://localhost:8443/cas-mock',
+		    target: 'https://localhost:8443',
 		    secure: false
 		}),
 		proxy('/eurekaclinical-user-webapp', {

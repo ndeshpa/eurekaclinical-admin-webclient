@@ -2,7 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { AdminService, Role, MyUser } from '../../services/admin.service';
+import { AdminService} from '../../services/admin.service';
+import { Role } from '../../models/role';
+import { User } from '../../models/user';
 import { AdminUser } from '../../models/admin-user';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -36,8 +38,8 @@ export class AdminviewComponent implements OnInit, OnDestroy {
             {'name':'Department', 'value':'department', 'checked':true}
     ];
     data: any;
-    public unsortedData: MyUser[] = [];
-    dataSource:MatTableDataSource<MyUser>;
+    public unsortedData: User[] = [];
+    dataSource:MatTableDataSource<User>;
     subscription: Subscription;
     roleSubscription: Subscription;
     //pagination
@@ -53,10 +55,7 @@ export class AdminviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        if ( this.router.url.endsWith( 'logout' ) ) {
-            this.doLogout();
-        }
-        this.dataSource = new MatTableDataSource<MyUser>( this.unsortedData );
+        this.dataSource = new MatTableDataSource<User>( this.unsortedData );
         //get roles
         this.getRoles();
         //get users
@@ -67,13 +66,13 @@ export class AdminviewComponent implements OnInit, OnDestroy {
     public onChangeTable( page: any = { page: this.page, itemsPerPage: this.itemsPerPage } ): any {
         this.getselectedCols();
         this.dataSource = page && this.paging ? this.changePage( page, this.sortData() )
-            : new MatTableDataSource<MyUser>( this.sortData() );
+            : new MatTableDataSource<User>( this.sortData() );
     }
 
-    public changePage( page: any, data: MyUser[] = this.sortData()) {
+    public changePage( page: any, data: User[] = this.sortData()) {
         let start = ( page.page - 1 ) * page.itemsPerPage;
         let end = page.itemsPerPage > -1 ? ( start + page.itemsPerPage ) : data.length;
-        return new MatTableDataSource<MyUser>( data.slice( start, end ) );
+        return new MatTableDataSource<User>( data.slice( start, end ) );
     }
 
     private getAllUsers() {
@@ -120,16 +119,11 @@ export class AdminviewComponent implements OnInit, OnDestroy {
         });
     }
 
-    doLogout() {
-        this.adminService.doLogout();
-        this.router.navigate( ['/welcome', 'loggedOut'] );
-    }
-
     ngOnDestroy(): void {
-        if(this.subscription !== null)
-            this.subscription.unsubscribe();
-        if(this.roleSubscription !== null)
-            this.roleSubscription.unsubscribe();
+//        if(this.subscription !== null)
+//            this.subscription.unsubscribe();
+//        if(this.roleSubscription !== null)
+//            this.roleSubscription.unsubscribe();
     }
 
     sortData() {
@@ -151,6 +145,12 @@ export class AdminviewComponent implements OnInit, OnDestroy {
         }
     }
     
+    applyFilter(filterValue: string) {
+        filterValue = filterValue.trim(); // Remove whitespace
+        filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+        this.dataSource.filter = filterValue;
+    }
+        
     getRoles(){
       //get roles
         this.roleSubscription = this.adminService.getRoles().subscribe( data => {

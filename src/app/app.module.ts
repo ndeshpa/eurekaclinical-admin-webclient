@@ -16,17 +16,18 @@ import {MatTableModule} from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
 import { MatIconModule } from '@angular/material';
 import { MatSortModule } from '@angular/material';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material';
 import { ResponsiveModule } from 'ngx-responsive';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
-//import { ConfigFileService } from './services/config-file.service';
+import { ConfigFileService } from './services/config-file.service';
 import { AdminService } from './services/admin.service';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AdminviewComponent } from './components/adminview/adminview.component';
@@ -42,8 +43,7 @@ const appRoutes: Routes = [
        {path:'logout', component:AdminviewComponent},
        {path:'editUser/me/:action/:id', component:EditUserComponent},
        {path:'editUser/:action/:id', component:EditUserComponent},
-       {path: '', redirectTo: '/welcome', pathMatch: 'full'},
-       {path: '**', component: PageNotFoundComponent }
+       {path: '', redirectTo: '/welcome', pathMatch: 'full'}
       ];
         
 
@@ -52,7 +52,6 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    PageNotFoundComponent,
     NavigationBarComponent,
     WelcomeComponent,
     AdminviewComponent,
@@ -71,6 +70,8 @@ const appRoutes: Routes = [
     MatPaginatorModule,
     MatIconModule,
     MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
     ResponsiveModule,
     PaginationModule.forRoot(),
     NgbModule.forRoot(),
@@ -81,9 +82,9 @@ const appRoutes: Routes = [
                   useClass: AllHttpInterceptor,
                   multi: true
                },
-              AdminService 
-              //,ConfigFileService,
-              //{ provide: APP_INITIALIZER, useFactory: (config: ConfigFileService) => () => config.load(), deps: [ConfigFileService], multi: true }
+              AdminService,
+              ConfigFileService,
+              { provide: APP_INITIALIZER, useFactory: (config: ConfigFileService) => () => config.load(), deps: [ConfigFileService], multi: true }
   ],
   bootstrap: [AppComponent]
 })
