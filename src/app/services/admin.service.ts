@@ -91,7 +91,7 @@ export class AdminService {
         //                            + '?webclient=' + localStorage.getItem('webClientUrl') 
         //                            + '/welcome', 
         //                            {responseType: 'text'});
-        return this.http.get( this.adminWebappUrl + '/protected/login'
+        return this.http.get( this.contextPath + '/protected/login'
             + '?webclient=' 
             + localStorage.getItem( 'webClientUrl' ), { responseType: 'text' });
     }
