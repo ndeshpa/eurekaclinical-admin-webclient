@@ -8,7 +8,7 @@
 			<a class="navbar-brand" href="#">Admin</a>
 		</div>
 		<div class="col text-right">
-			<ng-container *ngIf="isLoggedOut || isNewUser; else elseBlock">
+			<ng-container *ngIf="isLoggedOut || isNewUser; else elseBlock"><!-- url -->
 			<a href="{{adminWebappContextPath}}/protected/login?webclient={{webClientUrl}}"
 				class="btn btn-link btn-md"> <i class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
 			</a> <a class="btn btn-link btn-md" routerLink="/help"> <i
