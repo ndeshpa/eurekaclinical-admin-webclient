@@ -12,10 +12,12 @@ export class AllHttpInterceptor implements HttpInterceptor {
       .do(event => {
         if (event instanceof HttpResponse) {
             console.log(event);
-            if (event.url.indexOf('adminview') >= 0){
+            if (event.url.indexOf('webclient') >= 0 ||
+                    event.status === 302){
                 console.log('------------GOT ADMINVIEW--------------');
                 localStorage.setItem('isNewUser', 'false');
                 localStorage.setItem( 'loggedIn', 'true' );
+                this.router.navigate['/adminview'];
             }
             if (event.url.indexOf('logout') >= 0){
                 localStorage.setItem('isNewUser', 'true');
