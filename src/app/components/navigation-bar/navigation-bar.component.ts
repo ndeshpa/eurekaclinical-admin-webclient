@@ -23,7 +23,8 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     isNewUser: boolean = true;
     usrSubscription: Subscription;
     errorMsg: string = '';
-    adminWebappUrl: string;
+    adminWebappContextPath: string;
+    webClientUrl: string;
     service: string;
     sessSubscription: Subscription;
 
@@ -56,6 +57,8 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             console.log( 'ON INIT Navbar - ENTRY' );
             this.isNewUser = true;
             this.isLoggedOut = true;
+            this.adminWebappContextPath = localStorage.getItem('adminWebappContextPath');
+            this.webClientUrl = localStorage.getItem( 'webClientUrl' );
         }
         
         
