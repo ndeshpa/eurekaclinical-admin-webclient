@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "ng build --prod --base-href /eurekaclinical-admin-webclient -d /eurekaclinical-admin-webclient",
+    "build": "ng build --prod --base-href /eurekaclinical-admin-webclient/ -d /eurekaclinical-admin-webclient",
     "build_local": "ng build --prod --base-href /eurekaclinical-admin-webclient",
     "test": "ng test",
     "lint": "ng lint",
