@@ -9,7 +9,7 @@
 		</div>
 		<div class="col text-right">
 			<ng-container *ngIf="isLoggedOut || isNewUser; else elseBlock"><!-- url -->
-			<a href="{{adminWebappContextPath}}/protected/login?webclient={{webClientUrl}}"
+			<a href="{{adminWebappContextPath}}/protected/login?webclient={{webClientUrl}}/loggedIn"
 				class="btn btn-link btn-md"> <i class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
 			</a> <a class="btn btn-link btn-md" routerLink="/help"> <i
 				class="fa fa-question-circle-o"></i>Help &nbsp;&nbsp;

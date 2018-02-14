@@ -46,37 +46,39 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
                 this.isLoggedOut = true;
             }
             else {
-                console.log( 'ON INIT LOGGED IN' );
-                this.isNewUser = false;
-                this.isLoggedOut = false;
-                this.getSessionProperties();
-                this.getUserData();
+                if ( localStorage.getItem( 'loggedIn' ) === 'true' ) {
+                    console.log( 'ON INIT LOGGED IN' );
+                    this.isNewUser = false;
+                    this.isLoggedOut = false;
+                    this.getSessionProperties();
+                    this.getUserData();
+                }
             }
         }
         else {
             console.log( 'ON INIT Navbar - ENTRY' );
             this.isNewUser = true;
             this.isLoggedOut = true;
-            this.adminWebappContextPath = localStorage.getItem('adminWebappContextPath');
+            this.adminWebappContextPath = localStorage.getItem( 'adminWebappContextPath' );
             this.webClientUrl = localStorage.getItem( 'webClientUrl' );
         }
-        
-        
+
+
 
     }
 
-    doLogin() {
-        this.adminService.doLogin().subscribe( data => {
-            //console.log( data );
-        } );
-        console.log( 'In Nav Bar: Logged in' );
-        localStorage.setItem( 'loggedIn', 'true' );
-        console.log( 'loggedIn Val: ' +  localStorage.getItem('loggedIn'));
-        console.log( 'In Nav Bar: Getting userdata' );
-        this.isNewUser = false;
-        this.isLoggedOut = false;
-        this.router.navigate(['/adminview']);
-    }
+    //    doLogin() {
+    //        this.adminService.doLogin().subscribe( data => {
+    //            //console.log( data );
+    //        } );
+    //        console.log( 'In Nav Bar: Logged in' );
+    //        localStorage.setItem( 'loggedIn', 'true' );
+    //        console.log( 'loggedIn Val: ' +  localStorage.getItem('loggedIn'));
+    //        console.log( 'In Nav Bar: Getting userdata' );
+    //        this.isNewUser = false;
+    //        this.isLoggedOut = false;
+    //        this.router.navigate(['/adminview']);
+    //    }
 
     getSessionProperties() {
         //get current time and save in localStorage
@@ -118,7 +120,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
- //       if ( this.usrSubscription !== null )
- //           this.usrSubscription.unsubscribe();
+        //       if ( this.usrSubscription !== null )
+        //           this.usrSubscription.unsubscribe();
     }
 }
