@@ -20,6 +20,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material';
 import { ResponsiveModule } from 'ngx-responsive';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 
 import { ConfigFileService } from './services/config-file.service';
@@ -75,13 +76,14 @@ const appRoutes: Routes = [
     ResponsiveModule,
     PaginationModule.forRoot(),
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, {useHash: true})
   ],
   providers: [{
                   provide: HTTP_INTERCEPTORS,
                   useClass: AllHttpInterceptor,
                   multi: true
                },
+               {provide: LocationStrategy, useClass: HashLocationStrategy},
               AdminService,
               ConfigFileService,
               { provide: APP_INITIALIZER, useFactory: (config: ConfigFileService) => () => config.load(), deps: [ConfigFileService], multi: true }
