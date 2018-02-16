@@ -11,7 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     selector: 'app-edit-user',
     templateUrl: './edit-user.component.html',
     styleUrls: ['./edit-user.component.css'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.Native
 } )
 export class EditUserComponent implements OnInit, OnDestroy {
 

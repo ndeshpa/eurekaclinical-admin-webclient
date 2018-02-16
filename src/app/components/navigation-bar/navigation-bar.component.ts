@@ -10,8 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component( {
     selector: 'app-navigation-bar',
     templateUrl: './navigation-bar.component.html',
-    styleUrls: ['./navigation-bar.component.css'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.Native
 } )
 export class NavigationBarComponent implements OnInit, OnDestroy {
 

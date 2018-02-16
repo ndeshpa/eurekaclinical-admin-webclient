@@ -4,8 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 @Component( {
     selector: 'app-welcome',
     templateUrl: './welcome.component.html',
-    styleUrls: ['./welcome.component.css'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.Native
 } )
 export class WelcomeComponent implements OnInit {
     action: string = 'waiting';

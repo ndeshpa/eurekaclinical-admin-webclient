@@ -9,7 +9,7 @@
 		</div>
 		<div class="col text-right">
 			<ng-container *ngIf="isLoggedOut || isNewUser; else elseBlock"><!-- url -->
-			<a href="{{adminWebappContextPath}}/protected/login?webclient={{webClientUrl}}/#/welcome/loggedIn"
+			<a href="{{adminWebappContextPath}}/protected/login?webclient={{webClientUrl}}/welcome/loggedIn"
 				class="btn btn-link btn-md"> <i class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
 			</a> <a class="btn btn-link btn-md" routerLink="/help"> <i
 				class="fa fa-question-circle-o"></i>Help &nbsp;&nbsp;
@@ -18,7 +18,8 @@
 			<div ngbDropdown class="d-inline-block">
 				<a class="btn btn-link btn-md" routerLink="/adminview"> <i
 					class="fa fa-wrench"></i> User Accounts&nbsp;&nbsp;
-				</a> <a class="btn btn-link btn-md" routerLink="/help"> <i
+				</a> <a href="http://www.eurekaclinical.org/docs/analytics/" 
+					class="btn btn-link btn-md"> <i
 					class="fa fa-question-circle-o"></i>Help&nbsp;&nbsp;
 				</a>
 				<button class="btn navbar-btn" id="adminLinks" ngbDropdownToggle>
