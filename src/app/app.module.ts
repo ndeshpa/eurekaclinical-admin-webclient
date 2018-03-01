@@ -20,13 +20,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material';
 import { ResponsiveModule } from 'ngx-responsive';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 
 import { ConfigFileService } from './services/config-file.service';
 import { AdminService } from './services/admin.service';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
@@ -50,7 +50,6 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     FooterComponent,
     NavigationBarComponent,
     WelcomeComponent,
@@ -82,6 +81,7 @@ const appRoutes: Routes = [
                   useClass: AllHttpInterceptor,
                   multi: true
                },
+               {provide: LocationStrategy, useClass: HashLocationStrategy},
               AdminService,
               ConfigFileService,
               { provide: APP_INITIALIZER, useFactory: (config: ConfigFileService) => () => config.load(), deps: [ConfigFileService], multi: true }

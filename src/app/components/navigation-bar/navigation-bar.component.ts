@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { CollapseModule } from 'ngx-bootstrap';
@@ -9,8 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component( {
     selector: 'app-navigation-bar',
-    templateUrl: './navigation-bar.component.html',
-    encapsulation: ViewEncapsulation.Native
+    templateUrl: './navigation-bar.component.html'
 } )
 export class NavigationBarComponent implements OnInit, OnDestroy {
 
@@ -32,6 +31,8 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         console.log( 'NAVBAR - URL: ' + this.router.url );
+        this.adminWebappContextPath = localStorage.getItem( 'adminWebappContextPath' );
+        this.webClientUrl = localStorage.getItem( 'webClientUrl' );
         if ( !this.router.url.endsWith( 'welcome' ) ) {
             this.isNewUser = false;
             if ( this.router.url.endsWith( 'logout' ) ) {
@@ -58,8 +59,6 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             console.log( 'ON INIT Navbar - ENTRY' );
             this.isNewUser = true;
             this.isLoggedOut = true;
-            this.adminWebappContextPath = localStorage.getItem( 'adminWebappContextPath' );
-            this.webClientUrl = localStorage.getItem( 'webClientUrl' );
         }
 
 

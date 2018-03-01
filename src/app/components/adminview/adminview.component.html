@@ -1,5 +1,5 @@
+<app-navigation-bar></app-navigation-bar>
 <div class="container-fluid" style="border: 10px solid #ffffff;">
-	<app-navigation-bar></app-navigation-bar>
 	<h2>User Accounts</h2>
 	<ng-container *ngIf="errorMsg!== ''; else elseBlock">
 	<div class="alert alert-danger">{{ errorMsg }}</div>
@@ -119,5 +119,4 @@
 		<pre *ngIf="paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
 	</div>
 	</ng-template>
-	<app-footer></app-footer>
 </div>

@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component( {
     selector: 'app-welcome',
-    templateUrl: './welcome.component.html',
-    encapsulation: ViewEncapsulation.Native
+    templateUrl: './welcome.component.html'
 } )
 export class WelcomeComponent implements OnInit {
     action: string = 'waiting';
