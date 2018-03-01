@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eurekaclinical</groupId>
 	<artifactId>eurekaclinical-admin-webclient</artifactId>
-	<version>1.0-Alpha-31</version>
+	<version>1.0-Alpha-31-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.eurekaclinical</groupId>
