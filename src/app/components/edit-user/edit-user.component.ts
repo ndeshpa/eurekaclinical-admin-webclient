@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AdminService } from '../../services/admin.service';
 import { Role } from '../../models/role';
@@ -10,8 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component( {
     selector: 'app-edit-user',
     templateUrl: './edit-user.component.html',
-    styleUrls: ['./edit-user.component.css'],
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ['./edit-user.component.css']
 } )
 export class EditUserComponent implements OnInit, OnDestroy {
 

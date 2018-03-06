@@ -1,5 +1,5 @@
+<app-navigation-bar></app-navigation-bar>
 <div class="container-fluid" style="border: 10px solid #ffffff;">
-	<app-navigation-bar></app-navigation-bar>
 	<ng-container *ngIf="errorMsg!== ''; else elseBlock">
 	<div class="alert alert-danger">{{ errorMsg }}</div>
 	</ng-container>
@@ -149,12 +149,12 @@
 						class="form-control" id="activated" [(ngModel)]="userActivated"
 						name="activated" disabled> <br />
 					<ng-container *ngIf="model.active && !changedStatus; else first">
-					<button class="btn btn-secondary" id="active" name="active"
+					<button class="btn btn-primary" id="active" name="active"
 						(click)="changeActive(content)">Inactivate User</button>
 					</ng-container>
 					<ng-template #first> <ng-container
 						*ngIf="!changedStatus">
-					<button class="btn btn-secondary" id="active" name="active"
+					<button class="btn btn-primary" id="active" name="active"
 						(click)="changeActive(content)">Activate User</button>
 					</ng-container> </ng-template>
 					<ng-template #content let-c="close" let-d="dismiss">
@@ -186,11 +186,10 @@
 				<div class="col" align="left">
 					<p></p>
 					<button class="btn btn-primary" (click)="restoreForm()">Cancel</button>
-					<button class="btn btn-info">Save</button>
+					<button class="btn btn-primary">Save</button>
 				</div>
 			</div>
 		</div>
 	</form>
 	</ng-template>
-	<app-footer></app-footer>
 </div>

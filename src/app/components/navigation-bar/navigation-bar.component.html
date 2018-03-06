@@ -1,20 +1,30 @@
-<ng-container *ngIf="errorMsg!== ''; else elseBlock">	
-		<div class="alert alert-danger">{{ errorMsg }}</div>
+<ng-container *ngIf="errorMsg!== ''; else elseBlock">
+<div class="alert alert-danger">{{ errorMsg }}</div>
 </ng-container>
 <ng-template #elseBlock>
-<nav class="navbar navbar-inverse">
-	<div class="container-fluid">
+<div class="navbar navbar-inverse navbar-static-top">
+	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#">Admin</a>
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" routerLink="/"> <span class="brand-text">Admin</span>
+			</a>
 		</div>
+		<!-- following needed to align right -->
 		<div class="col text-right">
-			<ng-container *ngIf="isLoggedOut || isNewUser; else elseBlock">
-			<a class="btn btn-link btn-md" (click)="doLogin()"> <i
-				class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
-			</a> <a class="btn btn-link btn-md" routerLink="/help"> <i
+			<ng-container *ngIf="isLoggedOut || isNewUser; else elseBlock"><!-- url -->
+			<a
+				href="{{adminWebappContextPath}}/protected/login?webclient={{webClientUrl}}/#/welcome/loggedIn"
+				class="btn btn-link btn-md"> <i class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
+			</a> <a class="btn btn-link btn-md"
+				href="http://www.eurekaclinical.org/docs/analytics/"> <i
 				class="fa fa-question-circle-o"></i>Help &nbsp;&nbsp;
 			</a> </ng-container>
-			<ng-template #elseBlock>
+			<!-- ng-template #elseBlock>
 			<div ngbDropdown class="d-inline-block">
 				<a class="btn btn-link btn-md" routerLink="/adminview"> <i
 					class="fa fa-wrench"></i> User Accounts&nbsp;&nbsp;
@@ -34,14 +44,22 @@
 					</button>
 					<br> <br>
 					<button class="dropdown-item btn-link btn-md">
-						<a routerLink="/logout"> <i class="fa fa-sign-out"></i>
+						<a href="{{adminWebappContextPath}}/logout"> <i class="fa fa-sign-out"></i>
 							&nbsp;&nbsp;Logout
 						</a>
 					</button>
 				</div>
 			</div>
-			</ng-template>
+			</ng-template-->
+			<ng-template #elseBlock> <a class="btn btn-link btn-md"
+				routerLink="/adminview"> <i class="fa fa-wrench"></i> User
+				Accounts&nbsp;&nbsp;
+			</a> <a href="http://www.eurekaclinical.org/docs/analytics/"
+				class="btn btn-link btn-md"> <i class="fa fa-question-circle-o"></i>Help&nbsp;&nbsp;
+			</a> <a class="btn btn-link btn-md" href="{{adminWebappContextPath}}/logout">
+				<i class="fa fa-sign-out"></i> Logout
+			</a> </ng-template>
 		</div>
 	</div>
-</nav>
+</div>
 </ng-template>

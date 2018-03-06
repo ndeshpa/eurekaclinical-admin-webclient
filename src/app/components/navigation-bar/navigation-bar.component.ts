@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { CollapseModule } from 'ngx-bootstrap';
@@ -9,9 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component( {
     selector: 'app-navigation-bar',
-    templateUrl: './navigation-bar.component.html',
-    styleUrls: ['./navigation-bar.component.css'],
-    encapsulation: ViewEncapsulation.None
+    templateUrl: './navigation-bar.component.html'
 } )
 export class NavigationBarComponent implements OnInit, OnDestroy {
 
@@ -23,7 +21,8 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     isNewUser: boolean = true;
     usrSubscription: Subscription;
     errorMsg: string = '';
-    adminWebappUrl: string;
+    adminWebappContextPath: string;
+    webClientUrl: string;
     service: string;
     sessSubscription: Subscription;
 
@@ -32,6 +31,8 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         console.log( 'NAVBAR - URL: ' + this.router.url );
+        this.adminWebappContextPath = localStorage.getItem( 'adminWebappContextPath' );
+        this.webClientUrl = localStorage.getItem( 'webClientUrl' );
         if ( !this.router.url.endsWith( 'welcome' ) ) {
             this.isNewUser = false;
             if ( this.router.url.endsWith( 'logout' ) ) {
@@ -45,11 +46,13 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
                 this.isLoggedOut = true;
             }
             else {
-                console.log( 'ON INIT LOGGED IN' );
-                this.isNewUser = false;
-                this.isLoggedOut = false;
-                this.getSessionProperties();
-                this.getUserData();
+                if ( localStorage.getItem( 'loggedIn' ) === 'true' ) {
+                    console.log( 'ON INIT LOGGED IN' );
+                    this.isNewUser = false;
+                    this.isLoggedOut = false;
+                    this.getSessionProperties();
+                    this.getUserData();
+                }
             }
         }
         else {
@@ -57,23 +60,23 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             this.isNewUser = true;
             this.isLoggedOut = true;
         }
-        
-        
+
+
 
     }
 
-    doLogin() {
-        this.adminService.doLogin().subscribe( data => {
-            //console.log( data );
-        } );
-        console.log( 'In Nav Bar: Logged in' );
-        localStorage.setItem( 'loggedIn', 'true' );
-        console.log( 'loggedIn Val: ' +  localStorage.getItem('loggedIn'));
-        console.log( 'In Nav Bar: Getting userdata' );
-        this.isNewUser = false;
-        this.isLoggedOut = false;
-        this.router.navigate(['/adminview']);
-    }
+    //    doLogin() {
+    //        this.adminService.doLogin().subscribe( data => {
+    //            //console.log( data );
+    //        } );
+    //        console.log( 'In Nav Bar: Logged in' );
+    //        localStorage.setItem( 'loggedIn', 'true' );
+    //        console.log( 'loggedIn Val: ' +  localStorage.getItem('loggedIn'));
+    //        console.log( 'In Nav Bar: Getting userdata' );
+    //        this.isNewUser = false;
+    //        this.isLoggedOut = false;
+    //        this.router.navigate(['/adminview']);
+    //    }
 
     getSessionProperties() {
         //get current time and save in localStorage
@@ -115,7 +118,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
- //       if ( this.usrSubscription !== null )
- //           this.usrSubscription.unsubscribe();
+        //       if ( this.usrSubscription !== null )
+        //           this.usrSubscription.unsubscribe();
     }
 }
