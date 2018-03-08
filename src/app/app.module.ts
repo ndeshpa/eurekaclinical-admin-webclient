@@ -20,6 +20,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material';
 import { ResponsiveModule } from 'ngx-responsive';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LMarkdownEditorModule } from 'ngx-markdown-editor';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 
@@ -33,6 +34,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AdminviewComponent } from './components/adminview/adminview.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { AllHttpInterceptor } from './interceptors/all-http-interceptor/all-http-interceptor.interceptor';
+import { UserAgreementComponent } from './components/useragreement/useragreement.component';
 
 
 const appRoutes: Routes = [
@@ -40,6 +42,7 @@ const appRoutes: Routes = [
        {path:'welcome', component:WelcomeComponent},
        {path:'adminview/result', component:AdminviewComponent},
        {path:'adminview', component:AdminviewComponent},
+       {path:'useragreement', component:UserAgreementComponent},
        {path:'logout', component:AdminviewComponent},
        {path:'editUser/me/:action/:id', component:EditUserComponent},
        {path:'editUser/:action/:id', component:EditUserComponent},
@@ -54,7 +57,8 @@ const appRoutes: Routes = [
     NavigationBarComponent,
     WelcomeComponent,
     AdminviewComponent,
-    EditUserComponent
+    EditUserComponent,
+    UserAgreementComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +78,8 @@ const appRoutes: Routes = [
     ResponsiveModule,
     PaginationModule.forRoot(),
     NgbModule.forRoot(),
+    LMarkdownEditorModule,
+    //RouterModule.forRoot(appRoutes)
     RouterModule.forRoot(appRoutes, {useHash: true})
   ],
   providers: [{

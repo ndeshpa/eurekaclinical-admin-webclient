@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { AdminService } from "./services/admin.service";
 import { Subscription } from "rxjs/Rx";
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component( {
     selector: 'app-root',
@@ -19,8 +19,10 @@ export class AppComponent implements OnInit, OnDestroy {
     finalTimer: any;
     sessionStartTime: any;
     graceSecs = 150;
+    action:string;
 
-    constructor( private adminService: AdminService, 
+    constructor( private activatedRoute: ActivatedRoute,
+            private adminService: AdminService, 
             private router: Router) {
     }
 
@@ -37,8 +39,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
     ngOnInit() {
+        this.activatedRoute.queryParams.subscribe( params => {
+            this.action = params['action'];
+        } );
+        this.activatedRoute.data.subscribe(myData =>{
+            console.log('IN APP COMPONENT DATA:');
+            console.log(myData);
+        });
+        this.activatedRoute.url.subscribe(data => {
+            console.log('IN APP COMPONENT URL:');
+            console.log(data.toString());
+        });
+        console.log('IN APP COMPONENT:' + this.action);
+        console.log('IN APP COMPONENT loggedIn:' + this.adminService.isLoggedIn());
         var sessTO = localStorage.getItem( 'maxInactiveInterval' );  
-        this.sessionStarted = (localStorage.getItem('loggedIn') === 'true'? true : false);
+        this.sessionStarted = this.adminService.isLoggedIn();
         //this.getSessionProperties();
         if(sessTO !== null){
             this.timeOut = false;
@@ -118,6 +133,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        //localStorage.setItem('loggedIn', 'false');
+        this.adminService.setLoggedIn(false);
         if ( this.sessSubscription !== null )
             this.sessSubscription.unsubscribe();
     }

@@ -10,9 +10,9 @@ export class AllHttpInterceptor implements HttpInterceptor {
         console.log( 'Inside Interceptor:' + request.url );
         return next.handle( request )
             .do( event => {
+                console.log( 'INTERCEPTOR EVENT:' + event );
                 if ( event instanceof HttpResponse ) {
-                    console.log( event );
-                    if ( event.headers.get( 'loggedIn' ) === 'true' ) {
+                    if ( event.headers.get( 'action' ) === 'loggedIn' ) {
                         console.log( '------------GOT ADMINVIEW--------------' );
                         localStorage.setItem( 'isNewUser', 'false' );
                         localStorage.setItem( 'loggedIn', 'true' );
@@ -23,7 +23,6 @@ export class AllHttpInterceptor implements HttpInterceptor {
                     }
                 }
                 else {
-                    console.log( event );
                     console.log( '------------GOT ADMINVIEW--------------' );
                     localStorage.setItem( 'isNewUser', 'false' );
                     localStorage.setItem( 'loggedIn', 'true' );

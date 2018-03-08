@@ -25,14 +25,16 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     webClientUrl: string;
     service: string;
     sessSubscription: Subscription;
+    isProd: boolean = false;
 
     constructor( private adminService: AdminService, private router: Router ) {
     }
 
     ngOnInit() {
         console.log( 'NAVBAR - URL: ' + this.router.url );
-        this.adminWebappContextPath = localStorage.getItem( 'adminWebappContextPath' );
-        this.webClientUrl = localStorage.getItem( 'webClientUrl' );
+        this.adminWebappContextPath = this.adminService.getWebappContextPath();
+        this.webClientUrl = this.adminService.getWebClientUrl();
+        this.isProd = this.adminService.isProduction();
         if ( !this.router.url.endsWith( 'welcome' ) ) {
             this.isNewUser = false;
             if ( this.router.url.endsWith( 'logout' ) ) {
@@ -46,7 +48,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
                 this.isLoggedOut = true;
             }
             else {
-                if ( localStorage.getItem( 'loggedIn' ) === 'true' ) {
+                if ( this.adminService.isLoggedIn() ) {
                     console.log( 'ON INIT LOGGED IN' );
                     this.isNewUser = false;
                     this.isLoggedOut = false;
@@ -65,18 +67,34 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
 
     }
 
-    //    doLogin() {
-    //        this.adminService.doLogin().subscribe( data => {
-    //            //console.log( data );
-    //        } );
-    //        console.log( 'In Nav Bar: Logged in' );
-    //        localStorage.setItem( 'loggedIn', 'true' );
-    //        console.log( 'loggedIn Val: ' +  localStorage.getItem('loggedIn'));
-    //        console.log( 'In Nav Bar: Getting userdata' );
-    //        this.isNewUser = false;
-    //        this.isLoggedOut = false;
-    //        this.router.navigate(['/adminview']);
-    //    }
+    doLogin() {
+        if ( !this.adminService.isProduction() ) {
+            this.adminService.doLogin().subscribe( data => {
+                //console.log( data );
+            });
+        }
+        console.log( 'In Nav Bar: Logged in' );
+        //localStorage.setItem( 'loggedIn', 'true' );
+        this.adminService.setLoggedIn(true);
+        console.log( 'loggedIn Val: ' + this.adminService.isLoggedIn() );
+        console.log( 'In Nav Bar: Getting userdata' );
+        this.isNewUser = false;
+        this.isLoggedOut = false;
+        this.router.navigate( ['/adminview'] );
+    }
+    
+    doProdLogin() {
+        console.log( 'In Nav Bar: Logging in to Prod' );
+        //localStorage.setItem( 'loggedIn', 'true' );
+        this.adminService.setLoggedIn(true);
+        console.log( 'loggedIn Val: ' + this.adminService.isLoggedIn() );
+        console.log( 'In Nav Bar: Getting userdata' );
+        this.isNewUser = false;
+        this.isLoggedOut = false;
+        window.location.href = this.adminWebappContextPath + '/protected/login?webclient='+
+                this.webClientUrl + '/#/welcome/loggedIn';
+       
+    }
 
     getSessionProperties() {
         //get current time and save in localStorage
@@ -111,10 +129,14 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     }
 
     doLogout() {
-        this.adminService.doLogout().subscribe( data => {
-            console.log( data );
-        } );
-        this.router.navigate( ['/welcome', 'loggedOut'] );
+        if ( !this.adminService.isProduction() ) {
+            this.adminService.doLogout().subscribe( data => {
+                console.log( data );
+            });
+            //localStorage.setItem('loggedIn', 'false');
+            this.adminService.setLoggedIn(false);
+            this.router.navigate( ['/welcome', 'loggedOut'] );
+        }
     }
 
     ngOnDestroy(): void {

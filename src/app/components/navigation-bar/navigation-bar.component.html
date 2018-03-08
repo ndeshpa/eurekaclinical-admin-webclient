@@ -17,10 +17,17 @@
 		<!-- following needed to align right -->
 		<div class="col text-right">
 			<ng-container *ngIf="isLoggedOut || isNewUser; else elseBlock"><!-- url -->
-			<a
-				href="{{adminWebappContextPath}}/protected/login?webclient={{webClientUrl}}/#/welcome/loggedIn"
+			<ng-container *ngIf="isProd; else devBlock"> 
+			<a (click)="doProdLogin()"
 				class="btn btn-link btn-md"> <i class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
-			</a> <a class="btn btn-link btn-md"
+			</a> 
+			</ng-container> 
+			<ng-template #devBlock>
+			<a (click)="doLogin()"
+				class="btn btn-link btn-md"> <i class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
+			</a> 
+			</ng-template>
+			<a class="btn btn-link btn-md"
 				href="http://www.eurekaclinical.org/docs/analytics/"> <i
 				class="fa fa-question-circle-o"></i>Help &nbsp;&nbsp;
 			</a> </ng-container>
@@ -54,12 +61,17 @@
 			<ng-template #elseBlock> <a class="btn btn-link btn-md"
 				routerLink="/adminview"> <i class="fa fa-wrench"></i> User
 				Accounts&nbsp;&nbsp;
+			</a> <a class="btn btn-link btn-md" routerLink="/useragreement"> <i
+				class="fa fa-file-text-o" aria-hidden="true"></i>
+				UserAgreement&nbsp;&nbsp;
 			</a> <a href="http://www.eurekaclinical.org/docs/analytics/"
 				class="btn btn-link btn-md"> <i class="fa fa-question-circle-o"></i>Help&nbsp;&nbsp;
-			</a> <a class="btn btn-link btn-md" href="{{adminWebappContextPath}}/logout">
-				<i class="fa fa-sign-out"></i> Logout
+			</a> <a class="btn btn-link btn-md"
+				href="{{adminWebappContextPath}}/logout"> <i
+				class="fa fa-sign-out"></i> Logout
 			</a> </ng-template>
 		</div>
 	</div>
 </div>
 </ng-template>
+<!-- {{adminWebappContextPath}}/protected/login?webclient={{webClientUrl}}/#/welcome/loggedIn -->
