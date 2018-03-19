@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { environment } from '../environment';
+import { environment } from '../../environments/environment';
 
 const UPDATE_USER_ENDPOINT = 'users/{id}';
 const CURRENT_ADMIN_ENDPOINT = 'users/me';
@@ -109,27 +109,23 @@ export class ConfigFileService {
             if ( request ) {
                 request
                     .map( res => res.json() )
-//                    .catch(( error: any ) => {
-//                        console.error( 'Error reading configuration file' );
-//                        resolve( error );
-//                        return Observable.throw( error.json().error || 'Server error' );
-//                    } )
                     .subscribe(( responseData ) => {
                         this.config = responseData;
                         //for debugging --------------
-                        var cfg = JSON.stringify( responseData );
-                        JSON.parse( cfg, ( key, value ) => {
-                            //localStorage.setItem( key, value );     
-                            console.log(key + ':' + this.getConfig(key));
-                        } );
-
-                        console.log(ConfigFileService.updateUserEndPoint);
-                        console.log(ConfigFileService.adminUsersEndPoint);
-                        console.log(ConfigFileService.adminDestroySessionEndPoint);
-                        console.log(ConfigFileService.adminLogoutEndPoint);
-                        console.log(ConfigFileService.adminUsersUpdateEndPoint);
-                        console.log(ConfigFileService.adminRolesEndPoint);
-                        console.log(ConfigFileService.currentAdminEndPoint);
+//                        var cfg = JSON.stringify( responseData );
+//                        JSON.parse( cfg, ( key, value ) => {
+//                            //localStorage.setItem( key, value );     
+//                            console.log(key + ':' + this.getConfig(key));
+//                        } );
+//
+//                        console.log(ConfigFileService.updateUserEndPoint);
+//                        console.log(ConfigFileService.adminUsersEndPoint);
+//                        console.log(ConfigFileService.adminDestroySessionEndPoint);
+//                        console.log(ConfigFileService.adminLogoutEndPoint);
+//                        console.log(ConfigFileService.adminUsersUpdateEndPoint);
+//                        console.log(ConfigFileService.adminRolesEndPoint);
+//                        console.log(ConfigFileService.currentAdminEndPoint);
+//                        console.log('CONFIG: Production?' + this.isProduction());
                         //for debugging --------------
                         resolve( true );
                     } );

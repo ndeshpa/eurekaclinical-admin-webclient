@@ -18,6 +18,7 @@ export class UserAgreementComponent implements OnInit, OnDestroy {
     usrSubscription: Subscription;
     usrAgreementSubscription: Subscription;
     errorMsg: string = '';
+    savedAgreement: boolean = false;
 
     constructor( private adminService: AdminService, private router: Router ) { }
 
@@ -61,6 +62,8 @@ export class UserAgreementComponent implements OnInit, OnDestroy {
                 }
                 console.log( 'ERROR IN USER AGREEMENT' );
                 console.log( error );
+                this.content = 'Enter Text Here';
+                this.prevContent = this.content; 
             },
             () => {
                 console.log( 'SUCCESS in USER AGREEMENT' );
@@ -75,8 +78,13 @@ export class UserAgreementComponent implements OnInit, OnDestroy {
             this.adminService.postUserAgreement( this.userId, data ).subscribe( data => console.log( data ) );
             console.log( data );
             console.log( this.content );
-            this.router.navigate( ['/adminview'] );
+            this.savedAgreement = true;
         }
+    }
+    
+    closeAlert(){
+        this.savedAgreement = false;
+        this.router.navigate( ['/useragreement'] );
     }
 
     onCancel() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
@@ -14,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Component( {
     selector: 'app-adminview',
     templateUrl: './adminview.component.html',
+    encapsulation: ViewEncapsulation.None,
     styleUrls: ['./adminview.component.css']
 } )
 export class AdminviewComponent implements OnInit, OnDestroy {
@@ -120,10 +121,10 @@ export class AdminviewComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-//        if(this.subscription !== null)
-//            this.subscription.unsubscribe();
-//        if(this.roleSubscription !== null)
-//            this.roleSubscription.unsubscribe();
+        if(this.subscription !== null)
+            this.subscription.unsubscribe();
+        if(this.roleSubscription !== null)
+            this.roleSubscription.unsubscribe();
     }
 
     sortData() {

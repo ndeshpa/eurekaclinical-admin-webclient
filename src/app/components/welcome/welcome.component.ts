@@ -18,9 +18,11 @@ export class WelcomeComponent implements OnInit {
             this.action = params['action'];
         });
         if(this.action === 'loggedIn'){
-            //localStorage.setItem( 'loggedIn', 'true' );
             this.adminService.setLoggedIn(true);
             this.router.navigate['/adminview'];
-        }            
+        }   
+        else{
+            localStorage.setItem('sessionTimeout', '0');
+        }
     }
 }
