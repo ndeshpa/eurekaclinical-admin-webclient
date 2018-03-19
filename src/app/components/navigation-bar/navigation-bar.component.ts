@@ -90,11 +90,11 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
         else
             this.sessionTimeout = +localStorage.getItem('sessionTimeout')
         // sets an idle timeout for session timeout seconds
-        this.idle.setIdle(this.sessionTimeout );
-        //this.idle.setIdle( 10 ); //for testing
+        //this.idle.setIdle(this.sessionTimeout );
+        this.idle.setIdle( 10 ); //for testing
         // sets a grace period after which, the user will be timed out.
-        this.idle.setTimeout(  this.graceSecs );
-        //this.idle.setTimeout( 5 ); //for testing
+        //this.idle.setTimeout(  this.graceSecs );
+        this.idle.setTimeout( 5 ); //for testing
         // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
         this.idle.setInterrupts( DEFAULT_INTERRUPTSOURCES );
 
