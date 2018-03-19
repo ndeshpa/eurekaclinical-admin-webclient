@@ -288,7 +288,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>production</id>
+			<id>dist</id>
 			<build>
 				<plugins>
 					<plugin>
