@@ -6,6 +6,8 @@ import { AdminService } from '../../services/admin.service';
 import { AdminUser } from '../../models/admin-user';
 import { Subscription } from 'rxjs/Rx';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Idle, DEFAULT_INTERRUPTSOURCES } from "@ng-idle/core";
+import { Keepalive } from "@ng-idle/keepalive";
 
 @Component( {
     selector: 'app-navigation-bar',
@@ -17,75 +19,112 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     userId: number = 0;
     username: string = 'User';
     userArray: AdminUser[] = [];
-    isLoggedOut: boolean = false;
+    isEditUserPage: boolean = false;
     isNewUser: boolean = true;
     usrSubscription: Subscription;
     errorMsg: string = '';
     adminWebappContextPath: string;
     webClientUrl: string;
+    loginUrl: string;
     service: string;
     sessSubscription: Subscription;
+    isProd: boolean = false;
 
-    constructor( private adminService: AdminService, private router: Router ) {
+    sessionTimeout: number;
+    sessionExpiring: boolean = false;
+    graceSecs = 150;
+    idleState = 'Not started.';
+    timedOut = false;
+    lastPing?: Date = null;
+
+
+    constructor( private adminService: AdminService, private router: Router,
+        private idle: Idle, private keepalive: Keepalive ) {
     }
 
     ngOnInit() {
         console.log( 'NAVBAR - URL: ' + this.router.url );
-        this.adminWebappContextPath = localStorage.getItem( 'adminWebappContextPath' );
-        this.webClientUrl = localStorage.getItem( 'webClientUrl' );
+        console.log('sess timeout:' + localStorage.getItem('sessionTimeout'));
+        //get userId for editUser page
+        if ( this.router.url.indexOf( 'editUser' ) >= 0 ) {
+            this.userId = +this.router.url.substring( this.router.url.lastIndexOf( '/' ) + 1 );
+            this.isEditUserPage = true;
+            console.log( 'Edit User ID:' + this.userId );
+        }
+        this.adminWebappContextPath = this.adminService.getWebappContextPath();
+        this.webClientUrl = this.adminService.getWebClientUrl();
+        this.isProd = this.adminService.isProduction();
+        if ( this.isProd ) {
+            this.loginUrl = this.adminWebappContextPath + '/protected/login?webclient=' +
+                this.webClientUrl + '/%23/welcome/loggedIn';
+        } else {
+            this.loginUrl = this.adminService.getCasLoginUrl() + '?service=' + this.webClientUrl + '#/welcome/loggedIn';
+        }
         if ( !this.router.url.endsWith( 'welcome' ) ) {
             this.isNewUser = false;
             if ( this.router.url.endsWith( 'logout' ) ) {
                 console.log( 'ON INIT Navbar - EXITING' );
                 this.isNewUser = true;
-                this.doLogout();
-            }
-            else if ( this.router.url.endsWith( 'loggedOut' ) ) {
-                console.log( 'ON INIT Navbar - LOGGED OUT' );
-                this.isNewUser = true;
-                this.isLoggedOut = true;
             }
             else {
-                if ( localStorage.getItem( 'loggedIn' ) === 'true' ) {
+                if ( this.router.url.endsWith( 'loggedIn' ) ) {
                     console.log( 'ON INIT LOGGED IN' );
-                    this.isNewUser = false;
-                    this.isLoggedOut = false;
+                    this.adminService.setLoggedIn( true );
                     this.getSessionProperties();
+                    this.isNewUser = false;
                     this.getUserData();
+                    this.router.navigate( ['/adminview'] );
                 }
             }
         }
         else {
             console.log( 'ON INIT Navbar - ENTRY' );
             this.isNewUser = true;
-            this.isLoggedOut = true;
         }
-
-
-
+        this.startIdleTimer();
     }
 
-    //    doLogin() {
-    //        this.adminService.doLogin().subscribe( data => {
-    //            //console.log( data );
-    //        } );
-    //        console.log( 'In Nav Bar: Logged in' );
-    //        localStorage.setItem( 'loggedIn', 'true' );
-    //        console.log( 'loggedIn Val: ' +  localStorage.getItem('loggedIn'));
-    //        console.log( 'In Nav Bar: Getting userdata' );
-    //        this.isNewUser = false;
-    //        this.isLoggedOut = false;
-    //        this.router.navigate(['/adminview']);
-    //    }
+    startIdleTimer() {
+        if(localStorage.getItem('sessionTimeout') === '0')
+            this.sessionTimeout = 180;
+        else
+            this.sessionTimeout = +localStorage.getItem('sessionTimeout')
+        // sets an idle timeout for session timeout seconds
+        this.idle.setIdle(this.sessionTimeout );
+        //this.idle.setIdle( 10 ); //for testing
+        // sets a grace period after which, the user will be timed out.
+        this.idle.setTimeout(  this.graceSecs );
+        //this.idle.setTimeout( 5 ); //for testing
+        // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
+        this.idle.setInterrupts( DEFAULT_INTERRUPTSOURCES );
 
-    getSessionProperties() {
-        //get current time and save in localStorage
-        this.sessSubscription = this.adminService.getSessionProperties().subscribe( data => {
-            var sessTimeout = JSON.stringify( data );
-            JSON.parse( sessTimeout, ( key, value ) => {
-                localStorage.setItem( key, value );
-            } );
+        this.idle.onIdleEnd.subscribe(() => this.idleState = 'Session Idle.' );
+        this.idle.onTimeout.subscribe(() => {
+            this.idleState = 'Timed out!';
+            this.timedOut = true;
+            window.location.href = this.adminService.getAdminWebappUrl()+'/logout';
         } );
+        this.idle.onIdleStart.subscribe(() => {
+            this.idleState = 'Session Idle!';
+            this.sessionExpiring = true;
+        } );
+        this.idle.onTimeoutWarning.subscribe(( countdown ) => this.idleState = 'You will time out in ' + countdown + ' seconds!' );
+
+        // sets the ping interval to 15 seconds
+        this.keepalive.interval( 15 );
+        this.keepalive.onPing.subscribe(() => this.lastPing = new Date() );
+        this.resetIdleTimer();
+    }
+
+    resetIdleTimer() {
+        this.idle.watch();
+        this.idleState = 'Started.';
+        this.timedOut = false;
+        this.sessionExpiring = false;
+        this.getSessionProperties();
+    }
+    getSessionProperties() {
+        this.adminService.setSessTimeoutInterval();
     }
 
     getUserData() {
@@ -110,15 +149,8 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             } );
     }
 
-    doLogout() {
-        this.adminService.doLogout().subscribe( data => {
-            console.log( data );
-        } );
-        this.router.navigate( ['/welcome', 'loggedOut'] );
-    }
-
     ngOnDestroy(): void {
-        //       if ( this.usrSubscription !== null )
-        //           this.usrSubscription.unsubscribe();
+        if ( this.usrSubscription )
+            this.usrSubscription.unsubscribe();
     }
 }

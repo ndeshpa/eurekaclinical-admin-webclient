@@ -1,8 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eurekaclinical</groupId>
 	<artifactId>eurekaclinical-admin-webclient</artifactId>
-	<version>1.0-Alpha-35-SNAPSHOT</version>
+	<version>1.0-Alpha-38-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.eurekaclinical</groupId>
@@ -22,6 +23,10 @@
 		<url>https://github.com/ndeshpa/eurekaclinical-admin-webclient/issues</url>
 	</issueManagement>
 
+	<properties>
+		<vm-zip-deploy-dir>${project.basedir}/../../git/provisioning/roles/ec-admin-webclient/files</vm-zip-deploy-dir>
+	</properties>
+
 	<licenses>
 		<license>
 			<name>Apache License, Version 2.0</name>
@@ -34,175 +39,355 @@
 			<distribution>manual</distribution>
 		</license>
 	</licenses>
-
-	<build>
-		<finalName>eurekaclinical-admin-webclient</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>**/*.htm</exclude>
-						<exclude>**/*.html</exclude>
-						<exclude>**/*.js</exclude>
-						<exclude>**/*.css</exclude>
-						<exclude>**/*.json</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.jasig.maven</groupId>
-				<artifactId>maven-notice-plugin</artifactId>
-				<version>1.0.4</version>
-				<configuration>
-					<noticeTemplate>etc/NOTICE.template</noticeTemplate>
-					<licenseMapping>
-						<param>etc/license-mappings.xml</param>
-					</licenseMapping>
-				</configuration>
-				<executions>
-					<execution>
-						<id>check-license</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>generate</goal>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.0</version>
-				<configuration>
-					<workingDirectory>${project.basedir}/src/app</workingDirectory>
-					<installDirectory>${project.basedir}/src/temp</installDirectory>
-				</configuration>
-				<executions>
-					<!-- Install nodejs and npm -->
-					<execution>
-						<id>install node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-						<configuration>
-							<nodeVersion>v8.9.1</nodeVersion>
-							<npmVersion>3.9.5</npmVersion>
-						</configuration>
-					</execution>
-					<!-- Execute command "npm install" inside "/app" directory -->
-					<execution>
-						<id>npm install</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-					<!-- Execute command "npm build" inside "/app" directory to clean and 
-						create "/dist" directory -->
-					<!-- create angular app.js consolidated, ordered, minified file from 
-						.ts files -->
-					<execution>
-						<id>npm build</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>run build</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<descriptors>
-						<descriptor>assembly/bin.xml</descriptor>
-					</descriptors>
-					<finalName>${project.artifactId}-${project.version}</finalName>
-					<outputDirectory>${project.basedir}/dist</outputDirectory>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.7</version>
-				<executions>
-					<execution>
-						<id>copy-resource-one</id>
-						<phase>install</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.basedir}/../../git/provisioning/roles/ec-admin-webclient/files</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${project.basedir}/dist</directory>
-									<includes>
-										<include>${project.artifactId}-${project.version}-bin.zip</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.1</version>
-				<!-- configuration below to prevent git push of tag as it was failing
-				Probably due to the registry issue HKEY_LOCAL_MACHINE -->
-				<configuration>
-					<localCheckout>true</localCheckout>
-					<pushChanges>false</pushChanges>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.shared</groupId>
-						<artifactId>maven-invoker</artifactId>
-						<version>2.2</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<configuration>
-					<!-- The following prevents auto release into central to give us a chance 
-						to check the artifact before public release -->
-					<autoReleaseAfterClose>false</autoReleaseAfterClose>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 	<profiles>
 		<profile>
-			<id>webserver</id>
+			<id>localdev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>com.github.eirslett</groupId>
-						<artifactId>frontend-maven-plugin</artifactId>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
 						<configuration>
-							<workingDirectory>${project.basedir}</workingDirectory>
+							<debug>false</debug>
+							<optimize>true</optimize>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<configuration>
+							<excludes>
+								<exclude>**/*.htm</exclude>
+								<exclude>**/*.html</exclude>
+								<exclude>**/*.js</exclude>
+								<exclude>**/*.css</exclude>
+								<exclude>**/*.json</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.jasig.maven</groupId>
+						<artifactId>maven-notice-plugin</artifactId>
+						<version>1.0.4</version>
+						<configuration>
+							<noticeTemplate>etc/NOTICE.template</noticeTemplate>
+							<licenseMapping>
+								<param>etc/license-mappings.xml</param>
+							</licenseMapping>
 						</configuration>
 						<executions>
+							<execution>
+								<id>check-license</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>generate</goal>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.0</version>
+						<configuration>
+							<workingDirectory>${project.basedir}/src/app</workingDirectory>
+							<installDirectory>${project.basedir}/src/temp</installDirectory>
+						</configuration>
+						<executions>
+							<!-- Install nodejs and npm -->
+							<execution>
+								<id>install node and npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<configuration>
+									<nodeVersion>v8.9.1</nodeVersion>
+									<npmVersion>3.9.5</npmVersion>
+								</configuration>
+							</execution>
+							<!-- Execute command "npm install" inside "/app" directory -->
+							<execution>
+								<id>npm install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<configuration>
+									<arguments>install</arguments>
+								</configuration>
+							</execution>
+							<!-- Execute command "npm build" inside "/app" directory to clean 
+								and create "/dist" directory -->
+							<!-- create angular app.js consolidated, ordered, minified file from 
+								.ts files -->
+							<execution>
+								<id>npm build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<configuration>
+									<arguments>run build_local</arguments>
+								</configuration>
+							</execution>
 							<execution>
 								<id>run webserver</id>
 								<goals>
 									<goal>gulp</goal>
 								</goals>
 								<configuration>
+									<workingDirectory>${project.basedir}</workingDirectory>
 									<arguments>default</arguments>
 								</configuration>
 							</execution>
 						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<descriptors>
+								<descriptor>assembly/bin.xml</descriptor>
+							</descriptors>
+							<finalName>${project.artifactId}-${project.version}</finalName>
+							<outputDirectory>${project.basedir}/dist</outputDirectory>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>vmdev</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<debug>false</debug>
+							<optimize>true</optimize>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<configuration>
+							<excludes>
+								<exclude>**/*.htm</exclude>
+								<exclude>**/*.html</exclude>
+								<exclude>**/*.js</exclude>
+								<exclude>**/*.css</exclude>
+								<exclude>**/*.json</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.jasig.maven</groupId>
+						<artifactId>maven-notice-plugin</artifactId>
+						<version>1.0.4</version>
+						<configuration>
+							<noticeTemplate>etc/NOTICE.template</noticeTemplate>
+							<licenseMapping>
+								<param>etc/license-mappings.xml</param>
+							</licenseMapping>
+						</configuration>
+						<executions>
+							<execution>
+								<id>check-license</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>generate</goal>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.0</version>
+						<configuration>
+							<workingDirectory>${project.basedir}/src/app</workingDirectory>
+							<installDirectory>${project.basedir}/src/temp</installDirectory>
+						</configuration>
+						<executions>
+							<!-- Install nodejs and npm -->
+							<execution>
+								<id>install node and npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<configuration>
+									<nodeVersion>v8.9.1</nodeVersion>
+									<npmVersion>3.9.5</npmVersion>
+								</configuration>
+							</execution>
+							<!-- Execute command "npm install" inside "/app" directory -->
+							<execution>
+								<id>npm install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<configuration>
+									<arguments>install</arguments>
+								</configuration>
+							</execution>
+							<!-- Execute command "npm build" inside "/app" directory to clean 
+								and create "/dist" directory -->
+							<!-- create angular app.js consolidated, ordered, minified file from 
+								.ts files -->
+							<execution>
+								<id>npm build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<configuration>
+									<arguments>run build</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<descriptors>
+								<descriptor>assembly/bin.xml</descriptor>
+							</descriptors>
+							<finalName>${project.artifactId}-${project.version}</finalName>
+							<outputDirectory>${project.basedir}/dist</outputDirectory>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>2.7</version>
+						<executions>
+							<execution>
+								<id>copy-resource-one</id>
+								<phase>install</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${vm-zip-deploy-dir}</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${project.basedir}/dist</directory>
+											<includes>
+												<include>${project.artifactId}-${project.version}-bin.zip</include>
+											</includes>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>dist</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<debug>false</debug>
+							<optimize>true</optimize>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>license-maven-plugin</artifactId>
+						<configuration>
+							<excludes>
+								<exclude>**/*.htm</exclude>
+								<exclude>**/*.html</exclude>
+								<exclude>**/*.js</exclude>
+								<exclude>**/*.css</exclude>
+								<exclude>**/*.json</exclude>
+							</excludes>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.jasig.maven</groupId>
+						<artifactId>maven-notice-plugin</artifactId>
+						<version>1.0.4</version>
+						<configuration>
+							<noticeTemplate>etc/NOTICE.template</noticeTemplate>
+							<licenseMapping>
+								<param>etc/license-mappings.xml</param>
+							</licenseMapping>
+						</configuration>
+						<executions>
+							<execution>
+								<id>check-license</id>
+								<phase>initialize</phase>
+								<goals>
+									<goal>generate</goal>
+									<goal>check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<version>1.0</version>
+						<configuration>
+							<workingDirectory>${project.basedir}/src/app</workingDirectory>
+							<installDirectory>${project.basedir}/src/temp</installDirectory>
+						</configuration>
+						<executions>
+							<!-- Install nodejs and npm -->
+							<execution>
+								<id>install node and npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<configuration>
+									<nodeVersion>v8.9.1</nodeVersion>
+									<npmVersion>3.9.5</npmVersion>
+								</configuration>
+							</execution>
+							<!-- Execute command "npm install" inside "/app" directory -->
+							<execution>
+								<id>npm install</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<configuration>
+									<arguments>install</arguments>
+								</configuration>
+							</execution>
+							<!-- Execute command "npm build" inside "/app" directory to clean 
+								and create "/dist" directory -->
+							<!-- create angular app.js consolidated, ordered, minified file from 
+								.ts files -->
+							<execution>
+								<id>npm build</id>
+								<goals>
+									<goal>npm</goal>
+								</goals>
+								<configuration>
+									<arguments>run build</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<configuration>
+							<descriptors>
+								<descriptor>assembly/bin.xml</descriptor>
+							</descriptors>
+							<finalName>${project.artifactId}-${project.version}</finalName>
+							<outputDirectory>${project.basedir}/dist</outputDirectory>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>

@@ -5,34 +5,26 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AllHttpInterceptor implements HttpInterceptor {
-    constructor( private router: Router ) { }
+    constructor( private router: Router) { }
     intercept( request: HttpRequest<any>, next: HttpHandler ): Observable<HttpEvent<any>> {
-        console.log( 'Inside Interceptor:' + request.url );
+        //console.log( 'Inside Interceptor:' + request.url );
         return next.handle( request )
             .do( event => {
+                //console.log( 'INTERCEPTOR EVENT:' + event );
                 if ( event instanceof HttpResponse ) {
-                    console.log( event );
-                    if ( event.headers.get( 'loggedIn' ) === 'true' ) {
-                        console.log( '------------GOT ADMINVIEW--------------' );
-                        localStorage.setItem( 'isNewUser', 'false' );
-                        localStorage.setItem( 'loggedIn', 'true' );
-                        this.router.navigate['/adminview'];
-                    }
-                    if ( event.url.indexOf( 'logout' ) >= 0 ) {
-                        localStorage.setItem( 'isNewUser', 'true' );
-                    }
-                }
-                else {
-                    console.log( event );
-                    console.log( '------------GOT ADMINVIEW--------------' );
-                    localStorage.setItem( 'isNewUser', 'false' );
-                    localStorage.setItem( 'loggedIn', 'true' );
                     this.router.navigate['/adminview'];
                 }
             }, err => {
                 console.log( 'Caught error', err.url );
-                if ( err.url.indexOf( 'adminview' ) >= 0 ) {
+                if ( err.url.indexOf( 'adminview' ) >= 0 ||
+                        err.url.indexOf( 'editUser' ) >= 0) {
                     this.router.navigate( ['/adminview'] );
+                }
+                else if (err.url.indexOf( 'useragreement' ) >= 0){
+                    this.router.navigate( ['/useragreement'] );                   
+                }
+                else{
+                    this.router.navigate( ['/welcome']); 
                 }
             } );
     }

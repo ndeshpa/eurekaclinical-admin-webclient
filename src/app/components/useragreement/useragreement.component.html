@@ -1,0 +1,18 @@
+<app-navigation-bar></app-navigation-bar>
+<ng-container *ngIf="savedAgreement">
+<div class="alert alert-success alert-dismissable">
+	<p>
+		<strong>User Agreement Successfully Saved.</strong>&nbsp;&nbsp;
+		<button class="btn btn-primary" (click)="closeAlert()">OK</button>
+	</p>
+</div>
+</ng-container>
+<div class="container-fluid" style="border: 10px solid #ffffff;">
+	<h2>User Agreement Editor</h2>
+	<md-editor name="Content" [(ngModel)]="content" [height]="'200px'"
+		[mode]="mode" [options]="options" required maxlength="500"></md-editor>
+	<button (click)="onCancel()" class="btn btn-primary" id="cancelButton"
+		name="cancelButton">Cancel</button>
+	<button type="submit" (click)="saveAgreement()" class="btn btn-primary"
+		id="saveButton" name="saveButton">Save</button>
+</div>

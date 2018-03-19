@@ -3,8 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Http, HttpModule, Response } from '@angular/http';
 import { HttpHeaders } from '@angular/common/http';
 import { AdminUser } from '../models/admin-user';
+import { UserAgreement } from '../models/user-agreement';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { ConfigFileService } from "./config-file.service";
 
 
 
@@ -12,92 +14,98 @@ import 'rxjs/add/operator/map';
 export class AdminService {
     private data: Observable<any> = null;
     private currUser: AdminUser = new AdminUser();
+    private currUserId: number;
     private userArray: Observable<any>;
     private usersAsJson: string;
     private loading: boolean;
+    //variables to track timeout
+    private sessTimeoutInterval: number = 0; //stores the session idle timeout interval
 
-    private adminUserMePath = '/proxy-resource/users/me';
-    private adminRolesPath = '/proxy-resource/roles';
-    private adminUserListPath = '/proxy-resource/users';
-    private adminUserUpdatePath = '/proxy-resource/users/';
-    private destroySessionPath = '/destroy-session';
-    private logoutSessionPath = '/logout';
-    private sessionPropertiesPath = '/get-session-properties';
-
-    private casLoginUrl: String;
-    private casLogoutUrl: String;
-    private webClientUrl: String;
-    private contextPath: String;
-    private adminWebappUrl: String;
-    private adminWebappContextPath: String;
-
-    constructor( private http: HttpClient ) {
-        this.webClientUrl = localStorage.getItem( 'webClientUrl' );
-        this.contextPath = localStorage.getItem( 'adminWebappContextPath' );
-        this.adminWebappUrl = localStorage.getItem( 'adminWebappUrl' );
-        this.casLoginUrl = localStorage.getItem( 'casLoginUrl' );
-        this.casLogoutUrl = localStorage.getItem( 'casLogoutUrl' );
-        console.log( 'Admin Service: Got from config.json' );
-        console.log( 'webClientUrl: ' + this.webClientUrl );
-        console.log( 'contextPath: ' + this.contextPath );
-        console.log( 'adminWebappUrl: ' + this.adminWebappUrl );
+    constructor( private http: HttpClient, private configService:  ConfigFileService) {
         this.loading = false;
-        //if ( this.data === null )
-        //this.data = this.getUser();
     }
 
     //returns an observable
-    public getUser() {
-        return this.http.get<AdminUser>( this.contextPath + this.adminUserMePath );
+    public getUser(): Observable<AdminUser> {
+        return this.http.get<AdminUser>( this.configService.getAdminWebappContextPath()
+                + this.configService.getProxyResourcePath()                
+                + ConfigFileService.currentAdminEndPoint );
     }
 
     public getRoles() {
-        return this.http.get<AdminUser>( this.contextPath + this.adminRolesPath );
+        return this.http.get<AdminUser>( this.configService.getAdminWebappContextPath()
+                + this.configService.getProxyResourcePath()
+                + ConfigFileService.adminRolesEndPoint );
     }
 
     public getUserById( id: string ) {
-        return this.http.get<AdminUser>( this.contextPath + this.adminUserListPath + '/' + id );
+        return this.http.get<AdminUser>( this.configService.getAdminWebappContextPath()
+                + this.configService.getProxyResourcePath()
+                + ConfigFileService.adminUsersEndPoint + '/' + id );
     }
 
     public getAllUsers() {
-        return this.http.get( this.contextPath + this.adminUserListPath );
+        return this.http.get( this.configService.getAdminWebappContextPath()
+                + this.configService.getProxyResourcePath()
+                + ConfigFileService.adminUsersEndPoint );
     }
 
     public putUserUpdates( id: number, body: string ) {
-        var url = this.contextPath + this.adminUserUpdatePath + id;
+        var url = this.configService.getAdminWebappContextPath()
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.adminUsersUpdateEndPoint + id;
         //set headers
         let headers = new HttpHeaders().set( 'Content-Type', 'application/json; charset=utf-8' );
         headers.append( 'Accept', 'application/json' );
 
         return this.http.put( url, body, { headers } );
     }
-
-
-
+    
+    public getUserAgreementCurrent() {
+        return this.http.get<UserAgreement>(this.configService.getAdminWebappContextPath()
+                + this.configService.getProxyResourcePath()
+                + ConfigFileService.adminUserAgreementEndPoint + '/current');
+    }
+    
+    public postUserAgreement( id: number, body: string ) {
+        var url = this.configService.getAdminWebappContextPath()
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.adminUserAgreementEndPoint;
+        //set headers
+        console.log('POST URL: ' + url);
+        let headers = new HttpHeaders().set( 'Content-Type', 'application/json; charset=utf-8' );
+        headers.append( 'Accept', 'application/json' );
+        return this.http.post( url, body, { headers, responseType: 'text' });
+    }
+    
     public getSessionProperties() {
-        return this.http.get( this.contextPath + this.sessionPropertiesPath );
+        return this.http.get( this.configService.getAdminWebappContextPath()
+                + ConfigFileService.adminSessionPropertiesEndPoint );
     }
 
     public doLogout() {
-        //return this.http.get( this.contextPath + this.logoutSessionPath, {responseType: 'text'});
-        return this.http.get( localStorage.getItem( 'casLogoutUrl' ), { responseType: 'text' } );
+        return this.http.get( this.getCasLogoutUrl(), { responseType: 'text' } );        
     }
 
-    public doLogin() {
-        console.log( 'LOGGING IN from AdminServie: ' + this.getCasLoginUrl()
-                + 'webclient=' 
-                + localStorage.getItem( 'webClientUrl' ));
-        //        return this.http.get( this.getCasLoginUrl()
-        //                            + '?webclient=' + localStorage.getItem('webClientUrl') 
-        //                            + '/welcome', 
-        //                            {responseType: 'text'});
-        return this.http.get( this.contextPath + '/protected/login'
-            + '?webclient=' 
-            + localStorage.getItem( 'webClientUrl' ), { responseType: 'text' });
+    public isProduction(){
+        return this.configService.isProduction();
+    }
+    
+    public getLoginUrl(){
+        return this.configService.getAdminWebappContextPath() 
+            + this.configService.getCasLoginUrl() 
+            + '?webclient=' + this.configService.getWebClientUrl();
+    }
+    
+    public getWebappContextPath(){
+        return this.configService.getAdminWebappContextPath();
     }
 
-    public getCurrUser() {
-        return this.data;
+    public getCurrUserId() {
+        this.getUser().subscribe(data => {
+            this.currUserId = data.id;
+        });
+        return this.currUserId;
     }
 
     public getUserArray() {
@@ -109,15 +117,42 @@ export class AdminService {
     }
 
     public getAdminWebappUrl() {
-        return this.adminWebappUrl;
+        return this.configService.getAdminWebappContextRoot();
     }
 
     public getWebClientUrl() {
-        return this.webClientUrl;
+        return this.configService.getWebClientUrl();
     }
 
     public getCasLoginUrl() {
-        return ( this.casLoginUrl );
+        return this.configService.getCasLoginUrl();
     }
-
+    
+    public getCasLogoutUrl() {
+        return this.configService.getCasLogoutUrl();
+    }
+    
+    public isLoggedIn(){
+        return this.configService.getLoggedIn();
+    }
+    
+    public setLoggedIn(loggedIn:boolean){
+        return this.configService.setLoggedIn(loggedIn);
+    }
+    
+    public setSessTimeoutInterval (){
+        this.getSessionProperties().subscribe( data => {
+            JSON.parse( JSON.stringify( data ), ( key, value ) => {
+                if ( key === 'maxInactiveInterval' ) {
+                    var temp = +value;
+                    this.sessTimeoutInterval = temp - 180;
+                    localStorage.setItem('sessionTimeout', this.sessTimeoutInterval.toString());
+                }
+            } );
+        } );
+    }
+    
+    public getSessTimeoutInterval (){
+        return this.sessTimeoutInterval;
+    }
 }
