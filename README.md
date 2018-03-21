@@ -43,7 +43,7 @@ root of this project.
 To build the project and bring up the webserver, execute `mvn clean install` 
 at the command line. For simple file changes, not additions or deletions, 
 you can usually use `mvn install`. To create a zipfile suitable for
-distribution, execute `mvn install -Pdist`.
+distribution, execute `mvn install -Pprod`.
 
 ## Performing system tests
 To run the web client on your machine for testing purposes, do the
