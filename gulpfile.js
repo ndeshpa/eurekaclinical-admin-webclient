@@ -12,27 +12,7 @@ gulp.task('webserver', function () {
 		cert: 'pki/cert.pem'
 	    },
 	    middleware: [
-		proxy('/eureka-webapp', {
-		    target: 'https://localhost:8443',
-		    secure: false
-		}),
-		proxy('/eureka-services', {
-		    target: 'https://localhost:8443',
-		    secure: false
-		}),
-		proxy('/eureka-protempa-etl', {
-		    target: 'https://localhost:8443',
-		    secure: false
-		}),
 		proxy('/cas-server', {
-		    target: 'https://localhost:8443',
-		    secure: false
-		}),
-		proxy('/cas-mock', {
-		    target: 'https://localhost:8443',
-		    secure: false
-		}),
-		proxy('/eurekaclinical-user-webapp', {
 		    target: 'https://localhost:8443',
 		    secure: false
 		}),
@@ -41,6 +21,10 @@ gulp.task('webserver', function () {
 		    secure: false
 		}),
 		proxy('/eurekaclinical-user-service', {
+		    target: 'https://localhost:8443',
+		    secure: false
+		}),
+		proxy('/eurekaclinical-user-agreement-service', {
 		    target: 'https://localhost:8443',
 		    secure: false
 		})
