@@ -49,7 +49,7 @@ distribution, execute `mvn install -Pprod`.
 To run the web client on your machine for testing purposes, do the
 following:
 
-1. Clone the [eureka](https://github.com/eurekaclinical/eurekaclinical-admin-webapp)
+1. Clone the [eurekaclinical-admin-webapp](https://github.com/eurekaclinical/eurekaclinical-admin-webapp)
 project from GitHub, and execute `mvn clean install`
 followed by `mvn tomcat7:run` in the root directory of the eureka
 project on the command line to run the server-side Eureka! Clinical
