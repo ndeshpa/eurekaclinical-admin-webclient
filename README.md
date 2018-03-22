@@ -26,8 +26,8 @@ No final releases yet.
   https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-user-service/1.0/eurekaclinical-user-service-1.0.war,
   accessible over the internet from your web browser. See
   https://github.com/eurekaclinical/eureka for installation instructions.
-* `eurekaclinical-user-agreement-service` version 1.0 from
-  https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-user-agreement-service/1.0/eurekaclinical-user-agreement-service-1.0.war,
+* `eurekaclinical-user-agreement-service` version 2.0 from
+  https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-user-agreement-service/2.0/eurekaclinical-user-agreement-service-2.0.war,
   accessible over the internet from your web browser. See
   https://github.com/eurekaclinical/eureka for installation
   instructions.
