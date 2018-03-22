@@ -51,9 +51,9 @@ following:
 
 1. Clone the [eurekaclinical-admin-webapp](https://github.com/eurekaclinical/eurekaclinical-admin-webapp)
 project from GitHub, and execute `mvn clean install`
-followed by `mvn tomcat7:run` in the root directory of the eureka
+followed by `mvn tomcat7:run -Ptomcat` in the root directory of the
 project on the command line to run the server-side Eureka! Clinical
-Analytics code in embedded tomcat. The backend services must be
+Admin code in embedded tomcat. The backend services must be
 listening on port 8443, which is the default.
 2. Back in the root directory of the web client project, execute
 `mvn clean install`. It will open the web client in your
