@@ -86,7 +86,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
 
     startIdleTimer() {
         if(localStorage.getItem('sessionTimeout') === '0')
-            this.sessionTimeout = 180;
+            this.sessionTimeout = 600;
         else
             this.sessionTimeout = +localStorage.getItem('sessionTimeout')
         // sets an idle timeout for session timeout seconds
