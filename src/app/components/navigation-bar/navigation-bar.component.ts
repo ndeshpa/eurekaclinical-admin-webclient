@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs/Rx';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from "@ng-idle/core";
 import { Keepalive } from "@ng-idle/keepalive";
+import { RegistryEntry } from "../../models/registry-entry";
 
 @Component( {
     selector: 'app-navigation-bar',
@@ -28,6 +29,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     loginUrl: string;
     service: string;
     sessSubscription: Subscription;
+    regSubscription: Subscription;
     isProd: boolean = false;
 
     sessionTimeout: number;
@@ -36,6 +38,9 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     idleState = 'Not started.';
     timedOut = false;
     lastPing?: Date = null;
+    //for registry entries
+    data: any;
+    regData: RegistryEntry[] = [];
 
 
     constructor( private adminService: AdminService, private router: Router,
@@ -44,7 +49,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         console.log( 'NAVBAR - URL: ' + this.router.url );
-        console.log('sess timeout:' + localStorage.getItem('sessionTimeout'));
+        console.log( 'sess timeout:' + localStorage.getItem( 'sessionTimeout' ) );
         //get userId for editUser page
         if ( this.router.url.indexOf( 'editUser' ) >= 0 ) {
             this.userId = +this.router.url.substring( this.router.url.lastIndexOf( '/' ) + 1 );
@@ -67,13 +72,16 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
                 this.isNewUser = true;
             }
             else {
-                if ( this.router.url.endsWith( 'loggedIn' ) ) {
+                if ( this.router.url.endsWith( 'loggedIn' )) { 
                     console.log( 'ON INIT LOGGED IN' );
-                    this.adminService.setLoggedIn( true );
-                    this.getSessionProperties();
+                    this.adminService.setLoggedIn( true ); 
                     this.isNewUser = false;
-                    this.getUserData();
                     this.router.navigate( ['/adminview'] );
+                }
+                else {                    
+                    this.getSessionProperties();
+                    this.getUserData();
+                    this.getRegistryEntries();
                 }
             }
         }
@@ -85,15 +93,15 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     }
 
     startIdleTimer() {
-        if(localStorage.getItem('sessionTimeout') === '0')
+        if ( localStorage.getItem( 'sessionTimeout' ) === '0' )
             this.sessionTimeout = 600;
         else
-            this.sessionTimeout = +localStorage.getItem('sessionTimeout')
+            this.sessionTimeout = +localStorage.getItem( 'sessionTimeout' )
         // sets an idle timeout for session timeout seconds
-        this.idle.setIdle(this.sessionTimeout );
+        this.idle.setIdle( this.sessionTimeout );
         //this.idle.setIdle( 10 ); //for testing
         // sets a grace period after which, the user will be timed out.
-        this.idle.setTimeout(  this.graceSecs );
+        this.idle.setTimeout( this.graceSecs );
         //this.idle.setTimeout( 5 ); //for testing
         // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
         this.idle.setInterrupts( DEFAULT_INTERRUPTSOURCES );
@@ -102,7 +110,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
         this.idle.onTimeout.subscribe(() => {
             this.idleState = 'Timed out!';
             this.timedOut = true;
-            window.location.href = this.adminService.getAdminWebappUrl()+'/logout';
+            window.location.href = this.adminService.getAdminWebappUrl() + '/logout';
         } );
         this.idle.onIdleStart.subscribe(() => {
             this.idleState = 'Session Idle!';
@@ -123,6 +131,38 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
         this.sessionExpiring = false;
         this.getSessionProperties();
     }
+
+    getRegistryEntries() {
+        console.log('In RegEntries function');
+        this.regSubscription = this.adminService.getRegistryEntries().subscribe( data => {
+        console.log('subscribing');
+        this.data = data;
+        console.log(data);
+        console.log(this.data);
+        for ( var i = 0; i < this.data.length; i++ ) {
+            console.log(i);
+            var regEntry: RegistryEntry = new RegistryEntry();
+            regEntry.name = this.data[i].name;
+            regEntry.url = this.data[i].url;
+            this.regData.push(regEntry);
+        }
+    },
+        error => {
+            if ( error instanceof HttpErrorResponse ) {
+                this.errorMsg = 'Server Error: ' + error.message;
+            }
+            else {
+                this.errorMsg = 'Error Running Query. Please Retry';
+            }
+        },
+        () => {
+            console.log( 'SUCCESS in ADMINVIEW' );
+        } );
+    
+    console.log('got registry entries:' + this.regData.length);
+          
+      }
+    
     getSessionProperties() {
         this.adminService.setSessTimeoutInterval();
     }
@@ -152,5 +192,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         if ( this.usrSubscription )
             this.usrSubscription.unsubscribe();
+        if(this.regSubscription)
+            this.regSubscription.unsubscribe();
     }
 }

@@ -11,6 +11,7 @@ const ADMIN_ROLES_ENDPOINT = 'roles';
 const ADMIN_USERS_ENDPOINT = 'users';
 const ADMIN_USERS_UPDATE_ENDPOINT = 'users/';
 const ADMIN_USERS_AGREEMENT_ENDPOINT = 'useragreements';
+const ADMIN_REGISTRY_ENDPOINT = 'components?type=WEBAPP&type=EXTERNAL';
 const ADMIN_DESTROYSESSION_ENDPOINT = '/destroy-session';
 const ADMIN_LOGOUT_ENDPOINT = '/logout';
 const ADMIN_SESSION_PROPERTIES = '/get-session-properties';
@@ -88,6 +89,10 @@ export class ConfigFileService {
         return ADMIN_USERS_AGREEMENT_ENDPOINT;
     }
     
+    static get adminRegistryEndPoint() {
+        return ADMIN_REGISTRY_ENDPOINT;
+    }
+    
     public isProduction() {
         return environment.production;
     }
@@ -111,22 +116,6 @@ export class ConfigFileService {
                     .map( res => res.json() )
                     .subscribe(( responseData ) => {
                         this.config = responseData;
-                        //for debugging --------------
-//                        var cfg = JSON.stringify( responseData );
-//                        JSON.parse( cfg, ( key, value ) => {
-//                            //localStorage.setItem( key, value );     
-//                            console.log(key + ':' + this.getConfig(key));
-//                        } );
-//
-//                        console.log(ConfigFileService.updateUserEndPoint);
-//                        console.log(ConfigFileService.adminUsersEndPoint);
-//                        console.log(ConfigFileService.adminDestroySessionEndPoint);
-//                        console.log(ConfigFileService.adminLogoutEndPoint);
-//                        console.log(ConfigFileService.adminUsersUpdateEndPoint);
-//                        console.log(ConfigFileService.adminRolesEndPoint);
-//                        console.log(ConfigFileService.currentAdminEndPoint);
-//                        console.log('CONFIG: Production?' + this.isProduction());
-                        //for debugging --------------
                         resolve( true );
                     } );
             } else {

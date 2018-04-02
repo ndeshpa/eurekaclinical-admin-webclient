@@ -7,6 +7,7 @@ import { UserAgreement } from '../models/user-agreement';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { ConfigFileService } from "./config-file.service";
+import { RegistryEntry } from "../models/registry-entry";
 
 
 
@@ -65,6 +66,13 @@ export class AdminService {
         return this.http.get<UserAgreement>(this.configService.getAdminWebappContextPath()
                 + this.configService.getProxyResourcePath()
                 + ConfigFileService.adminUserAgreementEndPoint + '/current');
+    }
+    
+    public getRegistryEntries() {
+        console.log('In admin service: getting registry entries');
+        return this.http.get(this.configService.getAdminWebappContextPath()
+                + this.configService.getProxyResourcePath()
+                + ConfigFileService.adminRegistryEndPoint);
     }
     
     public postUserAgreement( id: number, body: string ) {
