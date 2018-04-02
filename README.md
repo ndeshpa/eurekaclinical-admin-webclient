@@ -26,8 +26,8 @@ No final releases yet.
   https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-user-service/1.0/eurekaclinical-user-service-1.0.war,
   accessible over the internet from your web browser. See
   https://github.com/eurekaclinical/eureka for installation instructions.
-* `eurekaclinical-user-agreement-service` version 1.0 from
-  https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-user-agreement-service/1.0/eurekaclinical-user-agreement-service-1.0.war,
+* `eurekaclinical-user-agreement-service` version 2.0 from
+  https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-user-agreement-service/2.0/eurekaclinical-user-agreement-service-2.0.war,
   accessible over the internet from your web browser. See
   https://github.com/eurekaclinical/eureka for installation
   instructions.
@@ -49,11 +49,11 @@ distribution, execute `mvn install -Pprod`.
 To run the web client on your machine for testing purposes, do the
 following:
 
-1. Clone the [eureka](https://github.com/eurekaclinical/eurekaclinical-admin-webapp)
+1. Clone the [eurekaclinical-admin-webapp](https://github.com/eurekaclinical/eurekaclinical-admin-webapp)
 project from GitHub, and execute `mvn clean install`
-followed by `mvn tomcat7:run` in the root directory of the eureka
+followed by `mvn tomcat7:run -Ptomcat` in the root directory of the
 project on the command line to run the server-side Eureka! Clinical
-Analytics code in embedded tomcat. The backend services must be
+Admin code in embedded tomcat. The backend services must be
 listening on port 8443, which is the default.
 2. Back in the root directory of the web client project, execute
 `mvn clean install`. It will open the web client in your
