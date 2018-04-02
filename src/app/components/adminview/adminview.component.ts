@@ -2,11 +2,12 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
-import { AdminService} from '../../services/admin.service';
+import { AdminService } from '../../services/admin.service';
 import { Role } from '../../models/role';
 import { User } from '../../models/user';
 import { AdminUser } from '../../models/admin-user';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RegistryEntry } from "../../models/registry-entry";
 
 /**
  * @title User Table with pagination
@@ -25,22 +26,21 @@ export class AdminviewComponent implements OnInit, OnDestroy {
     displayedMdColumns = ['action', 'username', 'fullName', 'lastLogin', 'roles'];
     errorMsg: string = '';
     userRoles: Role[] = [];
-    
     finalDisplayedCols = [];
     selectCols = [
-            {'name':'Username', 'value':'username', 'checked':true},
-            {'name':'Full Name', 'value':'fullName', 'checked':true},
-            {'name':'Last Login', 'value':'lastLogin', 'checked':true},
-            {'name':'Roles', 'value':'roles', 'checked':true},
-            {'name':'Email', 'value':'email', 'checked':true},
-            {'name':'Organization', 'value':'organization', 'checked':true},
-            {'name':'Status', 'value':'status', 'checked':true},
-            {'name':'Title', 'value':'title', 'checked':true},
-            {'name':'Department', 'value':'department', 'checked':true}
+        { 'name': 'Username', 'value': 'username', 'checked': true },
+        { 'name': 'Full Name', 'value': 'fullName', 'checked': true },
+        { 'name': 'Last Login', 'value': 'lastLogin', 'checked': true },
+        { 'name': 'Roles', 'value': 'roles', 'checked': true },
+        { 'name': 'Email', 'value': 'email', 'checked': true },
+        { 'name': 'Organization', 'value': 'organization', 'checked': true },
+        { 'name': 'Status', 'value': 'status', 'checked': true },
+        { 'name': 'Title', 'value': 'title', 'checked': true },
+        { 'name': 'Department', 'value': 'department', 'checked': true }
     ];
     data: any;
     public unsortedData: User[] = [];
-    dataSource:MatTableDataSource<User>;
+    dataSource: MatTableDataSource<User>;
     subscription: Subscription;
     roleSubscription: Subscription;
     //pagination
@@ -62,15 +62,14 @@ export class AdminviewComponent implements OnInit, OnDestroy {
         //get users
         this.getAllUsers();
     }
-
-
+    
     public onChangeTable( page: any = { page: this.page, itemsPerPage: this.itemsPerPage } ): any {
         this.getselectedCols();
         this.dataSource = page && this.paging ? this.changePage( page, this.sortData() )
             : new MatTableDataSource<User>( this.sortData() );
     }
 
-    public changePage( page: any, data: User[] = this.sortData()) {
+    public changePage( page: any, data: User[] = this.sortData() ) {
         let start = ( page.page - 1 ) * page.itemsPerPage;
         let end = page.itemsPerPage > -1 ? ( start + page.itemsPerPage ) : data.length;
         return new MatTableDataSource<User>( data.slice( start, end ) );
@@ -83,11 +82,11 @@ export class AdminviewComponent implements OnInit, OnDestroy {
             for ( var i = 0; i < this.data.length; i++ ) {
                 var role = '';
                 for ( var j = 0; j < this.data[i].roles.length; j++ ) {
-                    for(var k=0; k<this.userRoles.length; k++){
-                        if(this.userRoles[k].id === this.data[i].roles[j]) {
+                    for ( var k = 0; k < this.userRoles.length; k++ ) {
+                        if ( this.userRoles[k].id === this.data[i].roles[j] ) {
                             role += this.userRoles[k].name;
                         }
-                    }  
+                    }
                     if ( j < this.data[i].roles.length - 1 )
                         role += ', ';
                 }
@@ -106,24 +105,26 @@ export class AdminviewComponent implements OnInit, OnDestroy {
                 };
             }
             this.onChangeTable();
-        }, 
-        error => {
-            if (error instanceof HttpErrorResponse) {
-                this.errorMsg = 'Server Error: ' + error.message;
-            }
-            else{
-                this.errorMsg = 'Error Running Query. Please Retry';
-            }
         },
-        () => {
-            console.log('SUCCESS in ADMINVIEW');
-        });
+            error => {
+                if ( error instanceof HttpErrorResponse ) {
+                    this.errorMsg = 'Server Error: ' + error.message;
+                }
+                else {
+                    this.errorMsg = 'Error Running Query. Please Retry';
+                }
+            },
+            () => {
+                console.log( 'SUCCESS in ADMINVIEW' );
+            } );
     }
 
+
+
     ngOnDestroy(): void {
-        if(this.subscription !== null)
+        if ( this.subscription !== null )
             this.subscription.unsubscribe();
-        if(this.roleSubscription !== null)
+        if ( this.roleSubscription !== null )
             this.roleSubscription.unsubscribe();
     }
 
@@ -134,33 +135,33 @@ export class AdminviewComponent implements OnInit, OnDestroy {
             else return 0;
         } );
     }
-    
-    getselectedCols(){
+
+    getselectedCols() {
         //pop unchecked cols from displayedColumns array
         this.finalDisplayedCols = [];
-        this.finalDisplayedCols.push('action');
-        for(var i=0; i<this.selectCols.length; i++){
-            if(this.selectCols[i].checked){
-                this.finalDisplayedCols.push(this.selectCols[i].value);
+        this.finalDisplayedCols.push( 'action' );
+        for ( var i = 0; i < this.selectCols.length; i++ ) {
+            if ( this.selectCols[i].checked ) {
+                this.finalDisplayedCols.push( this.selectCols[i].value );
             }
         }
     }
-    
-    applyFilter(filterValue: string) {
+
+    applyFilter( filterValue: string ) {
         filterValue = filterValue.trim(); // Remove whitespace
         filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
         this.dataSource.filter = filterValue;
     }
-        
-    getRoles(){
-      //get roles
+
+    getRoles() {
+        //get roles
         this.roleSubscription = this.adminService.getRoles().subscribe( data => {
             this.data = data;
             for ( var i = 0; i < this.data.length; i++ ) {
                 this.userRoles[i] = {
-                        'id': this.data[i].id, 
-                        'name': this.data[i].name, 
-                        'isChecked':false
+                    'id': this.data[i].id,
+                    'name': this.data[i].name,
+                    'isChecked': false
                 }
             }
         },

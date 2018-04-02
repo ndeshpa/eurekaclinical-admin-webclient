@@ -16,7 +16,9 @@ export class AllHttpInterceptor implements HttpInterceptor {
                 }
             }, err => {
                 console.log( 'Caught error', err.url );
-                if ( err.url.indexOf( 'adminview' ) >= 0 ||
+                console.log(err);
+                if ( err.url.indexOf( 'components' ) >= 0 || 
+                        err.url.indexOf( 'adminview' ) >= 0 ||
                         err.url.indexOf( 'editUser' ) >= 0) {
                     this.router.navigate( ['/adminview'] );
                 }

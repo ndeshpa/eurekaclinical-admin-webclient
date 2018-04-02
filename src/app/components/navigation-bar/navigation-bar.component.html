@@ -26,12 +26,12 @@
 		<div class="navbar-collapse collapse">
 			<ng-container *ngIf="isNewUser; else elseBlock"><!-- url -->
 			<ul class="nav navbar-nav navbar-right menu-text">
-				<li><a href="{{loginUrl}}" ui-sref="login"> <i
-						class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
-				</a></li>
 				<li><a ui-sref="help"
 					href="http://www.eurekaclinical.org/docs/analytics/"> <i
 						class="fa fa-question-circle-o"></i>Help &nbsp;&nbsp;
+				</a></li>
+				<li><a href="{{loginUrl}}" ui-sref="login"> <i
+						class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
 				</a></li>
 			</ul>
 			</ng-container>
@@ -62,12 +62,23 @@
 				</a></li>
 				</ng-template-->
 				<li><a href="http://www.eurekaclinical.org/docs/analytics/"
-					ui-sref="help"> <i class="fa fa-question-circle-o"></i>Help&nbsp;&nbsp;
+					target="_blank" ui-sref="help"> <i
+						class="fa fa-question-circle-o"></i>Help&nbsp;&nbsp;
 				</a></li>
-				<li><a ui-sref="logout" class="idletimeout-logout"
-					href="{{adminWebappContextPath}}/logout"> <i
-						class="fa fa-sign-out"></i> Logout
-				</a></li>
+				<li><a class="dropdown-toggle" data-toggle="dropdown"
+					role="button" aria-expanded="false"> <i class="fa fa-user"></i>
+						{{username}} <span class="caret"></span>
+				</a>
+					<ul class="dropdown-menu" role="menu">
+						<li *ngFor="let entry of regData">
+						<a href="{{entry.url}}"> <i
+								class="fa fa-link"></i> {{entry.name}}
+						</a></li>
+						<li><a ui-sref="logout" class="idletimeout-logout"
+							href="{{adminWebappContextPath}}/logout"> <i
+								class="fa fa-sign-out"></i> Logout
+						</a></li>
+					</ul></li>
 			</ul>
 			</ng-template> </ng-template>
 		</div>
