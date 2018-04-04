@@ -12,7 +12,7 @@ gulp.task('webserver', function () {
 		cert: 'pki/cert.pem'
 	    },
 	    middleware: [
-		proxy('/cas-server', {
+		proxy('/cas-mock', {
 		    target: 'https://localhost:8443',
 		    secure: false
 		}),
