@@ -65,14 +65,18 @@
 					target="_blank" ui-sref="help"> <i
 						class="fa fa-question-circle-o"></i>Help&nbsp;&nbsp;
 				</a></li>
-				<li><a class="dropdown-toggle" data-toggle="dropdown"
-					role="button" aria-expanded="false"> <i class="fa fa-user"></i>
-						{{username}} <span class="caret"></span>
+				<li *ngIf="username === 'User'"><a
+					class="btn btn-lg"> <i class="fa fa-refresh fa-spin"></i>
+						Loading...
+				</a></li>
+				<li *ngIf="username !== 'User'"><a
+					class="dropdown-toggle" data-toggle="dropdown" role="button"
+					aria-expanded="false"> <i class="fa fa-user"></i> {{username}}
+						<span class="caret"></span>
 				</a>
 					<ul class="dropdown-menu" role="menu">
-						<li *ngFor="let entry of regData">
-						<a href="{{entry.url}}"> <i
-								class="fa fa-link"></i> {{entry.name}}
+						<li *ngFor="let entry of regData"><a href="{{entry.url}}">
+								<i class="fa fa-link"></i> {{entry.name}}
 						</a></li>
 						<li><a ui-sref="logout" class="idletimeout-logout"
 							href="{{adminWebappContextPath}}/logout"> <i
