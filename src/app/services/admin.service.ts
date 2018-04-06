@@ -69,10 +69,14 @@ export class AdminService {
     }
     
     public getRegistryEntries() {
+        console.log('In admin service: dummy call');
+        this.http.get(this.configService.getAdminWebappContextPath()
+                + this.configService.getProxyResourcePath()
+                + ConfigFileService.adminRegistryEndPoint);
         console.log('In admin service: getting registry entries');
         return this.http.get(this.configService.getAdminWebappContextPath()
                 + this.configService.getProxyResourcePath()
-                + ConfigFileService.adminRegistryEndPoint);
+                + ConfigFileService.adminRegistryEndPointFiltered);
     }
     
     public postUserAgreement( id: number, body: string ) {

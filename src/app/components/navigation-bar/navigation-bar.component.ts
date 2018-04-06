@@ -71,19 +71,20 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
                 console.log( 'ON INIT Navbar - EXITING' );
                 this.isNewUser = true;
             }
-            else {
-                if ( this.router.url.endsWith( 'loggedIn' )) { 
-                    console.log( 'ON INIT LOGGED IN' );
-                    this.adminService.setLoggedIn( true ); 
-                    this.isNewUser = false;
-                    this.router.navigate( ['/adminview'] );
-                }
-                else {                    
-                    this.getSessionProperties();
-                    this.getUserData();
-                    this.getRegistryEntries();
-                }
+            //else {
+            else if ( this.router.url.endsWith( 'loggedIn' ) ) {
+                console.log( 'ON INIT LOGGED IN' );
+                this.adminService.setLoggedIn( true );
+                this.isNewUser = false;
+                this.router.navigate( ['/adminview'] );
             }
+            else {
+                this.getSessionProperties();
+                console.log('Got session properties');
+                this.getUserData();
+                console.log('Got user data');
+            }
+            //}
         }
         else {
             console.log( 'ON INIT Navbar - ENTRY' );
@@ -133,36 +134,36 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     }
 
     getRegistryEntries() {
-        console.log('In RegEntries function');
+        console.log( 'In RegEntries function' );
         this.regSubscription = this.adminService.getRegistryEntries().subscribe( data => {
-        console.log('subscribing');
-        this.data = data;
-        console.log(data);
-        console.log(this.data);
-        for ( var i = 0; i < this.data.length; i++ ) {
-            console.log(i);
-            var regEntry: RegistryEntry = new RegistryEntry();
-            regEntry.name = this.data[i].name;
-            regEntry.url = this.data[i].url;
-            this.regData.push(regEntry);
-        }
-    },
-        error => {
-            if ( error instanceof HttpErrorResponse ) {
-                this.errorMsg = 'Server Error: ' + error.message;
-            }
-            else {
-                this.errorMsg = 'Error Running Query. Please Retry';
+            console.log( 'subscribing' );
+            this.data = data;
+            console.log( data );
+            console.log( this.data );
+            for ( var i = 0; i < this.data.length; i++ ) {
+                console.log( i );
+                var regEntry: RegistryEntry = new RegistryEntry();
+                regEntry.name = this.data[i].name;
+                regEntry.url = this.data[i].url;
+                this.regData.push( regEntry );
             }
         },
-        () => {
-            console.log( 'SUCCESS in ADMINVIEW' );
-        } );
-    
-    console.log('got registry entries:' + this.regData.length);
-          
-      }
-    
+            error => {
+                if ( error instanceof HttpErrorResponse ) {
+                    this.errorMsg = 'Server Error: ' + error.message;
+                }
+                else {
+                    this.errorMsg = 'Error Running Query. Please Retry';
+                }
+            },
+            () => {
+                console.log( 'SUCCESS in ADMINVIEW' );
+            } );
+
+        console.log( 'got registry entries:' + this.regData.length );
+
+    }
+
     getSessionProperties() {
         this.adminService.setSessTimeoutInterval();
     }
@@ -187,12 +188,16 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             () => {
                 console.log( 'SUCCESS in NAVBAR' );
             } );
+        setTimeout(() => {
+            this.getRegistryEntries();
+            console.log('Got registry entries');
+        }, 300);
     }
 
     ngOnDestroy(): void {
         if ( this.usrSubscription )
             this.usrSubscription.unsubscribe();
-        if(this.regSubscription)
+        if ( this.regSubscription )
             this.regSubscription.unsubscribe();
     }
 }

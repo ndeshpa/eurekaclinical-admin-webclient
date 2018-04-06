@@ -11,7 +11,8 @@ const ADMIN_ROLES_ENDPOINT = 'roles';
 const ADMIN_USERS_ENDPOINT = 'users';
 const ADMIN_USERS_UPDATE_ENDPOINT = 'users/';
 const ADMIN_USERS_AGREEMENT_ENDPOINT = 'useragreements';
-const ADMIN_REGISTRY_ENDPOINT = 'components?type=WEBAPP&type=EXTERNAL';
+const ADMIN_REGISTRY_ENDPOINT_FILTERED = 'components?type=WEBAPP&type=EXTERNAL';
+const ADMIN_REGISTRY_ENDPOINT = 'components';
 const ADMIN_DESTROYSESSION_ENDPOINT = '/destroy-session';
 const ADMIN_LOGOUT_ENDPOINT = '/logout';
 const ADMIN_SESSION_PROPERTIES = '/get-session-properties';
@@ -91,6 +92,10 @@ export class ConfigFileService {
     
     static get adminRegistryEndPoint() {
         return ADMIN_REGISTRY_ENDPOINT;
+    }
+    
+    static get adminRegistryEndPointFiltered() {
+        return ADMIN_REGISTRY_ENDPOINT_FILTERED;
     }
     
     public isProduction() {
