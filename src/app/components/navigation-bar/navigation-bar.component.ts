@@ -83,6 +83,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
                 console.log('Got session properties');
                 this.getUserData();
                 console.log('Got user data');
+                this.getRegistryEntries();
             }
             //}
         }
@@ -135,33 +136,37 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
 
     getRegistryEntries() {
         console.log( 'In RegEntries function' );
-        this.regSubscription = this.adminService.getRegistryEntries().subscribe( data => {
-            console.log( 'subscribing' );
-            this.data = data;
-            console.log( data );
-            console.log( this.data );
-            for ( var i = 0; i < this.data.length; i++ ) {
-                console.log( i );
-                var regEntry: RegistryEntry = new RegistryEntry();
-                regEntry.name = this.data[i].name;
-                regEntry.url = this.data[i].url;
-                this.regData.push( regEntry );
-            }
-        },
-            error => {
-                if ( error instanceof HttpErrorResponse ) {
-                    this.errorMsg = 'Server Error: ' + error.message;
-                }
-                else {
-                    this.errorMsg = 'Error Running Query. Please Retry';
+        //setTimeout(() => {
+            this.regSubscription = this.adminService.getRegistryEntries().subscribe( data => {
+                console.log( 'subscribing' );
+                this.data = data;
+                console.log( data );
+                console.log( this.data );
+                for ( var i = 0; i < this.data.length; i++ ) {
+                    console.log( i );
+                    var regEntry: RegistryEntry = new RegistryEntry();
+                    regEntry.name = this.data[i].name;
+                    regEntry.url = this.data[i].url;
+                    this.regData.push( regEntry );
                 }
             },
-            () => {
-                console.log( 'SUCCESS in ADMINVIEW' );
-            } );
+                error => {
+                    if ( error instanceof HttpErrorResponse ) {
+                        this.errorMsg = 'Server Error: ' + error.message;
+                    }
+                    else {
+                        this.errorMsg = 'Error Running Query. Please Retry';
+                    }
+                },
+                () => {
+                    console.log( 'SUCCESS in ADMINVIEW' );
+                } );
 
-        console.log( 'got registry entries:' + this.regData.length );
+            console.log( 'got registry entries:' + this.regData.length );
 
+            console.log('Got registry entries');
+        //}, 300);
+        
     }
 
     getSessionProperties() {
@@ -188,10 +193,6 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             () => {
                 console.log( 'SUCCESS in NAVBAR' );
             } );
-        setTimeout(() => {
-            this.getRegistryEntries();
-            console.log('Got registry entries');
-        }, 300);
     }
 
     ngOnDestroy(): void {
