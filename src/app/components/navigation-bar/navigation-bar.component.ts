@@ -30,6 +30,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     service: string;
     sessSubscription: Subscription;
     regSubscription: Subscription;
+    roleSubscription: Subscription;
     isProd: boolean = false;
 
     sessionTimeout: number;
@@ -80,9 +81,10 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             }
             else {
                 this.getSessionProperties();
-                console.log('Got session properties');
+                console.log( 'Got session properties' );
                 this.getUserData();
-                console.log('Got user data');
+                console.log( 'Got user data' );
+                this.getRegistryRoles();
                 this.getRegistryEntries();
             }
             //}
@@ -134,39 +136,59 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
         this.getSessionProperties();
     }
 
+    getRegistryRoles() {
+        console.log( 'In RegRoles function' );
+        this.roleSubscription = this.adminService.getRegistryRolesEntries().subscribe( data => {
+            console.log( 'subscribing' );
+            console.log( data );
+        },
+            error => {
+                if ( error instanceof HttpErrorResponse ) {
+                    this.errorMsg = 'Server Error: ' + error.message;
+                }
+                else {
+                    this.errorMsg = 'Error Running Query. Please Retry';
+                }
+            },
+            () => {
+                console.log( 'SUCCESS in ADMINVIEW' );
+            } );
+        console.log( 'Got role entries' );
+    }
+
     getRegistryEntries() {
         console.log( 'In RegEntries function' );
         //setTimeout(() => {
-            this.regSubscription = this.adminService.getRegistryEntries().subscribe( data => {
-                console.log( 'subscribing' );
-                this.data = data;
-                console.log( data );
-                console.log( this.data );
-                for ( var i = 0; i < this.data.length; i++ ) {
-                    console.log( i );
-                    var regEntry: RegistryEntry = new RegistryEntry();
-                    regEntry.name = this.data[i].name;
-                    regEntry.url = this.data[i].url;
-                    this.regData.push( regEntry );
+        this.regSubscription = this.adminService.getRegistryEntries().subscribe( data => {
+            console.log( 'subscribing' );
+            this.data = data;
+            console.log( data );
+            console.log( this.data );
+            for ( var i = 0; i < this.data.length; i++ ) {
+                console.log( i );
+                var regEntry: RegistryEntry = new RegistryEntry();
+                regEntry.name = this.data[i].name;
+                regEntry.url = this.data[i].url;
+                this.regData.push( regEntry );
+            }
+        },
+            error => {
+                if ( error instanceof HttpErrorResponse ) {
+                    this.errorMsg = 'Server Error: ' + error.message;
+                }
+                else {
+                    this.errorMsg = 'Error Running Query. Please Retry';
                 }
             },
-                error => {
-                    if ( error instanceof HttpErrorResponse ) {
-                        this.errorMsg = 'Server Error: ' + error.message;
-                    }
-                    else {
-                        this.errorMsg = 'Error Running Query. Please Retry';
-                    }
-                },
-                () => {
-                    console.log( 'SUCCESS in ADMINVIEW' );
-                } );
+            () => {
+                console.log( 'SUCCESS in ADMINVIEW' );
+            } );
 
-            console.log( 'got registry entries:' + this.regData.length );
+        console.log( 'got registry entries:' + this.regData.length );
 
-            console.log('Got registry entries');
+        console.log( 'Got registry entries' );
         //}, 300);
-        
+
     }
 
     getSessionProperties() {
@@ -200,5 +222,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             this.usrSubscription.unsubscribe();
         if ( this.regSubscription )
             this.regSubscription.unsubscribe();
+		if ( this.roleSubscription )
+            this.roleSubscription.unsubscribe();
     }
 }
