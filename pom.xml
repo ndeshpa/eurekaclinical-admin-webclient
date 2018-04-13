@@ -11,15 +11,15 @@
 	</parent>
 
 	<scm>
-		<developerConnection>scm:git:https://github.com/ndeshpa/eurekaclinical-admin-webclient.git</developerConnection>
-		<connection>scm:git:https://github.com/ndeshpa/eurekaclinical-admin-webclient.git</connection>
-		<url>https://github.com/ndeshpa/eurekaclinical-admin-webclient.git</url>
+		<developerConnection>scm:git:https://github.com/eurekaclinical/eurekaclinical-admin-webclient.git</developerConnection>
+		<connection>scm:git:https://github.com/eurekaclinical/eurekaclinical-admin-webclient.git</connection>
+		<url>https://github.com/eurekaclinical/eurekaclinical-admin-webclient.git</url>
 		<tag>eurekaclinical-admin-webclient-1.0-Alpha-38</tag>
 	</scm>
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/ndeshpa/eurekaclinical-admin-webclient/issues</url>
+		<url>https://github.com/eurekaclinical/eurekaclinical-admin-webclient/issues</url>
 	</issueManagement>
 
 	<properties>
