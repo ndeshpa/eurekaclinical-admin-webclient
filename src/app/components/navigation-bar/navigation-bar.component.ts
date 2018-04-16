@@ -166,10 +166,12 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             console.log( this.data );
             for ( var i = 0; i < this.data.length; i++ ) {
                 console.log( i );
-                var regEntry: RegistryEntry = new RegistryEntry();
-                regEntry.name = this.data[i].name;
-                regEntry.url = this.data[i].url;
-                this.regData.push( regEntry );
+                if ( this.data[i].url !== this.adminService.getWebClientUrl() ) {
+                    var regEntry: RegistryEntry = new RegistryEntry();
+                    regEntry.displayName = this.data[i].displayName;
+                    regEntry.url = this.data[i].url;
+                    this.regData.push( regEntry );
+                }
             }
         },
             error => {
@@ -222,7 +224,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             this.usrSubscription.unsubscribe();
         if ( this.regSubscription )
             this.regSubscription.unsubscribe();
-		if ( this.roleSubscription )
+        if ( this.roleSubscription )
             this.roleSubscription.unsubscribe();
     }
 }
