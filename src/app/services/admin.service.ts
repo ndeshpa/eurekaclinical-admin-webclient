@@ -22,33 +22,33 @@ export class AdminService {
     //variables to track timeout
     private sessTimeoutInterval: number = 0; //stores the session idle timeout interval
 
-    constructor( private http: HttpClient, private configService:  ConfigFileService) {
+    constructor( private http: HttpClient, private configService: ConfigFileService ) {
         this.loading = false;
     }
 
     //returns an observable
     public getUser(): Observable<AdminUser> {
         return this.http.get<AdminUser>( this.configService.getAdminWebappContextPath()
-                + this.configService.getProxyResourcePath()                
-                + ConfigFileService.currentAdminEndPoint );
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.currentAdminEndPoint );
     }
 
     public getRoles() {
         return this.http.get<AdminUser>( this.configService.getAdminWebappContextPath()
-                + this.configService.getProxyResourcePath()
-                + ConfigFileService.adminRolesEndPoint );
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.adminRolesEndPoint );
     }
 
     public getUserById( id: string ) {
         return this.http.get<AdminUser>( this.configService.getAdminWebappContextPath()
-                + this.configService.getProxyResourcePath()
-                + ConfigFileService.adminUsersEndPoint + '/' + id );
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.adminUsersEndPoint + '/' + id );
     }
 
     public getAllUsers() {
         return this.http.get( this.configService.getAdminWebappContextPath()
-                + this.configService.getProxyResourcePath()
-                + ConfigFileService.adminUsersEndPoint );
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.adminUsersEndPoint );
     }
 
     public putUserUpdates( id: number, body: string ) {
@@ -61,18 +61,23 @@ export class AdminService {
 
         return this.http.put( url, body, { headers } );
     }
-    
+
     public getUserAgreementCurrent() {
-        return this.http.get<UserAgreement>(this.configService.getAdminWebappContextPath()
-                + this.configService.getProxyResourcePath()
-                + ConfigFileService.adminUserAgreementEndPoint + '/current');
+        return this.http.get<UserAgreement>( this.configService.getAdminWebappContextPath()
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.adminUserAgreementEndPoint + '/current' );
     }
-    
+
     public getRegistryEntries() {
-        console.log('In admin service: getting registry entries');
-        return this.http.get(this.configService.getAdminWebappContextPath()
-                + this.configService.getProxyResourcePath()
-                + ConfigFileService.adminRegistryEndPoint);
+        return this.http.get( this.configService.getAdminWebappContextPath()
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.adminRegistryEndPointFiltered );
+    }
+
+    public getRegistryRolesEntries() {
+        return this.http.get( this.configService.getAdminWebappContextPath()
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.adminRegistryRolesEndPoint );
     }
     
     public postUserAgreement( id: number, body: string ) {
@@ -80,39 +85,39 @@ export class AdminService {
             + this.configService.getProxyResourcePath()
             + ConfigFileService.adminUserAgreementEndPoint;
         //set headers
-        console.log('POST URL: ' + url);
+        console.log( 'POST URL: ' + url );
         let headers = new HttpHeaders().set( 'Content-Type', 'application/json; charset=utf-8' );
         headers.append( 'Accept', 'application/json' );
-        return this.http.post( url, body, { headers, responseType: 'text' });
+        return this.http.post( url, body, { headers, responseType: 'text' } );
     }
-    
+
     public getSessionProperties() {
         return this.http.get( this.configService.getAdminWebappContextPath()
-                + ConfigFileService.adminSessionPropertiesEndPoint );
+            + ConfigFileService.adminSessionPropertiesEndPoint );
     }
 
     public doLogout() {
-        return this.http.get( this.getCasLogoutUrl(), { responseType: 'text' } );        
+        return this.http.get( this.getCasLogoutUrl(), { responseType: 'text' } );
     }
 
-    public isProduction(){
+    public isProduction() {
         return this.configService.isProduction();
     }
-    
-    public getLoginUrl(){
-        return this.configService.getAdminWebappContextPath() 
-            + this.configService.getCasLoginUrl() 
+
+    public getLoginUrl() {
+        return this.configService.getAdminWebappContextPath()
+            + this.configService.getCasLoginUrl()
             + '?webclient=' + this.configService.getWebClientUrl();
     }
-    
-    public getWebappContextPath(){
+
+    public getWebappContextPath() {
         return this.configService.getAdminWebappContextPath();
     }
 
     public getCurrUserId() {
-        this.getUser().subscribe(data => {
+        this.getUser().subscribe( data => {
             this.currUserId = data.id;
-        });
+        } );
         return this.currUserId;
     }
 
@@ -135,32 +140,32 @@ export class AdminService {
     public getCasLoginUrl() {
         return this.configService.getCasLoginUrl();
     }
-    
+
     public getCasLogoutUrl() {
         return this.configService.getCasLogoutUrl();
     }
-    
-    public isLoggedIn(){
+
+    public isLoggedIn() {
         return this.configService.getLoggedIn();
     }
-    
-    public setLoggedIn(loggedIn:boolean){
-        return this.configService.setLoggedIn(loggedIn);
+
+    public setLoggedIn( loggedIn: boolean ) {
+        return this.configService.setLoggedIn( loggedIn );
     }
-    
-    public setSessTimeoutInterval (){
+
+    public setSessTimeoutInterval() {
         this.getSessionProperties().subscribe( data => {
             JSON.parse( JSON.stringify( data ), ( key, value ) => {
                 if ( key === 'maxInactiveInterval' ) {
                     var temp = +value;
                     this.sessTimeoutInterval = temp - 180;
-                    localStorage.setItem('sessionTimeout', this.sessTimeoutInterval.toString());
+                    localStorage.setItem( 'sessionTimeout', this.sessTimeoutInterval.toString() );
                 }
             } );
         } );
     }
-    
-    public getSessTimeoutInterval (){
+
+    public getSessTimeoutInterval() {
         return this.sessTimeoutInterval;
     }
 }
