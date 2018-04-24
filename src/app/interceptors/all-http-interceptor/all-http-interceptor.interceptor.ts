@@ -15,19 +15,24 @@ export class AllHttpInterceptor implements HttpInterceptor {
                     this.router.navigate['/adminview'];
                 }
             }, err => {
-                console.log( 'Caught error', err.url );
-                console.log(err);
-                if ( err.url.indexOf( 'components' ) >= 0 || 
-                        err.url.indexOf( 'adminview' ) >= 0 ||
-                        err.url.indexOf( 'editUser' ) >= 0) {
-                    this.router.navigate( ['/adminview'] );
-                }
-                else if (err.url.indexOf( 'useragreement' ) >= 0){
-                    this.router.navigate( ['/useragreement'] );                   
+                //console.log( 'Caught error', err.url );
+                //console.log(err);
+                if(err.url){
+                    if ( err.url.indexOf( 'components' ) >= 0 || 
+                            err.url.indexOf( 'adminview' ) >= 0 ||
+                            err.url.indexOf( 'editUser' ) >= 0) {
+                        this.router.navigate( ['/adminview'] );
+                    }
+                    else if (err.url.indexOf( 'useragreement' ) >= 0){
+                        this.router.navigate( ['/useragreement'] );                   
+                    }
+                    else{
+                        this.router.navigate( ['/welcome']); 
+                    }
                 }
                 else{
                     this.router.navigate( ['/welcome']); 
-                }
+                }               
             } );
     }
 }

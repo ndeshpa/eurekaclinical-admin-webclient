@@ -22,15 +22,15 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     userArray: AdminUser[] = [];
     isEditUserPage: boolean = false;
     isNewUser: boolean = true;
-    usrSubscription: Subscription;
     errorMsg: string = '';
     adminWebappContextPath: string;
     webClientUrl: string;
     loginUrl: string;
     service: string;
-    sessSubscription: Subscription;
+    usrSubscription: Subscription;
     regSubscription: Subscription;
     roleSubscription: Subscription;
+    sessSubscription: Subscription;
     isProd: boolean = false;
 
     sessionTimeout: number;
@@ -49,13 +49,13 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        console.log( 'NAVBAR - URL: ' + this.router.url );
-        console.log( 'sess timeout:' + localStorage.getItem( 'sessionTimeout' ) );
+        //console.log( 'NAVBAR - URL: ' + this.router.url );
+        //console.log( 'sess timeout:' + localStorage.getItem( 'sessionTimeout' ) );
         //get userId for editUser page
         if ( this.router.url.indexOf( 'editUser' ) >= 0 ) {
             this.userId = +this.router.url.substring( this.router.url.lastIndexOf( '/' ) + 1 );
             this.isEditUserPage = true;
-            console.log( 'Edit User ID:' + this.userId );
+            //console.log( 'Edit User ID:' + this.userId );
         }
         this.adminWebappContextPath = this.adminService.getWebappContextPath();
         this.webClientUrl = this.adminService.getWebClientUrl();
@@ -69,31 +69,43 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
         if ( !this.router.url.endsWith( 'welcome' ) ) {
             this.isNewUser = false;
             if ( this.router.url.endsWith( 'logout' ) ) {
-                console.log( 'ON INIT Navbar - EXITING' );
+                //console.log( 'ON INIT Navbar - EXITING' );
                 this.isNewUser = true;
             }
             //else {
             else if ( this.router.url.endsWith( 'loggedIn' ) ) {
-                console.log( 'ON INIT LOGGED IN' );
+                //console.log( 'ON INIT LOGGED IN' );
                 this.adminService.setLoggedIn( true );
                 this.isNewUser = false;
                 this.router.navigate( ['/adminview'] );
             }
             else {
-                this.getSessionProperties();
-                console.log( 'Got session properties' );
-                this.getUserData();
-                console.log( 'Got user data' );
-                this.getRegistryRoles();
-                this.getRegistryEntries();
+                this.setupUser();
             }
             //}
         }
         else {
-            console.log( 'ON INIT Navbar - ENTRY' );
+            //console.log( 'ON INIT Navbar - ENTRY' );
+            //see if a session exists for this user, if yes, set isNewUser to false
             this.isNewUser = true;
+            this.sessSubscription = this.adminService.getSession().subscribe( data => {
+                //console.log(data);
+                if(data.indexOf('OK') >= 0){
+                    this.isNewUser = false;
+                    this.setupUser();
+                }                    
+            } );           
         }
         this.startIdleTimer();
+    }
+    
+    setupUser(){
+        this.getSessionProperties();
+        //console.log( 'Got session properties' );
+        this.getUserData();
+        //console.log( 'Got user data' );
+        this.getRegistryAll();
+        this.getRegistryEntries();
     }
 
     startIdleTimer() {
@@ -136,11 +148,11 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
         this.getSessionProperties();
     }
 
-    getRegistryRoles() {
-        console.log( 'In RegRoles function' );
-        this.roleSubscription = this.adminService.getRegistryRolesEntries().subscribe( data => {
-            console.log( 'subscribing' );
-            console.log( data );
+    getRegistryAll() {
+        console.log( 'In RegAll function' );
+        this.roleSubscription = this.adminService.getRegistryAllEntries().subscribe( data => {
+            //console.log( 'subscribing' );
+            //console.log( data );
         },
             error => {
                 if ( error instanceof HttpErrorResponse ) {
@@ -153,19 +165,19 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             () => {
                 console.log( 'SUCCESS in ADMINVIEW' );
             } );
-        console.log( 'Got role entries' );
+        //console.log( 'Got role entries' );
     }
 
     getRegistryEntries() {
-        console.log( 'In RegEntries function' );
+        //console.log( 'In RegEntries function' );
         //setTimeout(() => {
         this.regSubscription = this.adminService.getRegistryEntries().subscribe( data => {
-            console.log( 'subscribing' );
+            //console.log( 'subscribing' );
             this.data = data;
-            console.log( data );
-            console.log( this.data );
+            //console.log( data );
+            //console.log( this.data );
             for ( var i = 0; i < this.data.length; i++ ) {
-                console.log( i );
+                //console.log( i );
                 if ( this.data[i].url !== this.adminService.getWebClientUrl() ) {
                     var regEntry: RegistryEntry = new RegistryEntry();
                     regEntry.displayName = this.data[i].displayName;
@@ -186,9 +198,9 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
                 console.log( 'SUCCESS in ADMINVIEW' );
             } );
 
-        console.log( 'got registry entries:' + this.regData.length );
+        //console.log( 'got registry entries:' + this.regData.length );
 
-        console.log( 'Got registry entries' );
+        //console.log( 'Got registry entries' );
         //}, 300);
 
     }
@@ -201,8 +213,8 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
         this.usrSubscription = this.adminService.getUser().subscribe( data => {
             this.userId = data.id;
             this.username = data.fullName;
-            console.log( 'UserId: ' + this.userId );
-            console.log( 'UserName: ' + this.username );
+            //console.log( 'UserId: ' + this.userId );
+            //console.log( 'UserName: ' + this.username );
         },
             error => {
                 if ( error instanceof HttpErrorResponse ) {
@@ -211,8 +223,8 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
                 else {
                     this.errorMsg = 'Error Running Query. Please Retry';
                 }
-                console.log( 'ERROR IN NAVBAR' );
-                console.log( error );
+                //console.log( 'ERROR IN NAVBAR' );
+                //console.log( error );
             },
             () => {
                 console.log( 'SUCCESS in NAVBAR' );
@@ -226,5 +238,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
             this.regSubscription.unsubscribe();
         if ( this.roleSubscription )
             this.roleSubscription.unsubscribe();
+        if ( this.sessSubscription )
+            this.sessSubscription.unsubscribe();
     }
 }

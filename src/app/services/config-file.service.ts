@@ -13,10 +13,10 @@ const ADMIN_USERS_UPDATE_ENDPOINT = 'users/';
 const ADMIN_USERS_AGREEMENT_ENDPOINT = 'useragreements';
 const ADMIN_REGISTRY_ENDPOINT_FILTERED = 'components?type=WEBAPP&type=EXTERNAL';
 const ADMIN_REGISTRY_COMPONENTS_ENDPOINT = 'components';
-const ADMIN_REGISTRY_ROLES_ENDPOINT = 'roles';
 const ADMIN_DESTROYSESSION_ENDPOINT = '/destroy-session';
 const ADMIN_LOGOUT_ENDPOINT = '/logout';
 const ADMIN_SESSION_PROPERTIES = '/get-session-properties';
+const ADMIN_SESSION = '/protected/get-session';
 
 @Injectable()
 export class ConfigFileService {
@@ -87,16 +87,16 @@ export class ConfigFileService {
         return ADMIN_SESSION_PROPERTIES;
     }
     
+    static get adminSessionEndPoint() {
+        return ADMIN_SESSION;
+    }
+    
     static get adminUserAgreementEndPoint() {
         return ADMIN_USERS_AGREEMENT_ENDPOINT;
     }
     
     static get adminRegistryComponentsEndPoint() {
         return ADMIN_REGISTRY_COMPONENTS_ENDPOINT;
-    }
-    
-    static get adminRegistryRolesEndPoint() {
-        return ADMIN_REGISTRY_ROLES_ENDPOINT;
     }
     
     static get adminRegistryEndPointFiltered() {
