@@ -30,7 +30,7 @@ export class UserAgreementComponent implements OnInit, OnDestroy {
     getUserData() {
         this.usrSubscription = this.adminService.getUser().subscribe( data => {
             this.userId = data.id;
-            console.log( 'UserId: ' + this.userId );
+            //console.log( 'UserId: ' + this.userId );
         },
             error => {
                 if ( error instanceof HttpErrorResponse ) {
@@ -39,8 +39,8 @@ export class UserAgreementComponent implements OnInit, OnDestroy {
                 else {
                     this.errorMsg = 'Error Running Query. Please Retry';
                 }
-                console.log( 'ERROR IN USER AGREEMENT' );
-                console.log( error );
+                //console.log( 'ERROR IN USER AGREEMENT' );
+                //console.log( error );
             },
             () => {
                 console.log( 'SUCCESS in USER AGREEMENT' );
@@ -49,7 +49,7 @@ export class UserAgreementComponent implements OnInit, OnDestroy {
 
     getUserAgreementData() {
         this.usrAgreementSubscription = this.adminService.getUserAgreementCurrent().subscribe( data => {
-            console.log( 'GOT User Agreement:' + data );
+            //console.log( 'GOT User Agreement:' + data );
             this.content = data.text;
             this.prevContent = data.text;
         },
@@ -60,8 +60,8 @@ export class UserAgreementComponent implements OnInit, OnDestroy {
                 else {
                     this.errorMsg = 'Error Running Query. Please Retry';
                 }
-                console.log( 'ERROR IN USER AGREEMENT' );
-                console.log( error );
+                //console.log( 'ERROR IN USER AGREEMENT' );
+                //console.log( error );
                 this.content = 'Enter Text Here';
                 this.prevContent = this.content; 
             },
@@ -75,9 +75,9 @@ export class UserAgreementComponent implements OnInit, OnDestroy {
             this.router.navigate( ['/adminview'] );
         else {
             var data = JSON.stringify( { text: this.content } );
-            this.adminService.postUserAgreement( this.userId, data ).subscribe( data => console.log( data ) );
-            console.log( data );
-            console.log( this.content );
+            this.adminService.postUserAgreement( this.userId, data ).subscribe( data => {} );
+            //console.log( data );
+            //console.log( this.content );
             this.savedAgreement = true;
         }
     }

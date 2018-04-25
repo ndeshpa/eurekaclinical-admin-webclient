@@ -63,7 +63,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
                 }
             },
             () => {
-                console.log( 'SUCCESS in ADMINVIEW' );
+                console.log( 'SUCCESS in EDITUSER' );
             } );
         //get user details
         this.usrSubscription = this.adminService.getUserById( this.id ).subscribe( data => {
@@ -139,7 +139,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
         } 
         else {
             //transmit changes to roles
-            console.log('Active? ' + this.model.active);
+            //console.log('Active? ' + this.model.active);
             this.model.roles = new Array<any>();
             for ( var i = 0; i < this.userRoles.length; i++ ) {
                 if ( this.userRoles[i].isChecked ) {
@@ -148,10 +148,10 @@ export class EditUserComponent implements OnInit, OnDestroy {
             }
             //convert model to json              
             var input = JSON.stringify( this.model );
-            console.log(input);
+            //console.log(input);
             //call put to edit info    
             this.adminService.putUserUpdates( this.model.id, input )
-                .subscribe( data => console.log( data ) );
+                .subscribe( data => {});
             this.router.navigateByUrl( '/adminview' );
         }
 
@@ -179,12 +179,11 @@ export class EditUserComponent implements OnInit, OnDestroy {
         this.modalService.open( content ).result
             .then(( result ) => {
                 this.changedStatus = true;
-                console.log( 'OK' );
+                //console.log( 'OK' );
             },
             ( reason ) => {
-                console.log( 'Dismissed' );
-            }
-            );
+                //console.log( 'Dismissed' );
+            });
     }
 
     ngOnDestroy(): void {

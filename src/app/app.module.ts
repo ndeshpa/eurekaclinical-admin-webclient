@@ -57,7 +57,7 @@ import { AllHttpInterceptor } from './interceptors/all-http-interceptor/all-http
 })
 export class AppModule { 
     constructor() {
-        console.log('production? ' +  environment.production +
-             ' env: ' + environment.envName);
+        //console.log('production? ' +  environment.production +
+          //   ' env: ' + environment.envName);
      }
 }

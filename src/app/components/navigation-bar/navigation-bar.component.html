@@ -11,7 +11,7 @@
 <div class="alert alert-danger">{{ errorMsg }}</div>
 </ng-container>
 <ng-template #elseBlock>
-<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+<div ngbDropdown class="navbar navbar-inverse navbar-static-top" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -23,22 +23,22 @@
 			<a class="navbar-brand" routerLink="/"> <span class="brand-text">Admin</span>
 			</a>
 		</div>
-		<div class="navbar-collapse collapse">
+		<div class="navbar-collapse collapse in">
 			<ng-container *ngIf="isNewUser; else elseBlock"><!-- url -->
 			<ul class="nav navbar-nav navbar-right menu-text">
 				<li><a ui-sref="help"
 					href="http://www.eurekaclinical.org/docs/analytics/"> <i
-						class="fa fa-question-circle-o"></i>Help &nbsp;&nbsp;
+						class="fa fa-question-circle"></i> Help &nbsp;&nbsp;
 				</a></li>
 				<li><a href="{{loginUrl}}" ui-sref="login"> <i
-						class="fa fa-sign-in"></i>&nbsp;&nbsp;Login
+						class="fa fa-sign-in"></i> Login &nbsp;&nbsp;
 				</a></li>
 			</ul>
 			</ng-container>
 			<ng-template #elseBlock> <ng-container
 				*ngIf="isNewUser; else loggedInBlock"> <a
 				class="btn btn-lg"> <i class="fa fa-refresh fa-spin"></i>
-				Loading...
+				 Loading...
 			</a> </ng-container> <ng-template #loggedInBlock>
 			<ul class="nav navbar-nav navbar-right menu-text">
 				<li><a ui-sref="user accounts" routerLink="/adminview"> <i
@@ -63,7 +63,7 @@
 				</ng-template-->
 				<li><a href="http://www.eurekaclinical.org/docs/analytics/"
 					target="_blank" ui-sref="help"> <i
-						class="fa fa-question-circle-o"></i>Help&nbsp;&nbsp;
+						class="fa fa-question-circle"></i> Help&nbsp;&nbsp;
 				</a></li>
 				<li *ngIf="username === 'User'"><a
 					class="btn btn-lg"> <i class="fa fa-refresh fa-spin"></i>
@@ -74,7 +74,7 @@
 					aria-expanded="false"> <i class="fa fa-user"></i> {{username}}
 						<span class="caret"></span>
 				</a>
-					<ul class="dropdown-menu" role="menu">
+					<ul ngbDropdownMenu class="dropdown-menu" role="menu">
 						<li *ngFor="let entry of regData"><a href="{{entry.url}}">
 								<i class="fa fa-link"></i> {{entry.displayName}}
 						</a></li>

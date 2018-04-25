@@ -74,10 +74,10 @@ export class AdminService {
             + ConfigFileService.adminRegistryEndPointFiltered );
     }
 
-    public getRegistryRolesEntries() {
+    public getRegistryAllEntries() {
         return this.http.get( this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminRegistryRolesEndPoint );
+            + ConfigFileService.adminRegistryComponentsEndPoint );
     }
     
     public postUserAgreement( id: number, body: string ) {
@@ -85,7 +85,7 @@ export class AdminService {
             + this.configService.getProxyResourcePath()
             + ConfigFileService.adminUserAgreementEndPoint;
         //set headers
-        console.log( 'POST URL: ' + url );
+        //console.log( 'POST URL: ' + url );
         let headers = new HttpHeaders().set( 'Content-Type', 'application/json; charset=utf-8' );
         headers.append( 'Accept', 'application/json' );
         return this.http.post( url, body, { headers, responseType: 'text' } );
@@ -94,6 +94,11 @@ export class AdminService {
     public getSessionProperties() {
         return this.http.get( this.configService.getAdminWebappContextPath()
             + ConfigFileService.adminSessionPropertiesEndPoint );
+    }  
+    
+    public getSession(){
+        return this.http.get( this.configService.getAdminWebappContextPath()
+                + ConfigFileService.adminSessionEndPoint, {responseType: 'text'});
     }
 
     public doLogout() {
