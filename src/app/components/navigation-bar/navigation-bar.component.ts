@@ -24,6 +24,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     isNewUser: boolean = true;
     errorMsg: string = '';
     adminWebappContextPath: string;
+    currUrl: string;
     webClientUrl: string;
     loginUrl: string;
     service: string;
@@ -49,7 +50,8 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        //console.log( 'NAVBAR - URL: ' + this.router.url );
+        console.log( 'NAVBAR - URL: ' + this.router.url );
+        this.currUrl = '/#' + this.router.url;
         //console.log( 'sess timeout:' + localStorage.getItem( 'sessionTimeout' ) );
         //get userId for editUser page
         if ( this.router.url.indexOf( 'editUser' ) >= 0 ) {
