@@ -7,16 +7,12 @@ import { Router } from '@angular/router';
 export class AllHttpInterceptor implements HttpInterceptor {
     constructor( private router: Router) { }
     intercept( request: HttpRequest<any>, next: HttpHandler ): Observable<HttpEvent<any>> {
-        //console.log( 'Inside Interceptor:' + request.url );
         return next.handle( request )
             .do( event => {
-                //console.log( 'INTERCEPTOR EVENT:' + event );
                 if ( event instanceof HttpResponse ) {
                     this.router.navigate['/adminview'];
                 }
             }, err => {
-                //console.log( 'Caught error', err.url );
-                //console.log(err);
                 if(err.url){
                     if ( err.url.indexOf( 'components' ) >= 0 || 
                             err.url.indexOf( 'adminview' ) >= 0 ||
