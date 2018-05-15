@@ -56,8 +56,4 @@ import { AllHttpInterceptor } from './interceptors/all-http-interceptor/all-http
   bootstrap: [AppComponent]
 })
 export class AppModule { 
-    constructor() {
-        //console.log('production? ' +  environment.production +
-          //   ' env: ' + environment.envName);
-     }
 }

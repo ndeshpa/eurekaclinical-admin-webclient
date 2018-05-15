@@ -85,7 +85,6 @@ export class AdminService {
             + this.configService.getProxyResourcePath()
             + ConfigFileService.adminUserAgreementEndPoint;
         //set headers
-        //console.log( 'POST URL: ' + url );
         let headers = new HttpHeaders().set( 'Content-Type', 'application/json; charset=utf-8' );
         headers.append( 'Accept', 'application/json' );
         return this.http.post( url, body, { headers, responseType: 'text' } );
