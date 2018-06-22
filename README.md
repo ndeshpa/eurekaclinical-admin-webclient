@@ -5,11 +5,8 @@
 This project contains the web client for Eureka! Clinical
 Admin Services. It is an Angular 4/5 single-page site.
 
-## Version 1.0 development series
-Latest release:
-
-## Version history
-No final releases yet.
+## Version 1.0
+Initial release.
 
 ## Build requirements
 * [Oracle Java JDK 8](http://www.oracle.com/technetwork/java/javase/overview/index.html)
@@ -18,18 +15,18 @@ No final releases yet.
 ## Runtime requirements
 * Any web browser that is supported by Angular 4/5 (see
   https://angular.io/guide/browser-support).
-* `eurekaclinical-admin-webapp` version 1.0-Alpha-18 from
-  https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-admin-webapp/1.0-Alpha-18/eurekaclinical-admin-webapp-1.0-Alpha-18.war,
+* `eurekaclinical-admin-webapp` version 1.0 from
+  https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-admin-webapp/1.0/eurekaclinical-admin-webapp-1.0.war,
   accessible over the internet from your web browser. See
-  https://github.com/eurekaclinical/eureka for installation instructions. 
-* `eurekaclinical-user-service` version 1.0 from
-  https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-user-service/1.0/eurekaclinical-user-service-1.0.war,
+  https://github.com/eurekaclinical/eurekaclinical-admin-webapp for installation instructions. 
+* `eurekaclinical-user-service` version 2.0 from
+  https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-user-service/2.0/eurekaclinical-user-service-2.0.war,
   accessible over the internet from your web browser. See
-  https://github.com/eurekaclinical/eureka for installation instructions.
-* `eurekaclinical-user-agreement-service` version 2.0 from
-  https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-user-agreement-service/2.0/eurekaclinical-user-agreement-service-2.0.war,
+  https://github.com/eurekaclinical/eurekaclinical-user-service for installation instructions.
+* `eurekaclinical-user-agreement-service` version 3.0 from
+  https://oss.sonatype.org/content/groups/public/org/eurekaclinical/eurekaclinical-user-agreement-service/3.0/eurekaclinical-user-agreement-service-3.0.war,
   accessible over the internet from your web browser. See
-  https://github.com/eurekaclinical/eureka for installation
+  https://github.com/eurekaclinical/eurekaclinical-user-agreement-service for installation
   instructions.
 
 ## Building it
@@ -51,7 +48,7 @@ following:
 
 1. Clone the [eurekaclinical-admin-webapp](https://github.com/eurekaclinical/eurekaclinical-admin-webapp)
 project from GitHub, and execute `mvn clean install`
-followed by `mvn tomcat7:run -Ptomcat` in the root directory of the
+followed by `mvn process-resources cargo:run -Ptomcat` in the root directory of the
 project on the command line to run the server-side Eureka! Clinical
 Admin code in embedded tomcat. The backend services must be
 listening on port 8443, which is the default.
