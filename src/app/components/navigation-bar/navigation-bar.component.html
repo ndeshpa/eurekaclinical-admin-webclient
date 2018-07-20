@@ -1,10 +1,10 @@
 <ng-container *ngIf="sessionExpiring">
 <div class="alert alert-danger alert-dismissable">
-	<p>
-		<strong>{{idleState}}. Click Button to Extend Session.</strong>&nbsp;&nbsp;
-		<button class="btn btn-primary" (click)="resetIdleTimer()">Extend
-			Session</button>
-	</p>
+    <p>
+        <strong>{{idleState}}. Click Button to Extend Session.</strong>&nbsp;&nbsp;
+        <button class="btn btn-primary" (click)="resetIdleTimer()">Extend
+            Session</button>
+    </p>
 </div>
 </ng-container>
 <ng-container *ngIf="errorMsg!== ''; else elseBlock">
@@ -12,80 +12,83 @@
 </ng-container>
 <ng-template #elseBlock>
 <div ngbDropdown class="navbar navbar-inverse navbar-static-top" role="navigation">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target=".navbar-collapse">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="{{currUrl}}"> <span class="brand-text">Admin</span>
-			</a>
-		</div>
-		<div class="navbar-collapse collapse">
-			<ng-container *ngIf="isNewUser; else elseBlock"><!-- url -->
-			<ul class="nav navbar-nav navbar-right menu-text">
-				<li><a ui-sref="help"
-					href="http://www.eurekaclinical.org/docs/analytics/"> <i
-						class="fa fa-question-circle"></i> Help &nbsp;&nbsp;
-				</a></li>
-				<li><a href="{{loginUrl}}" ui-sref="login"> <i
-						class="fa fa-sign-in"></i> Login &nbsp;&nbsp;
-				</a></li>
-			</ul>
-			</ng-container>
-			<ng-template #elseBlock> <ng-container
-				*ngIf="isNewUser; else loggedInBlock"> <a
-				class="btn btn-lg"> <i class="fa fa-refresh fa-spin"></i>
-				 Loading...
-			</a> </ng-container> <ng-template #loggedInBlock>
-			<ul class="nav navbar-nav navbar-right menu-text">
-				<li><a ui-sref="user accounts" routerLink="/adminview"> <i
-						class="fa fa-wrench"></i> User Accounts&nbsp;&nbsp;
-				</a></li>
-				<li><a ui-sref="user agreement" routerLink="/useragreement">
-						<i class="fa fa-file-text-o" aria-hidden="true"></i> User
-						Agreement&nbsp;&nbsp;
-				</a></li>
-				<!-- replace above li with below if agreement retrieval by userId is required-->
-				<!-- ng-container *ngIf="isEditUserPage; else genBlock">
-				<li><a ui-sref="user agreement" routerLink="/useragreement/{{userId}}">
-						<i class="fa fa-file-text-o" aria-hidden="true"></i> User
-						Agreement&nbsp;&nbsp;
-				</a></li>
-				</ng-container>
-				<ng-template #genBlock>
-				<li><a ui-sref="user agreement" routerLink="/useragreement">
-						<i class="fa fa-file-text-o" aria-hidden="true"></i> User
-						Agreement&nbsp;&nbsp;
-				</a></li>
-				</ng-template-->
-				<li><a href="http://www.eurekaclinical.org/docs/analytics/"
-					target="_blank" ui-sref="help"> <i
-						class="fa fa-question-circle"></i> Help&nbsp;&nbsp;
-				</a></li>
-				<li *ngIf="username === 'User'"><a
-					class="btn btn-lg"> <i class="fa fa-refresh fa-spin"></i>
-						Loading...
-				</a></li>
-				<li *ngIf="username !== 'User'"><a
-					class="dropdown-toggle" data-toggle="dropdown" role="button"
-					aria-expanded="false"> <i class="fa fa-user"></i> {{username}}
-						<span class="caret"></span>
-				</a>
-					<ul ngbDropdownMenu class="dropdown-menu" role="menu">
-						<li *ngFor="let entry of regData"><a href="{{entry.url}}">
-								<i class="fa fa-link"></i> {{entry.displayName}}
-						</a></li>
-						<li><a ui-sref="logout" class="idletimeout-logout"
-							href="{{adminWebappContextPath}}/logout"> <i
-								class="fa fa-sign-out"></i> Logout
-						</a></li>
-					</ul></li>
-			</ul>
-			</ng-template> </ng-template>
-		</div>
-	</div>
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{currUrl}}"> <span class="brand-text">Admin</span>
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ng-container *ngIf="isNewUser; else elseBlock"><!-- url -->
+            <ul class="nav navbar-nav navbar-right menu-text">
+                <li><a ui-sref="help"
+                    href="http://www.eurekaclinical.org/docs/analytics/"> <i
+                        class="fa fa-question-circle"></i> Help &nbsp;&nbsp;
+                </a></li>
+                <li><a href="{{loginUrl}}" ui-sref="login"> <i
+                        class="fa fa-sign-in"></i> Login &nbsp;&nbsp;
+                </a></li>
+            </ul>
+            </ng-container>
+            <ng-template #elseBlock> <ng-container
+                *ngIf="isNewUser; else loggedInBlock"> <a
+                class="btn btn-lg"> <i class="fa fa-refresh fa-spin"></i>
+                 Loading...
+            </a> </ng-container> <ng-template #loggedInBlock>
+            <ul class="nav navbar-nav navbar-right menu-text">
+            <li><a ui-sref="all jobs" routerLink="/jobView"> <i
+                        class="fa fa-briefcase"></i> All Jobs&nbsp;&nbsp;
+                </a></li>
+                <li><a ui-sref="user accounts" routerLink="/adminview"> <i
+                        class="fa fa-wrench"></i> User Accounts&nbsp;&nbsp;
+                </a></li>
+                <li><a ui-sref="user agreement" routerLink="/useragreement">
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i> User
+                        Agreement&nbsp;&nbsp;
+                </a></li>
+                <!-- replace above li with below if agreement retrieval by userId is required-->
+                <!-- ng-container *ngIf="isEditUserPage; else genBlock">
+                <li><a ui-sref="user agreement" routerLink="/useragreement/{{userId}}">
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i> User
+                        Agreement&nbsp;&nbsp;
+                </a></li>
+                </ng-container>
+                <ng-template #genBlock>
+                <li><a ui-sref="user agreement" routerLink="/useragreement">
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i> User
+                        Agreement&nbsp;&nbsp;
+                </a></li>
+                </ng-template-->
+                <li><a href="http://www.eurekaclinical.org/docs/analytics/"
+                    target="_blank" ui-sref="help"> <i
+                        class="fa fa-question-circle"></i> Help&nbsp;&nbsp;
+                </a></li>
+                <li *ngIf="username === 'User'"><a
+                    class="btn btn-lg"> <i class="fa fa-refresh fa-spin"></i>
+                        Loading...
+                </a></li>
+                <li *ngIf="username !== 'User'"><a
+                    class="dropdown-toggle" data-toggle="dropdown" role="button"
+                    aria-expanded="false"> <i class="fa fa-user"></i> {{username}}
+                        <span class="caret"></span>
+                </a>
+                    <ul ngbDropdownMenu class="dropdown-menu" role="menu">
+                        <li *ngFor="let entry of regData"><a href="{{entry.url}}">
+                                <i class="fa fa-link"></i> {{entry.displayName}}
+                        </a></li>
+                        <li><a ui-sref="logout" class="idletimeout-logout"
+                            href="{{adminWebappContextPath}}/logout"> <i
+                                class="fa fa-sign-out"></i> Logout
+                        </a></li>
+                    </ul></li>
+            </ul>
+            </ng-template> </ng-template>
+        </div>
+    </div>
 </div>
 </ng-template>
