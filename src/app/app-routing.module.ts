@@ -24,6 +24,7 @@ import { AdminviewComponent } from './components/adminview/adminview.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { UserAgreementComponent } from './components/useragreement/useragreement.component';
 import { JobViewComponent } from './components/job-view/job-view.component';
+import { JobEventsComponent } from './components/job-events/job-events.component';
 
 
 
@@ -37,6 +38,7 @@ const appRoutes: Routes = [
     { path: 'editUser/me/:action/:id', component: EditUserComponent },
     { path: 'editUser/:action/:id', component: EditUserComponent },
     { path: 'jobView', component: JobViewComponent },
+    { path: 'jobEvents/:id', component: JobEventsComponent }, 
     { path: '', redirectTo: '/welcome', pathMatch: 'full' }
 ];
 
@@ -65,7 +67,8 @@ const appRoutes: Routes = [
         AdminviewComponent,
         EditUserComponent,
         UserAgreementComponent,
-    	JobViewComponent
+    	JobViewComponent,
+        JobEventsComponent
     ],
     exports: [
         RouterModule

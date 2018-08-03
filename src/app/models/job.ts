@@ -1,9 +1,13 @@
 export class Job {
     id: number;
+    logInfo: any;
+    startTimestamp: number;
     sourceConfigId: string;
-    created: Date;
-    user: number;
-    destination: number;
-    name: string;
-    finished: Date;
+    destinationId: string;
+    username: string;
+    status: string;
+    jobEvents: any;
+    links: any;
+    getStatisticsSupported: boolean;
+    finishTimestamp: number; 
 }
