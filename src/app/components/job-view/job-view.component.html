@@ -5,43 +5,51 @@
 	<div class="alert alert-danger">{{ errorMsg }}</div>
 	</ng-container>
 	<ng-template #elseBlock>
-	<div class="example-header">
+    <div>
 		<mat-form-field> <input matInput
 			(keyup)="applyFilter($event.target.value)"
 			placeholder="Enter Filter Term here to Filter Jobs"> </mat-form-field>
 	</div>
-	<div class="example-container mat-elevation-z8">
-		<mat-table #table [dataSource]="dataSource"> <ng-container
-			matColumnDef="id"> <mat-header-cell *matHeaderCellDef>
-		Job ID </mat-header-cell> <mat-cell *matCellDef="let element"> {{element.id}}
-		</mat-cell> </ng-container> <ng-container matColumnDef="sourceConfigId"> <mat-header-cell
-			*matHeaderCellDef> Source Config ID </mat-header-cell> <mat-cell
-			*matCellDef="let element"> {{element.sourceConfigId}} </mat-cell> </ng-container> <ng-container
-			matColumnDef="created"> <mat-header-cell
-			*matHeaderCellDef> Date Created </mat-header-cell> <mat-cell
-			*matCellDef="let element"> {{element.created}} </mat-cell> </ng-container> <ng-container
-			matColumnDef="user"> <mat-header-cell
-			*matHeaderCellDef> User ID </mat-header-cell> <mat-cell
-			*matCellDef="let element"> {{element.user}} </mat-cell> </ng-container> <ng-container
-			matColumnDef="destination"> <mat-header-cell
-			*matHeaderCellDef> Destination ID </mat-header-cell> <mat-cell
-			*matCellDef="let element"> {{element.destination}} </mat-cell> </ng-container> <ng-container
-			matColumnDef="name"> <mat-header-cell
-			*matHeaderCellDef> Job Name </mat-header-cell> <mat-cell
-			*matCellDef="let element"> {{element.name}} </mat-cell> </ng-container> <ng-container
-			matColumnDef="finished"> <mat-header-cell
-			*matHeaderCellDef> Date Finished </mat-header-cell> <mat-cell
-			*matCellDef="let element"> {{element.finished}} </mat-cell> </ng-container> <mat-header-row
-			*matHeaderRowDef="displayedColumns"></mat-header-row> <mat-row
-			*matRowDef="let row; columns: displayedColumns"></mat-row> </mat-table>
+	<div class="mat-elevation-z8">
+		<mat-table #table [dataSource]="dataSource" matSort class="mat-elevation-z8" > 
+		
+		<ng-container matColumnDef="id"> 
+		<mat-header-cell *matHeaderCellDef mat-sort-header> Job ID </mat-header-cell>
+		<mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+		</ng-container> 
+
+        <ng-container matColumnDef="logInfo"> 
+		<mat-header-cell *matHeaderCellDef> Log Information </mat-header-cell>
+		<mat-cell *matCellDef="let element"><a routerLink="/jobEvents/{{element.id}}">
+		<span class="glyphicon glyphicon-tasks"></span></a></mat-cell>
+		</ng-container>
+		
+		<ng-container matColumnDef="sourceConfigId"> 
+		<mat-header-cell *matHeaderCellDef mat-sort-header> Source Config ID </mat-header-cell>
+		<mat-cell *matCellDef="let element"> {{element.sourceConfigId}} </mat-cell>
+		</ng-container> 
+		
+		<ng-container matColumnDef="destinationId"> 
+		<mat-header-cell *matHeaderCellDef mat-sort-header> Destination ID </mat-header-cell> 
+		<mat-cell *matCellDef="let element"> {{element.destinationId}} </mat-cell>
+		</ng-container> 
+		
+		<ng-container matColumnDef="username"> 
+		<mat-header-cell *matHeaderCellDef mat-sort-header> Username </mat-header-cell>
+		<mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
+		</ng-container> 
+		
+		<ng-container matColumnDef="status">
+		<mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+		<mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+		</ng-container> 
+		
+		<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row> 
+		<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+		</mat-table>
+
+ 		<mat-paginator [pageSize]="5" [showFirstLastButtons]="true"></mat-paginator>
 	</div>
-
-
-	<pagination *ngIf="paging" class="pagination-sm" [(ngModel)]="page"
-		[totalItems]="length" [maxSize]="maxSize" [boundaryLinks]="true"
-		(pageChanged)="onChangeTable($event)" (numPages)="numPages = $event"></pagination>
-
-	<pre *ngIf="paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
 
 	</ng-template>
 </div>

@@ -1,0 +1,50 @@
+<app-navigation-bar></app-navigation-bar>
+<div class="container-fluid" style="border: 10px solid #ffffff;">
+    <h2>Job Events for Job ID {{ jobId }}</h2>
+    <ng-container *ngIf="errorMsg!== ''; else elseBlock">
+    <div class="alert alert-danger">{{ errorMsg }}</div>
+    </ng-container>
+    <ng-template #elseBlock>
+    <div>
+        <mat-form-field> <input matInput
+            (keyup)="applyFilter($event.target.value)"
+            placeholder="Enter Filter Term here to Filter Job Events"> </mat-form-field>
+    </div>
+    <div class="mat-elevation-z8">
+        <mat-table #table [dataSource]="dataSource" matSort class="mat-elevation-z8" > 
+        
+        <ng-container matColumnDef="id"> 
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Job Event ID </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+        </ng-container> 
+        
+        <ng-container matColumnDef="status"> 
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+        </ng-container> 
+        
+        <ng-container matColumnDef="exceptionStackTrace"> 
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Exception Stack Trace </mat-header-cell> 
+        <mat-cell *matCellDef="let element"> {{element.exceptionStackTrace}} </mat-cell>
+        </ng-container> 
+        
+        <ng-container matColumnDef="timeStamp">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Time Stamp </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.timeStamp | date:'medium' }} </mat-cell>
+        </ng-container> 
+        
+        <ng-container matColumnDef="message"> 
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Message </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.message}} </mat-cell>
+        </ng-container> 
+        
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row> 
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+
+        <mat-paginator [pageSize]="5" [showFirstLastButtons]="true"></mat-paginator>
+    </div>
+    <br/>
+    <button class="btn btn-primary" (click)="backToJobs()">Back to Jobs</button>
+    </ng-template>
+</div>
