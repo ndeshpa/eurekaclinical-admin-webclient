@@ -9,63 +9,76 @@
 		<div class="container" align="center">
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="firstName">First Name:</label> <input type="text"
-						class="form-control" id="firstName" required
+					<label for="firstName" 
+					[class.ng-invalid]="firstName.invalid && (firstName.dirty || firstName.touched)">
+					First Name</label> 
+					<input type="text" class="form-control" id="firstName" required
 						[(ngModel)]="model.firstName" #firstName="ngModel"
-						name="firstName" value="">
+						name="firstName" value="" aria-describedby="helpBlock">
 					<div
-						*ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
-						class="alert alert-danger">
-						<div *ngIf="firstName.errors.required">Firstname is
-							required.</div>
+						*ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+						<div *ngIf="firstName.errors.required">
+						<span id="helpBlock" class="help-block"><b>You must include a first name.</b></span>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="lastName">Last Name:</label> <input type="text"
+					<label for="lastName" [class.ng-invalid]="lastName.invalid && (lastName.dirty || lastName.touched)">
+					Last Name</label> <input type="text"
 						class="form-control" id="lastName" required
-						[(ngModel)]="model.lastName" #lastName="ngModel" name="lastName">
+						[(ngModel)]="model.lastName" #lastName="ngModel" name="lastName" 
+						aria-describedby="helpBlock">
 					<div
-						*ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
-						class="alert alert-danger">
-						<div *ngIf="lastName.errors.required">LastName is required.</div>
+						*ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+						<div *ngIf="lastName.errors.required">
+						<span id="helpBlock" class="help-block"><b>You must include a last name.</b></span>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="username">Username:</label> <input type="text"
+					<label for="username" [class.ng-invalid]="username.invalid && (username.dirty || username.touched)">
+					Username</label> <input type="text"
 						class="form-control" id="username" required
-						[(ngModel)]="model.username" #username="ngModel" name="username">
+						[(ngModel)]="model.username" #username="ngModel" name="username"
+						aria-describedby="helpBlock">
 					<div
-						*ngIf="username.invalid && (username.dirty || username.touched)"
-						class="alert alert-danger">
-						<div *ngIf="username.errors.required">Username is required.</div>
+						*ngIf="username.invalid && (username.dirty || username.touched)">
+						<div *ngIf="username.errors.required">
+						<span id="helpBlock" class="help-block"><b>You must include a Username.</b></span>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="password">Password:</label> <input type="password"
+					<label for="password" [class.ng-invalid]="password.invalid && (password.dirty || password.touched)">
+					Password</label> <input type="password"
 						class="form-control" id="password" required
-						[(ngModel)]="model.password" #password="ngModel" name="password">
+						[(ngModel)]="model.password" #password="ngModel" name="password"
+						aria-describedby="helpBlock">
 						<input type="checkbox" (click)="showPassword()">Show Password &nbsp;&nbsp;				
 						<input type="checkbox" (click)="forcePasswordReset()">Force Password Reset
 					<div
-						*ngIf="password.invalid && (password.dirty || password.touched)"
-						class="alert alert-danger">
-						<div *ngIf="password.errors.required">Password is required.</div>
+						*ngIf="password.invalid && (password.dirty || password.touched)">
+						<div *ngIf="password.errors.required">
+						<span id="helpBlock" class="help-block">
+						<b>Passwords must be at least 8 characters and contain at least
+                    one letter & digit</b></span>
+						</div>
 					</div>
 				</div>
 			</div>
 			
 			<!-- div class="row form-group">
 				<div class="col" align="left">
-					<label for="verifyPassword">Verify Password:</label> <input type="password"
+					<label for="verifyPassword">Verify Password</label> <input type="password"
 						class="form-control" id="verifyPassword" required name="verifyPassword"
 						value={{verifyPassword}}>
 				</div>
@@ -74,7 +87,7 @@
 
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="organization">Organization:</label> <input type="text"
+					<label for="organization">Organization</label> <input type="text"
 						class="form-control" id="organization"
 						[(ngModel)]="model.organization" #organization="ngModel"
 						name="organization">
@@ -83,7 +96,7 @@
 
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="title">Title:</label> <input type="text"
+					<label for="title">Title</label> <input type="text"
 						class="form-control" id="title" [(ngModel)]="model.title"
 						#title="ngModel" name="title">
 				</div>
@@ -91,7 +104,7 @@
 
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="department">Department:</label> <input type="text"
+					<label for="department">Department</label> <input type="text"
 						class="form-control" id="department"
 						[(ngModel)]="model.department" #department="ngModel"
 						name="department">
@@ -101,19 +114,21 @@
 
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="email">Email:</label> <input type="email"
+					<label for="email" [class.ng-invalid]="!email.untouched && email.errors?.email">
+					Email</label> <input type="email"
 						class="form-control" id="email" required [(ngModel)]="model.email"
-						#email="ngModel" name="email" email>
+						#email="ngModel" name="email" email aria-describedby="helpBlock">
 				</div>
-				<div *ngIf="!email.untouched && email.errors?.email"
-					class="alert alert-danger">
-					<div [hidden]="!email.errors?.email">Email not valid.</div>
+				<div *ngIf="!email.untouched && email.errors?.email">
+					<div [hidden]="!email.errors?.email" align="left">
+					<span id="helpBlock" class="help-block"><b>You must include a valid email.</b></span>
+					</div>
 				</div>
 			</div>
 
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="roles">Roles:</label>
+					<label for="roles">Roles</label>
 					<ul class="checkbox-grid">
 						<ng-container *ngFor="let user of userRoles">
 						<li><input type="checkbox" name="userRoles"
