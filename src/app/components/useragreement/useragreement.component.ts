@@ -69,7 +69,18 @@ export class UserAgreementComponent implements OnInit, OnDestroy {
             this.router.navigate( ['/adminview'] );
         else {
             var data = JSON.stringify( { text: this.content } );
-            this.adminService.postUserAgreement( this.userId, data ).subscribe( data => {} );
+            this.adminService.postUserAgreement( this.userId, data ).subscribe( data => {},
+                    error => {
+                        if ( error instanceof HttpErrorResponse ) {
+                            this.errorMsg = 'Server Error: ' + error.message;
+                        }
+                        else {
+                            this.errorMsg = 'Error Running Query. Please Retry';
+                        }
+                    },
+                    () => {
+                        console.log( 'SUCCESS in EDITUSER' );
+                    });
             this.savedAgreement = true;
         }
     }

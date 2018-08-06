@@ -121,22 +121,22 @@ export class EditUserComponent implements OnInit, OnDestroy {
         //call put to edit info    
         this.adminService.putUserUpdates( myModel.id, input );
     }
-    
-    checkRequiredFields(firstName:string, lastName:string, username:string, email:string){
-        this.firstNameInvalid = (firstName===null || firstName.length <= 1? true: false);
-        this.lastNameInvalid = (lastName===null || lastName.length <= 1? true: false);
-        this.usernameInvalid = (username===null || username.length<=1? true: false);
-        this.emailInvalid = (email===null || email.length <=1? true: false);
+
+    checkRequiredFields( firstName: string, lastName: string, username: string, email: string ) {
+        this.firstNameInvalid = ( firstName === null || firstName.length <= 1 ? true : false );
+        this.lastNameInvalid = ( lastName === null || lastName.length <= 1 ? true : false );
+        this.usernameInvalid = ( username === null || username.length <= 1 ? true : false );
+        this.emailInvalid = ( email === null || email.length <= 1 ? true : false );
     }
 
     onSubmit( model: AdminUser, isValid: boolean ) {
-        this.checkRequiredFields(model.firstName, model.lastName, model.username, model.email);
+        this.checkRequiredFields( model.firstName, model.lastName, model.username, model.email );
         if ( this.firstNameInvalid || this.lastNameInvalid || this.usernameInvalid || this.emailInvalid ) {
-            if(this.router.url.indexOf('me') >=0)
-                this.router.navigateByUrl(this.router.url);
+            if ( this.router.url.indexOf( 'me' ) >= 0 )
+                this.router.navigateByUrl( this.router.url );
             else
                 this.router.navigateByUrl( '/editUser/edit/' + model.id );
-        } 
+        }
         else {
             //transmit changes to roles
             this.model.roles = new Array<any>();
@@ -149,7 +149,18 @@ export class EditUserComponent implements OnInit, OnDestroy {
             var input = JSON.stringify( this.model );
             //call put to edit info    
             this.adminService.putUserUpdates( this.model.id, input )
-                .subscribe( data => {});
+                .subscribe( data => { },
+                error => {
+                    if ( error instanceof HttpErrorResponse ) {
+                        this.errorMsg = 'Server Error: ' + error.message;
+                    }
+                    else {
+                        this.errorMsg = 'Error Running Query. Please Retry';
+                    }
+                },
+                () => {
+                    console.log( 'SUCCESS in EDITUSER' );
+                } );
             this.router.navigateByUrl( '/adminview' );
         }
 
@@ -179,13 +190,13 @@ export class EditUserComponent implements OnInit, OnDestroy {
                 this.changedStatus = true;
             },
             ( reason ) => {
-            });
+            } );
     }
 
     ngOnDestroy(): void {
-        if(this.usrSubscription !== null)
+        if ( this.usrSubscription !== null )
             this.usrSubscription.unsubscribe();
-        if(this.roleSubscription !== null)
+        if ( this.roleSubscription !== null )
             this.roleSubscription.unsubscribe();
     }
 }

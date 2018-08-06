@@ -1,0 +1,142 @@
+<app-navigation-bar></app-navigation-bar>
+<div class="container-fluid" style="border: 10px solid #ffffff;">
+	<ng-container *ngIf="errorMsg!== ''">
+	<div class="alert alert-danger">{{ errorMsg }}</div>
+	</ng-container>
+	<!-- ng-template #elseBlock-->
+	<h2>New User Account:</h2>
+	<form #createForm="ngForm" novalidate (ngSubmit)="onSubmit()">
+		<div class="container" align="center">
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="firstName">First Name:</label> <input type="text"
+						class="form-control" id="firstName" required
+						[(ngModel)]="model.firstName" #firstName="ngModel"
+						name="firstName" value="">
+					<div
+						*ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
+						class="alert alert-danger">
+						<div *ngIf="firstName.errors.required">Firstname is
+							required.</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="lastName">Last Name:</label> <input type="text"
+						class="form-control" id="lastName" required
+						[(ngModel)]="model.lastName" #lastName="ngModel" name="lastName">
+					<div
+						*ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+						class="alert alert-danger">
+						<div *ngIf="lastName.errors.required">LastName is required.</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="username">Username:</label> <input type="text"
+						class="form-control" id="username" required
+						[(ngModel)]="model.username" #username="ngModel" name="username">
+					<div
+						*ngIf="username.invalid && (username.dirty || username.touched)"
+						class="alert alert-danger">
+						<div *ngIf="username.errors.required">Username is required.</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="password">Password:</label> <input type="password"
+						class="form-control" id="password" required
+						[(ngModel)]="model.password" #password="ngModel" name="password">
+						<input type="checkbox" (click)="showPassword()">Show Password &nbsp;&nbsp;				
+						<input type="checkbox" (click)="forcePasswordReset()">Force Password Reset
+					<div
+						*ngIf="password.invalid && (password.dirty || password.touched)"
+						class="alert alert-danger">
+						<div *ngIf="password.errors.required">Password is required.</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- div class="row form-group">
+				<div class="col" align="left">
+					<label for="verifyPassword">Verify Password:</label> <input type="password"
+						class="form-control" id="verifyPassword" required name="verifyPassword"
+						value={{verifyPassword}}>
+				</div>
+			</div-->
+
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="organization">Organization:</label> <input type="text"
+						class="form-control" id="organization"
+						[(ngModel)]="model.organization" #organization="ngModel"
+						name="organization">
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="title">Title:</label> <input type="text"
+						class="form-control" id="title" [(ngModel)]="model.title"
+						#title="ngModel" name="title">
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="department">Department:</label> <input type="text"
+						class="form-control" id="department"
+						[(ngModel)]="model.department" #department="ngModel"
+						name="department">
+				</div>
+			</div>
+
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="email">Email:</label> <input type="email"
+						class="form-control" id="email" required [(ngModel)]="model.email"
+						#email="ngModel" name="email" email>
+				</div>
+				<div *ngIf="!email.untouched && email.errors?.email"
+					class="alert alert-danger">
+					<div [hidden]="!email.errors?.email">Email not valid.</div>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="roles">Roles:</label>
+					<ul class="checkbox-grid">
+						<ng-container *ngFor="let user of userRoles">
+						<li><input type="checkbox" name="userRoles"
+							value="{{user.id}}" [checked]="user.isChecked"
+							(change)="changeCheckbox(user.id)" /> <label for="{{user.name}}">
+								{{user.name | titlecase }}</label></li>
+						</ng-container>
+					</ul>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col" align="left">
+					<p></p>
+					<button class="btn btn-primary" (click)="restoreForm()">Cancel</button>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- /ng-template-->
+</div>
+
+
+

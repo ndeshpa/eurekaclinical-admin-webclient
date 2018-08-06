@@ -8,6 +8,7 @@
 /src/tmp
 /src/temp
 /node
+/dist
 
 #log files
 *.log

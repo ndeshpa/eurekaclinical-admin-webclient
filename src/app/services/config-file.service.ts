@@ -19,6 +19,7 @@ const ADMIN_DESTROYSESSION_ENDPOINT = '/destroy-session';
 const ADMIN_LOGOUT_ENDPOINT = '/logout';
 const ADMIN_SESSION_PROPERTIES = '/get-session-properties';
 const ADMIN_SESSION = '/protected/get-session';
+const ADMIN_ALL_JOBS_ENDPOINT = 'jobs'; //need to make this jobs/all
 
 @Injectable()
 export class ConfigFileService {
@@ -67,6 +68,10 @@ export class ConfigFileService {
     
     static get currentAdminEndPoint() {
         return CURRENT_ADMIN_ENDPOINT;
+    }
+    
+    static get adminAllJobsEndPoint() {
+    	return ADMIN_ALL_JOBS_ENDPOINT;
     }
     
     static get adminUsersEndPoint() {
