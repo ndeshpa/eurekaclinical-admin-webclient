@@ -16,6 +16,7 @@ import { MomentModule } from 'angular2-moment';
 
 import { ConfigFileService } from './services/config-file.service';
 import { AdminService } from './services/admin.service';
+import { JobService } from './services/job.service';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -51,6 +52,7 @@ import { AllHttpInterceptor } from './interceptors/all-http-interceptor/all-http
                {provide: LocationStrategy, useClass: HashLocationStrategy},
               AdminService,
               ConfigFileService,
+              JobService,
               { provide: APP_INITIALIZER, useFactory: (config: ConfigFileService) => () => config.load(), deps: [ConfigFileService], multi: true }
   ],
   bootstrap: [AppComponent]

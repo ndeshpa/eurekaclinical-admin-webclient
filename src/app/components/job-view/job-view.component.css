@@ -1,0 +1,50 @@
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 20%;
+}
+.customShow{
+    display: none !important;
+}
+.ng-table {
+    border: 10px solid #808080;
+}
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+.mat-header-cell {
+    background-color: #24497a;
+    color: white;
+    font-weight: bold;
+}
+.customSmallClass{
+   flex: 0 0 75px;
+}
+.customLongClass{
+   flex: 0 0 130px;
+}
+.customXLongClass{
+   flex: 0 0 200px;
+}
+.customContainer{
+    margin:auto;
+    border:5px;
+}
+.example-header {
+  min-height: 64px;
+  padding: 8px 24px 0;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%; 
+  border-size:1px;
+  border-style:solid;
+  border-color:grey;
+}

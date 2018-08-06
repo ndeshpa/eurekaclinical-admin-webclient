@@ -50,7 +50,13 @@ export class AdminService {
             + this.configService.getProxyResourcePath()
             + ConfigFileService.adminUsersEndPoint );
     }
-
+    
+    public getAllJobs() {
+        return this.http.get( this.configService.getAdminWebappContextPath()
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.adminAllJobsEndPoint );
+    }
+    
     public putUserUpdates( id: number, body: string ) {
         var url = this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
