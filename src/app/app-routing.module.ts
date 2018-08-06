@@ -23,6 +23,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AdminviewComponent } from './components/adminview/adminview.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { UserAgreementComponent } from './components/useragreement/useragreement.component';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 
 
 
@@ -35,6 +36,7 @@ const appRoutes: Routes = [
     { path: 'logout', component: AdminviewComponent },
     { path: 'editUser/me/:action/:id', component: EditUserComponent },
     { path: 'editUser/:action/:id', component: EditUserComponent },
+    { path: 'createUser', component: CreateUserComponent },
     { path: '', redirectTo: '/welcome', pathMatch: 'full' }
 ];
 
@@ -62,7 +64,8 @@ const appRoutes: Routes = [
         WelcomeComponent,
         AdminviewComponent,
         EditUserComponent,
-        UserAgreementComponent
+        UserAgreementComponent,
+        CreateUserComponent
     ],
     exports: [
         RouterModule
