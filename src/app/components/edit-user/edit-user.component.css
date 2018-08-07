@@ -1,6 +1,12 @@
 .help-block {
 	color: #990000;
 }
+label.ng-invalid {
+	color: #990000;
+}
+input.ng-invalid.ng-touched {
+	border: 1px solid #990000;
+}
 .error-input {
 	border: 1px solid #990000;
 }

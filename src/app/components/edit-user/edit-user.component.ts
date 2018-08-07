@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AdminService } from '../../services/admin.service';
 import { Role } from '../../models/role';
@@ -26,11 +27,13 @@ export class EditUserComponent implements OnInit, OnDestroy {
     usrSubscription: Subscription;
     roleSubscription: Subscription;
     errorMsg: string = '';
-    firstNameInvalid = false;
-    lastNameInvalid = false;
-    usernameInvalid = false;
-    emailInvalid = false;
-    
+
+    //patterns for validation
+    usernamePattern = "^[a-z0-9]{8,15}$";
+    namePattern = "^[a-zA-Z]+$";
+
+    isValidFormSubmitted = false;
+
 
     constructor( private activatedRoute: ActivatedRoute,
         private router: Router,
@@ -122,47 +125,39 @@ export class EditUserComponent implements OnInit, OnDestroy {
         this.adminService.putUserUpdates( myModel.id, input );
     }
 
-    checkRequiredFields( firstName: string, lastName: string, username: string, email: string ) {
-        this.firstNameInvalid = ( firstName === null || firstName.length <= 1 ? true : false );
-        this.lastNameInvalid = ( lastName === null || lastName.length <= 1 ? true : false );
-        this.usernameInvalid = ( username === null || username.length <= 1 ? true : false );
-        this.emailInvalid = ( email === null || email.length <= 1 ? true : false );
-    }
 
-    onSubmit( model: AdminUser, isValid: boolean ) {
-        this.checkRequiredFields( model.firstName, model.lastName, model.username, model.email );
-        if ( this.firstNameInvalid || this.lastNameInvalid || this.usernameInvalid || this.emailInvalid ) {
-            if ( this.router.url.indexOf( 'me' ) >= 0 )
-                this.router.navigateByUrl( this.router.url );
-            else
-                this.router.navigateByUrl( '/editUser/edit/' + model.id );
+    onSubmit( editForm: NgForm) {
+        //, model: AdminUser 
+        this.isValidFormSubmitted = false;
+        if ( editForm.invalid ) {
+            return;
         }
-        else {
-            //transmit changes to roles
-            this.model.roles = new Array<any>();
-            for ( var i = 0; i < this.userRoles.length; i++ ) {
-                if ( this.userRoles[i].isChecked ) {
-                    this.model.roles.push( this.userRoles[i].id );
-                }
+        this.isValidFormSubmitted = true;
+
+        //transmit changes to roles
+        this.model.roles = new Array<any>();
+        for ( var i = 0; i < this.userRoles.length; i++ ) {
+            if ( this.userRoles[i].isChecked ) {
+                this.model.roles.push( this.userRoles[i].id );
             }
-            //convert model to json              
-            var input = JSON.stringify( this.model );
-            //call put to edit info    
-            this.adminService.putUserUpdates( this.model.id, input )
-                .subscribe( data => { },
-                error => {
-                    if ( error instanceof HttpErrorResponse ) {
-                        this.errorMsg = 'Server Error: ' + error.message;
-                    }
-                    else {
-                        this.errorMsg = 'Error Running Query. Please Retry';
-                    }
-                },
-                () => {
-                    console.log( 'SUCCESS in EDITUSER' );
-                } );
-            this.router.navigateByUrl( '/adminview' );
         }
+        //convert model to json              
+        var input = JSON.stringify( this.model );
+        //call put to edit info    
+        this.adminService.putUserUpdates( this.model.id, input )
+            .subscribe( data => { },
+            error => {
+                if ( error instanceof HttpErrorResponse ) {
+                    this.errorMsg = 'Server Error: ' + error.message;
+                }
+                else {
+                    this.errorMsg = 'Error Running Query. Please Retry';
+                }
+            },
+            () => {
+                console.log( 'SUCCESS in EDITUSER' );
+            } );
+        this.router.navigateByUrl( '/adminview' );
 
     }
 

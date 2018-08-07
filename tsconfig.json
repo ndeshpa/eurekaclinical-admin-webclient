@@ -14,10 +14,11 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "module": "es2015"
   },
   "include": [
-  	"src/**/*",
+    "src/**/*",
     "node_modules/ngx-responsive/index.ts"
   ]
 }

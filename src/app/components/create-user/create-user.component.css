@@ -7,10 +7,12 @@ label.ng-invalid {
 input.ng-invalid.ng-touched {
 	border: 1px solid #990000;
 }
+.error-input {
+	border: 1px solid #990000;
+}
 .modal-backdrop.fade {
 	opacity: 0.5;
 }
-
 .modal-open .modal {
 	opacity: 1;
 }

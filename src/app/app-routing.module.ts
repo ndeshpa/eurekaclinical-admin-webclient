@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { Ng2TableModule } from 'ng2-table-responsive/ng2-table';
 import { PaginationModule } from "ngx-bootstrap/pagination";
 import { CollapseModule } from 'ngx-bootstrap';
 import { map } from 'rxjs/operators';
@@ -51,8 +49,6 @@ const appRoutes: Routes = [
         LMarkdownEditorModule,
         CollapseModule,
         NoopAnimationsModule,
-        Ng2SmartTableModule,
-        Ng2TableModule,
         MatTableModule,
         MatPaginatorModule,
         MatIconModule,

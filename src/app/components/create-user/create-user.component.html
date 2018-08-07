@@ -1,24 +1,51 @@
 <app-navigation-bar></app-navigation-bar>
 <div class="container-fluid" style="border: 10px solid #ffffff;">
-	<ng-container *ngIf="errorMsg!== ''">
+	<ng-container *ngIf="errorMsg!== ''; else elseBlock">
 	<div class="alert alert-danger">{{ errorMsg }}</div>
+	<div>
+		<a ui-sref="create user" (click)="reopenForm()"
+			class="btn btn-primary"><span
+			class="glyphicon glyphicon-plus-sign"></span> Create New User </a>
+	</div>
 	</ng-container>
-	<!-- ng-template #elseBlock-->
+	<ng-template #elseBlock>
 	<h2>New User Account:</h2>
-	<form #createForm="ngForm" novalidate (ngSubmit)="onSubmit()">
+	<form #createForm="ngForm" novalidate (ngSubmit)="onSubmit(createForm)">
 		<div class="container" align="center">
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="firstName" 
-					[class.ng-invalid]="firstName.invalid && (firstName.dirty || firstName.touched)">
-					First Name</label> 
-					<input type="text" class="form-control" id="firstName" required
-						[(ngModel)]="model.firstName" #firstName="ngModel"
-						name="firstName" value="" aria-describedby="helpBlock">
+					<label for="firstName"
+						[class.ng-invalid]="firstName.invalid && (firstName.dirty || firstName.touched)">First
+						Name</label> <input type="text" class="form-control" id="firstName"
+						required [(ngModel)]="model.firstName" [pattern]="namePattern"
+						#firstName="ngModel" name="firstName" aria-describedby="helpBlock">
+				</div>
+				<div
+					*ngIf="firstName.errors && createForm.submitted && !isValidFormSubmitted"
+					[ngClass]="'error'">
+					<div *ngIf="firstName.errors.required || firstName.errors.pattern"
+						align="left">
+						<span id="helpBlock" class="help-block"> <b>You must
+								include a valid first name.</b></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="lastName"
+						[class.ng-invalid]="lastName.invalid && (lastName.dirty || lastName.touched)">
+						Last Name</label> <input type="text" class="form-control" id="lastName"
+						required [(ngModel)]="model.lastName" #lastName="ngModel"
+						name="lastName" [pattern]="namePattern"
+						aria-describedby="helpBlock">
 					<div
-						*ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
-						<div *ngIf="firstName.errors.required">
-						<span id="helpBlock" class="help-block"><b>You must include a first name.</b></span>
+						*ngIf="lastName.errors && createForm.submitted && !isValidFormSubmitted"
+						[ngClass]="'error'">
+						<div *ngIf="lastName.errors.required || lastName.errors.pattern"
+							align="left">
+							<span id="helpBlock" class="help-block"> <b>You must
+									include a valid last name.</b></span>
 						</div>
 					</div>
 				</div>
@@ -26,15 +53,19 @@
 
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="lastName" [class.ng-invalid]="lastName.invalid && (lastName.dirty || lastName.touched)">
-					Last Name</label> <input type="text"
-						class="form-control" id="lastName" required
-						[(ngModel)]="model.lastName" #lastName="ngModel" name="lastName" 
+					<label for="username"
+						[class.ng-invalid]="username.invalid && (username.dirty || username.touched)">
+						Username</label> <input type="text" class="form-control" id="username"
+						required [(ngModel)]="model.username" #username="ngModel"
+						[pattern]="usernamePattern" name="username"
 						aria-describedby="helpBlock">
 					<div
-						*ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
-						<div *ngIf="lastName.errors.required">
-						<span id="helpBlock" class="help-block"><b>You must include a last name.</b></span>
+						*ngIf="username.errors && createForm.submitted && !isValidFormSubmitted"
+						[ngClass]="'error'">
+						<div *ngIf="username.errors.required || username.errors.pattern"
+							align="left">
+							<span id="helpBlock" class="help-block"> <b>You must
+									include a valid username.</b></span>
 						</div>
 					</div>
 				</div>
@@ -42,48 +73,27 @@
 
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="username" [class.ng-invalid]="username.invalid && (username.dirty || username.touched)">
-					Username</label> <input type="text"
-						class="form-control" id="username" required
-						[(ngModel)]="model.username" #username="ngModel" name="username"
-						aria-describedby="helpBlock">
+					<label for="password"
+						[class.ng-invalid]="password.invalid && (password.dirty || password.touched)">
+						Password</label> <input type="password" class="form-control" id="password"
+						required [(ngModel)]="model.password" #password="ngModel"
+						[pattern]="usernamePattern" name="password"
+						aria-describedby="helpBlock"> <input type="checkbox"
+						(click)="showPassword()">Show Password &nbsp;&nbsp; <input
+						type="checkbox" (click)="forcePasswordReset()">Force
+					Password Reset
 					<div
-						*ngIf="username.invalid && (username.dirty || username.touched)">
-						<div *ngIf="username.errors.required">
-						<span id="helpBlock" class="help-block"><b>You must include a Username.</b></span>
+						*ngIf="password.errors && createForm.submitted && !isValidFormSubmitted"
+						[ngClass]="'error'">
+						<div *ngIf="password.errors.required || password.errors.pattern"
+							align="left">
+							<span id="helpBlock" class="help-block"> <b>Passwords
+									must be at least 8 characters and contain at least one letter &
+									digit</b></span>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<div class="row form-group">
-				<div class="col" align="left">
-					<label for="password" [class.ng-invalid]="password.invalid && (password.dirty || password.touched)">
-					Password</label> <input type="password"
-						class="form-control" id="password" required
-						[(ngModel)]="model.password" #password="ngModel" name="password"
-						aria-describedby="helpBlock">
-						<input type="checkbox" (click)="showPassword()">Show Password &nbsp;&nbsp;				
-						<input type="checkbox" (click)="forcePasswordReset()">Force Password Reset
-					<div
-						*ngIf="password.invalid && (password.dirty || password.touched)">
-						<div *ngIf="password.errors.required">
-						<span id="helpBlock" class="help-block">
-						<b>Passwords must be at least 8 characters and contain at least
-                    one letter & digit</b></span>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<!-- div class="row form-group">
-				<div class="col" align="left">
-					<label for="verifyPassword">Verify Password</label> <input type="password"
-						class="form-control" id="verifyPassword" required name="verifyPassword"
-						value={{verifyPassword}}>
-				</div>
-			</div-->
-
 
 			<div class="row form-group">
 				<div class="col" align="left">
@@ -111,17 +121,21 @@
 				</div>
 			</div>
 
-
 			<div class="row form-group">
 				<div class="col" align="left">
-					<label for="email" [class.ng-invalid]="!email.untouched && email.errors?.email">
-					Email</label> <input type="email"
-						class="form-control" id="email" required [(ngModel)]="model.email"
-						#email="ngModel" name="email" email aria-describedby="helpBlock">
+					<label for="email"
+						[class.ng-invalid]="email.invalid && (email.dirty || email.touched)">Email</label>
+					<input type="email" class="form-control" id="email" required
+						[(ngModel)]="model.email" #email="ngModel" name="email" email
+						aria-describedby="helpBlock">
 				</div>
-				<div *ngIf="!email.untouched && email.errors?.email">
-					<div [hidden]="!email.errors?.email" align="left">
-					<span id="helpBlock" class="help-block"><b>You must include a valid email.</b></span>
+				<div
+					*ngIf="email.errors?.email && createForm.submitted && !isValidFormSubmitted"
+					[ngClass]="'error'">
+					<div *ngIf="email.errors.required || email.errors?.email"
+						align="left">
+						<span id="helpBlock" class="help-block"> <b>You must
+								include a valid email.</b></span>
 					</div>
 				</div>
 			</div>
@@ -150,7 +164,7 @@
 			</div>
 		</div>
 	</form>
-	<!-- /ng-template-->
+	</ng-template>
 </div>
 
 

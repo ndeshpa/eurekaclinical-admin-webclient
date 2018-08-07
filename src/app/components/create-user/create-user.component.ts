@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AdminUser } from "../../models/admin-user";
 import { AdminService } from '../../services/admin.service';
@@ -20,6 +21,12 @@ export class CreateUserComponent implements OnInit {
     role: Role;
     password: string;
 
+    //patterns for validation
+    usernamePattern = "^[a-zA-Z0-9]{8,15}$";
+    namePattern = "^[a-zA-Z]+$";
+
+    isValidFormSubmitted = false;
+
     constructor( private activatedRoute: ActivatedRoute,
         private router: Router,
         private adminService: AdminService ) { }
@@ -34,77 +41,51 @@ export class CreateUserComponent implements OnInit {
         this.role.id = 2;
         this.role.name = 'admin';
         this.userRoles.push( this.role );
-        this.password = this.adminService.createRandomPassword(8);
+        this.password = this.adminService.createRandomPassword( 8 );
         this.model.password = this.password;
         //this.verifyPassword = this.password;
     }
 
-    onSubmit() {
-        var hasErrors: boolean = false;
-        this.errorMsg = 'Please fix error in field(s):';
-        //this.checkRequiredFields( this.model.firstName, this.model.lastName, this.model.username, this.model.email );
-        if ( this.model.firstName === undefined || this.invalidField( this.model.firstName ) ) {
-            this.errorMsg += ' Firstname';
-            hasErrors = true;
+    onSubmit( createForm: NgForm ) {
+        this.isValidFormSubmitted = false;
+        if ( createForm.invalid ) {
+            return;
         }
-        if ( this.model.lastName === undefined || this.invalidField( this.model.lastName ) ) {
-            this.errorMsg += ' Lastname';
-            hasErrors = true;
-        } 
-        if ( this.model.username === undefined ) {
-            this.errorMsg += ' Username';
-            hasErrors = true;
-        } 
-        if ( this.model.email === undefined ) {
-            this.errorMsg += ' Email';
-            hasErrors = true;
-        }
-        if(hasErrors){
-            this.errorMsg.trim();
-            this.router.navigate( ['/createUser'] );
-        }
-        else {
-            this.model.type = 'LOCAL'; //verify if OK
-            //add password and pwd reenter boxed. A check box for admin to require the pwd reset (if checked, set pwd 
-            //expiration to a past date
-            //this.model.password = 'temp1234'; //verify if OK set expiration date to be in the past
-            //transmit roles
-            this.model.roles = new Array<any>();
-            for ( var i = 0; i < this.userRoles.length; i++ ) {
-                if ( this.userRoles[i].isChecked ) {
-                    this.model.roles.push( this.userRoles[i].id );
-                }
+        this.isValidFormSubmitted = true;
+        this.model.type = 'LOCAL';
+        //transmit roles
+        this.model.roles = new Array<any>();
+        for ( var i = 0; i < this.userRoles.length; i++ ) {
+            if ( this.userRoles[i].isChecked ) {
+                this.model.roles.push( this.userRoles[i].id );
             }
-            this.model.verified = true;
-            this.model.active = true;
-            //convert model to json              
-            var input = JSON.stringify( this.model );
-            //call post to save info    
-            this.adminService.postNewUser( input )
-                .subscribe( data => { },
-                error => {
-                    if(error.status === 409)
-                        this.errorMsg = 'Username already taken. Please type in a different Username';
-                    this.router.navigateByUrl( '/createUser' );
-                },
-                () => {
-                    this.router.navigateByUrl( '/adminview' );
-                } );
         }
+        this.model.verified = true;
+        this.model.active = true;
+        //convert model to json              
+        var input = JSON.stringify( this.model );
+        //call post to save info    
+        this.adminService.postNewUser( input )
+            .subscribe( data => { },
+            error => {
+                if ( error.status === 409 ){
+                    this.errorMsg = 'Username already taken. Please type in a different Username';
+                    createForm.controls['username'].setValue('');
+                }
+                this.router.navigateByUrl( '/createUser' );
+            },
+            () => {
+                this.router.navigateByUrl( '/adminview' );
+            } );
     }
-
-    invalidField( name: string ) {
-        if ( !name.match( /^[a-z]+$/gi ) ) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
 
     restoreForm() {
         this.router.navigateByUrl( '/adminview' );
+    }
+    
+    reopenForm(){
+        this.errorMsg = '';
+        this.router.navigateByUrl( '/createUser' );
     }
 
     changeCheckbox( i ) {
@@ -114,19 +95,19 @@ export class CreateUserComponent implements OnInit {
             }
         }
     }
-    
+
     showPassword() {
-        var pwd = (<HTMLInputElement>document.getElementById("password"));
-        if (pwd.type === "password") {
+        var pwd = ( <HTMLInputElement>document.getElementById( "password" ) );
+        if ( pwd.type === "password" ) {
             pwd.type = "text";
         } else {
             pwd.type = "password";
         }
     }
 
-    forcePasswordReset(){
+    forcePasswordReset() {
         var today = new Date();
-        this.model.passwordExpiration = new Date(today.getFullYear()-1, today.getMonth(), today.getDate());
-        console.log('EXPIRATION DATE:' + this.model.passwordExpiration);
+        this.model.passwordExpiration = new Date( today.getFullYear() - 1, today.getMonth(), today.getDate() );
+        console.log( 'EXPIRATION DATE:' + this.model.passwordExpiration );
     }
 }
