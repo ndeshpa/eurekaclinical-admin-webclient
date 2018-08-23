@@ -94,7 +94,18 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
                     this.isNewUser = false;
                     this.setupUser();
                 }                    
-            } );           
+            },
+            error => {
+                if ( error instanceof HttpErrorResponse ) {
+                    this.errorMsg = 'Server Error: ' + error.message;
+                }
+                else {
+                    this.errorMsg = 'Error Running Query. Please Retry';
+                }
+            },
+            () => {
+                console.log( 'SUCCESS in EDITUSER' );
+            });           
         }
         this.startIdleTimer();
     }

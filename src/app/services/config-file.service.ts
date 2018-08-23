@@ -10,6 +10,8 @@ const CURRENT_ADMIN_ENDPOINT = 'users/me';
 const ADMIN_ROLES_ENDPOINT = 'roles';
 const ADMIN_USERS_ENDPOINT = 'users';
 const ADMIN_USERS_UPDATE_ENDPOINT = 'users/';
+const ADMIN_USERS_RETRIEVE_ENDPOINT = 'users/userDetails';
+const ADMIN_CREATE_USER_ENDPOINT = 'users';
 const ADMIN_USERS_AGREEMENT_ENDPOINT = 'useragreements';
 const ADMIN_REGISTRY_ENDPOINT_FILTERED = 'components?type=WEBAPP&type=EXTERNAL';
 const ADMIN_REGISTRY_COMPONENTS_ENDPOINT = 'components';
@@ -23,7 +25,7 @@ const ADMIN_ALL_JOBS_ENDPOINT = 'jobs'; //need to make this jobs/all
 export class ConfigFileService {
     private config: Object = null;
     private env: Object = null;
-    private loggedIn: boolean = false;
+    loggedIn: boolean = false;
 
     constructor( private http: Http ) { }
 
@@ -80,6 +82,10 @@ export class ConfigFileService {
         return ADMIN_USERS_UPDATE_ENDPOINT;
     }
     
+    static get adminCreateUserEndPoint() {
+        return ADMIN_CREATE_USER_ENDPOINT;
+    }
+    
     static get adminDestroySessionEndPoint() {
         return ADMIN_DESTROYSESSION_ENDPOINT;
     }
@@ -106,6 +112,10 @@ export class ConfigFileService {
     
     static get adminRegistryEndPointFiltered() {
         return ADMIN_REGISTRY_ENDPOINT_FILTERED;
+    }
+    
+    static get adminRetrieveUsersEndPoint(){
+        return ADMIN_USERS_RETRIEVE_ENDPOINT;
     }
     
     public isProduction() {

@@ -13,7 +13,6 @@ input.ng-invalid.ng-touched {
 .modal-backdrop.fade {
 	opacity: 0.5;
 }
-
 .modal-open .modal {
 	opacity: 1;
 }

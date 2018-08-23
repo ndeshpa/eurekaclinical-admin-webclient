@@ -1,0 +1,171 @@
+<app-navigation-bar></app-navigation-bar>
+<div class="container-fluid" style="border: 10px solid #ffffff;">
+	<ng-container *ngIf="errorMsg!== ''; else elseBlock">
+	<div class="alert alert-danger">{{ errorMsg }}</div>
+	<div>
+		<a ui-sref="create user" (click)="reopenForm()"
+			class="btn btn-primary"><span
+			class="glyphicon glyphicon-plus-sign"></span> Create New User </a>
+	</div>
+	</ng-container>
+	<ng-template #elseBlock>
+	<h2>New User Account:</h2>
+	<form #createForm="ngForm" novalidate (ngSubmit)="onSubmit(createForm)">
+		<div class="container" align="center">
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="firstName"
+						[class.ng-invalid]="firstName.invalid && (firstName.dirty || firstName.touched)">First
+						Name</label> <input type="text" class="form-control" id="firstName"
+						required [(ngModel)]="model.firstName" [pattern]="namePattern"
+						#firstName="ngModel" name="firstName" aria-describedby="helpBlock">
+				</div>
+				<div
+					*ngIf="firstName.errors && createForm.submitted && !isValidFormSubmitted"
+					[ngClass]="'error'">
+					<div *ngIf="firstName.errors.required || firstName.errors.pattern"
+						align="left">
+						<span id="helpBlock" class="help-block"> <b>You must
+								include a valid first name.</b></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="lastName"
+						[class.ng-invalid]="lastName.invalid && (lastName.dirty || lastName.touched)">
+						Last Name</label> <input type="text" class="form-control" id="lastName"
+						required [(ngModel)]="model.lastName" #lastName="ngModel"
+						name="lastName" [pattern]="namePattern"
+						aria-describedby="helpBlock">
+					<div
+						*ngIf="lastName.errors && createForm.submitted && !isValidFormSubmitted"
+						[ngClass]="'error'">
+						<div *ngIf="lastName.errors.required || lastName.errors.pattern"
+							align="left">
+							<span id="helpBlock" class="help-block"> <b>You must
+									include a valid last name.</b></span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="username"
+						[class.ng-invalid]="username.invalid && (username.dirty || username.touched)">
+						Username</label> <input type="text" class="form-control" id="username"
+						required [(ngModel)]="model.username" #username="ngModel"
+						[pattern]="usernamePattern" name="username"
+						aria-describedby="helpBlock">
+					<div
+						*ngIf="username.errors && createForm.submitted && !isValidFormSubmitted"
+						[ngClass]="'error'">
+						<div *ngIf="username.errors.required || username.errors.pattern"
+							align="left">
+							<span id="helpBlock" class="help-block"> <b>You must
+									include a valid username.</b></span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="password"
+						[class.ng-invalid]="password.invalid && (password.dirty || password.touched)">
+						Password</label> <input type="password" class="form-control" id="password"
+						required [(ngModel)]="model.password" #password="ngModel"
+						[pattern]="usernamePattern" name="password"
+						aria-describedby="helpBlock"> <input type="checkbox"
+						(click)="showPassword()">Show Password &nbsp;&nbsp; <input
+						type="checkbox" (click)="forcePasswordReset()">Force
+					Password Reset
+					<div
+						*ngIf="password.errors && createForm.submitted && !isValidFormSubmitted"
+						[ngClass]="'error'">
+						<div *ngIf="password.errors.required || password.errors.pattern"
+							align="left">
+							<span id="helpBlock" class="help-block"> <b>Passwords
+									must be at least 8 characters and contain at least one letter &
+									digit</b></span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="organization">Organization</label> <input type="text"
+						class="form-control" id="organization"
+						[(ngModel)]="model.organization" #organization="ngModel"
+						name="organization">
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="title">Title</label> <input type="text"
+						class="form-control" id="title" [(ngModel)]="model.title"
+						#title="ngModel" name="title">
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="department">Department</label> <input type="text"
+						class="form-control" id="department"
+						[(ngModel)]="model.department" #department="ngModel"
+						name="department">
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="email"
+						[class.ng-invalid]="email.invalid && (email.dirty || email.touched)">Email</label>
+					<input type="email" class="form-control" id="email" required
+						[(ngModel)]="model.email" #email="ngModel" name="email" email
+						aria-describedby="helpBlock">
+				</div>
+				<div
+					*ngIf="email.errors?.email && createForm.submitted && !isValidFormSubmitted"
+					[ngClass]="'error'">
+					<div *ngIf="email.errors.required || email.errors?.email"
+						align="left">
+						<span id="helpBlock" class="help-block"> <b>You must
+								include a valid email.</b></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col" align="left">
+					<label for="roles">Roles</label>
+					<ul class="checkbox-grid">
+						<ng-container *ngFor="let user of userRoles">
+						<li><input type="checkbox" name="userRoles"
+							value="{{user.id}}" [checked]="user.isChecked"
+							(change)="changeCheckbox(user.id)" /> <label for="{{user.name}}">
+								{{user.name | titlecase }}</label></li>
+						</ng-container>
+					</ul>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col" align="left">
+					<p></p>
+					<button class="btn btn-primary" (click)="restoreForm()">Cancel</button>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	</ng-template>
+</div>
+
+
+

@@ -96,6 +96,26 @@ export class AdminService {
         return this.http.post( url, body, { headers, responseType: 'text' } );
     }
 
+    public postNewUser( body: string ) {
+        var url = this.configService.getAdminWebappContextPath()
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.adminCreateUserEndPoint;
+        //set headers
+        let headers = new HttpHeaders().set( 'Content-Type', 'application/json; charset=utf-8' );
+        headers.append( 'Accept', 'application/json' );
+        return this.http.post( url, body, { headers, responseType: 'text' } );
+    }
+    
+    public postUserList( body: string ) {
+        var url = this.configService.getAdminWebappContextPath()
+            + this.configService.getProxyResourcePath()
+            + ConfigFileService.adminRetrieveUsersEndPoint;
+        //set headers
+        let headers = new HttpHeaders().set( 'Content-Type', 'application/json; charset=utf-8' );
+        headers.append( 'Accept', 'application/json' );
+        return this.http.post( url, body, { headers, responseType: 'text' } );
+    }
+    
     public getSessionProperties() {
         return this.http.get( this.configService.getAdminWebappContextPath()
             + ConfigFileService.adminSessionPropertiesEndPoint );
@@ -178,4 +198,15 @@ export class AdminService {
     public getSessTimeoutInterval() {
         return this.sessTimeoutInterval;
     }
+    
+    public createRandomPassword(length) {
+        var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        var pass = "";
+        for (var x = 0; x < length; x++) {
+            var i = Math.floor(Math.random() * chars.length);
+            pass += chars.charAt(i);
+        }
+        return pass;
+    }
+
 }

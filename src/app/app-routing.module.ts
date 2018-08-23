@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
-import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { Ng2TableModule } from 'ng2-table-responsive/ng2-table';
 import { PaginationModule } from "ngx-bootstrap/pagination";
 import { CollapseModule } from 'ngx-bootstrap';
 import { map } from 'rxjs/operators';
@@ -23,6 +21,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { AdminviewComponent } from './components/adminview/adminview.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { UserAgreementComponent } from './components/useragreement/useragreement.component';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 import { JobViewComponent } from './components/job-view/job-view.component';
 import { JobEventsComponent } from './components/job-events/job-events.component';
 
@@ -37,6 +36,7 @@ const appRoutes: Routes = [
     { path: 'logout', component: AdminviewComponent },
     { path: 'editUser/me/:action/:id', component: EditUserComponent },
     { path: 'editUser/:action/:id', component: EditUserComponent },
+    { path: 'createUser', component: CreateUserComponent },
     { path: 'jobView', component: JobViewComponent },
     { path: 'jobEvents/:id', component: JobEventsComponent }, 
     { path: '', redirectTo: '/welcome', pathMatch: 'full' }
@@ -49,8 +49,6 @@ const appRoutes: Routes = [
         LMarkdownEditorModule,
         CollapseModule,
         NoopAnimationsModule,
-        Ng2SmartTableModule,
-        Ng2TableModule,
         MatTableModule,
         MatPaginatorModule,
         MatIconModule,
@@ -67,6 +65,7 @@ const appRoutes: Routes = [
         AdminviewComponent,
         EditUserComponent,
         UserAgreementComponent,
+        CreateUserComponent,
     	JobViewComponent,
         JobEventsComponent
     ],

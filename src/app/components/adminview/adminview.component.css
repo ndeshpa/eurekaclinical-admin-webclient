@@ -9,7 +9,7 @@
 .ng-table {
 	border: 10px solid #808080;
 }
-.example-container {
+.table-container {
   display: flex;
   flex-direction: column;
   min-width: 300px;
@@ -36,7 +36,7 @@
 	margin:auto;
 	border:5px;
 }
-.example-header {
+.filter-header {
   min-height: 64px;
   padding: 8px 24px 0;
 }

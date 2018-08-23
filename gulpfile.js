@@ -19,14 +19,6 @@ gulp.task('webserver', function () {
 		proxy('/eurekaclinical-admin-webapp', {
 		    target: 'https://localhost:8443',
 		    secure: false
-		}),
-		proxy('/eurekaclinical-user-service', {
-		    target: 'https://localhost:8443',
-		    secure: false
-		}),
-		proxy('/eurekaclinical-user-agreement-service', {
-		    target: 'https://localhost:8443',
-		    secure: false
 		})
 	    ]
 	}));

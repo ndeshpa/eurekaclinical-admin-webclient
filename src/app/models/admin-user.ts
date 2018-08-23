@@ -22,6 +22,6 @@ export class AdminUser {
     type: string;
     loginType: string;
     verificationCode: string;
-    passwordExpiration: any;
+    passwordExpiration: Date;
 }
 
