@@ -30,37 +30,37 @@ export class AdminService {
     public getUser(): Observable<AdminUser> {
         return this.http.get<AdminUser>( this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.currentAdminEndPoint );
+            + this.configService.getCurrentAdminEndPoint() );
     }
 
     public getRoles() {
         return this.http.get<AdminUser>( this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminRolesEndPoint );
+            + this.configService.getAdminRolesEndPoint() );
     }
 
     public getUserById( id: string ) {
         return this.http.get<AdminUser>( this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminUsersEndPoint + '/' + id );
+            + this.configService.getAdminUsersEndPoint() + '/' + id );
     }
 
     public getAllUsers() {
         return this.http.get( this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminUsersEndPoint );
+            + this.configService.getAdminUsersEndPoint() );
     }
     
     public getAllJobs() {
         return this.http.get( this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminAllJobsEndPoint );
+            + this.configService.getAdminAllJobsEndPoint() );
     }
     
     public putUserUpdates( id: number, body: string ) {
         var url = this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminUsersUpdateEndPoint + id;
+            + this.configService.getAdminUsersUpdateEndPoint() + id;
         //set headers
         let headers = new HttpHeaders().set( 'Content-Type', 'application/json; charset=utf-8' );
         headers.append( 'Accept', 'application/json' );
@@ -71,25 +71,25 @@ export class AdminService {
     public getUserAgreementCurrent() {
         return this.http.get<UserAgreement>( this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminUserAgreementEndPoint + '/current' );
+            + this.configService.getAdminUserAgreementEndPoint() + '/current' );
     }
 
     public getRegistryEntries() {
         return this.http.get( this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminRegistryEndPointFiltered );
+            + this.configService.getAdminRegistryEndPointFiltered() );
     }
 
     public getRegistryAllEntries() {
         return this.http.get( this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminRegistryComponentsEndPoint );
+            + this.configService.getAdminRegistryComponentsEndPoint() );
     }
     
     public postUserAgreement( id: number, body: string ) {
         var url = this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminUserAgreementEndPoint;
+            + this.configService.getAdminUserAgreementEndPoint();
         //set headers
         let headers = new HttpHeaders().set( 'Content-Type', 'application/json; charset=utf-8' );
         headers.append( 'Accept', 'application/json' );
@@ -99,7 +99,7 @@ export class AdminService {
     public postNewUser( body: string ) {
         var url = this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminCreateUserEndPoint;
+            + this.configService.getAdminCreateUserEndPoint();
         //set headers
         let headers = new HttpHeaders().set( 'Content-Type', 'application/json; charset=utf-8' );
         headers.append( 'Accept', 'application/json' );
@@ -109,7 +109,7 @@ export class AdminService {
     public postUserList( body: string ) {
         var url = this.configService.getAdminWebappContextPath()
             + this.configService.getProxyResourcePath()
-            + ConfigFileService.adminRetrieveUsersEndPoint;
+            + this.configService.getAdminRetrieveUsersEndPoint();
         //set headers
         let headers = new HttpHeaders().set( 'Content-Type', 'application/json; charset=utf-8' );
         headers.append( 'Accept', 'application/json' );
@@ -118,12 +118,12 @@ export class AdminService {
     
     public getSessionProperties() {
         return this.http.get( this.configService.getAdminWebappContextPath()
-            + ConfigFileService.adminSessionPropertiesEndPoint );
+            + this.configService.getAdminSessionPropertiesEndPoint() );
     }  
     
     public getSession(){
         return this.http.get( this.configService.getAdminWebappContextPath()
-                + ConfigFileService.adminSessionEndPoint, {responseType: 'text'});
+                + this.configService.getAdminSessionEndPoint(), {responseType: 'text'});
     }
 
     public doLogout() {

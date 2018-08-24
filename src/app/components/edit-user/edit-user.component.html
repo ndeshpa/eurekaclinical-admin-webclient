@@ -4,7 +4,7 @@
 	<div class="alert alert-danger">{{ errorMsg }}</div>
 	</ng-container>
 	<ng-template #elseBlock>
-	<h2>User Account: {{ model.username }}</h2>
+	<h2>User Account: {{ model.fullName | titlecase }}</h2>
 	<form #editForm="ngForm" novalidate (ngSubmit)="onSubmit(editForm)">
 		<div class="container" align="center">
 			<div class="row form-group">
