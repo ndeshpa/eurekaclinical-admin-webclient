@@ -53,6 +53,7 @@ export class CreateUserComponent implements OnInit {
         }
         this.isValidFormSubmitted = true;
         this.model.type = 'LOCAL';
+        this.model.fullName = this.model.firstName + ' ' + this.model.lastName;
         //transmit roles
         this.model.roles = new Array<any>();
         for ( var i = 0; i < this.userRoles.length; i++ ) {

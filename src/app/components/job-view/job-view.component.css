@@ -9,7 +9,7 @@
 .ng-table {
     border: 10px solid #808080;
 }
-.example-container {
+.table-container {
   display: flex;
   flex-direction: column;
   min-width: 300px;
@@ -18,10 +18,19 @@
   overflow: auto;
   max-height: 500px;
 }
+.mat-header-row {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    background-color: inherit;
+}
 .mat-header-cell {
     background-color: #24497a;
     color: white;
     font-weight: bold;
+}
+.mat-cell {
+	padding: 0 0px;
 }
 .customSmallClass{
    flex: 0 0 75px;
@@ -36,15 +45,13 @@
     margin:auto;
     border:5px;
 }
-.example-header {
+.filter-header {
   min-height: 64px;
   padding: 8px 24px 0;
 }
 
 .mat-form-field {
-  font-size: 14px;
+  font-size: 10px;
   width: 100%; 
-  border-size:1px;
-  border-style:solid;
-  border-color:grey;
+  border-size:0px;
 }

@@ -39,7 +39,7 @@ export class JobViewComponent implements OnInit, OnDestroy {
             for (var i = 0; i < this.data.length; i++) {
                 this.jobs[i] = {
                     'id': this.data[i].id,
-                    "logInfo": '',
+                    'logInfo': '',
                     'startTimestamp': this.data[i].startTimestamp,
                     'sourceConfigId': this.data[i].sourceConfigId,
                     'destinationId': this.data[i].destinationId,

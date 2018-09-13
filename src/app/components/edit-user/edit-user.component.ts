@@ -70,27 +70,14 @@ export class EditUserComponent implements OnInit, OnDestroy {
             } );
         //get user details
         this.usrSubscription = this.adminService.getUserById( this.id ).subscribe( data => {
-            this.model = new AdminUser();
-            this.model.type = data.type;
-            this.model.id = data.id;
-            this.model.username = data.username;
-            this.model.roles = data.roles;
-            this.model.created = data.created;
-            this.model.active = data.active;
-            this.model.firstName = data.firstName;
-            this.model.lastName = data.lastName;
-            this.model.fullName = data.fullName;
-            this.model.email = data.email;
-            this.model.organization = data.organization;
-            this.model.lastLogin = data.lastLogin;
-            this.model.title = data.title;
-            this.model.department = data.department;
-            this.model.loginType = data.loginType;
-            this.model.verified = data.verified;
-            this.model.verificationCode = data.verificationCode;
-            this.model.password = data.password;
-            this.model.passwordExpiration = data.passwordExpiration;
-
+            this.model = data; 
+            if(this.model.firstName === null && this.model.lastName === null){
+                if(this.model.fullName === null || this.model.fullName === undefined)
+                    this.model.fullName = this.model.username;
+            }
+            else 
+                this.model.fullName = this.model.firstName + ' ' + this.model.lastName;
+            
             if ( this.model.verified )
                 this.userVerified = 'Verified';
             if ( this.model.active )
@@ -133,7 +120,12 @@ export class EditUserComponent implements OnInit, OnDestroy {
             return;
         }
         this.isValidFormSubmitted = true;
-
+        //create fullname from first and last
+        if(this.model.firstName === null && this.model.lastName === null)
+            this.model.fullName = this.model.username;
+        else
+            this.model.fullName = this.model.firstName + ' ' + this.model.lastName;
+        
         //transmit changes to roles
         this.model.roles = new Array<any>();
         for ( var i = 0; i < this.userRoles.length; i++ ) {
