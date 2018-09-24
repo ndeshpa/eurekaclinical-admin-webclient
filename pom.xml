@@ -3,6 +3,7 @@
 	<groupId>org.eurekaclinical</groupId>
 	<artifactId>eurekaclinical-admin-webclient</artifactId>
 	<version>1.1-SNAPSHOT</version>
+	<name>Eureka! Clinical Admin Web Client</name>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.eurekaclinical</groupId>
