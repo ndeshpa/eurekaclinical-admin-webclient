@@ -66,16 +66,6 @@
 						<param>etc/license-mappings.xml</param>
 					</licenseMapping>
 				</configuration>
-				<executions>
-					<execution>
-						<id>check-license</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>generate</goal>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
