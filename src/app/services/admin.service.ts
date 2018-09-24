@@ -199,7 +199,7 @@ export class AdminService {
         return this.sessTimeoutInterval;
     }
     
-    public createRandomPassword(length) {
+    public createRandomPassword(length: number) {
         var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         var pass = "";
         for (var x = 0; x < length; x++) {
