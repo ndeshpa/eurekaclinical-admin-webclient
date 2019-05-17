@@ -53,7 +53,7 @@ project on the command line to run the server-side Eureka! Clinical
 Admin code in embedded tomcat. The backend services must be
 listening on port 8443, which is the default.
 2. Back in the root directory of the web client project, execute
-`mvn clean install`. It will open the web client in your
+`mvn clean install -Pwebserver`. It will open the web client in your
 default web browser at https://localhost:8000 in an embedded web
 server. You can leave the backend eureka code running while you
 repeatedly build and run the web client.
