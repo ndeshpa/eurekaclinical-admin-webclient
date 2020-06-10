@@ -14,8 +14,4 @@ limitations under the License.
 
 This project includes:
   Eureka! Clinical Admin Web Client under Apache License, Version 2.0
-  JavaBeans Activation Framework API jar under CDDL/GPLv2+CE
-  jaxb-api under CDDL 1.1 or GPL2 w/ CPE
-  Old JAXB Core under CDDL+GPL License
-  Old JAXB Runtime under CDDL+GPL License
 
