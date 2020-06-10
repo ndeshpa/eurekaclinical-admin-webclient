@@ -2,12 +2,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eurekaclinical</groupId>
 	<artifactId>eurekaclinical-admin-webclient</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.4-SNAPSHOT</version>
+	<name>Eureka! Clinical Admin Web Client</name>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.eurekaclinical</groupId>
 		<artifactId>eurekaclinical-parent</artifactId>
-		<version>3</version>
+		<version>4-Alpha-9-SNAPSHOT</version>
 	</parent>
 
 	<scm>
@@ -84,6 +85,29 @@
 				<configuration>
 					<releaseProfiles>release-sign-artifacts,dist</releaseProfiles>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resource-one</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.basedir}/target</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.basedir}/dist</directory>
+									<includes>
+										<include>${project.artifactId}-${project.version}-bin.zip</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
