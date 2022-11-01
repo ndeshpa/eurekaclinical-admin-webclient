@@ -34,7 +34,7 @@
     "bootstrap": "^4.1.2",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-webserver": "^0.9.1",
     "handlebars": "^4.3.0",
     "http-proxy-middleware": "^0.17.4",
